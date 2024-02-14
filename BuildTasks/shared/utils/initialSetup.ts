@@ -8,6 +8,7 @@ export const makeInitialSetup = async () => {
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
+  const devBranch: string | undefined = tl.getInput('devBranch', true)
 
   const root = getAppRoot()
   const manifestFile = resolve(root, 'manifest.json')
@@ -32,10 +33,12 @@ export const makeInitialSetup = async () => {
     !apiToken ||
     !email ||
     !account ||
+    !devBranch ||
     apiKey == 'bad' ||
     apiToken == 'bad' ||
     email == 'bad' ||
-    account == 'bad'
+    account == 'bad' ||
+    devBranch == 'bad'
   ) {
     tl.setResult(tl.TaskResult.Failed, 'Bad input was given')
     return
@@ -92,5 +95,6 @@ export const makeInitialSetup = async () => {
     manifestFile,
     packageFile,
     changelogPath,
+    devBranch,
   }
 }

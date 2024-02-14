@@ -33,7 +33,7 @@ export const completePullRequestService = async (
       completionOptions: {
         bypassPolicy: true,
         bypassReason: 'CI/CD Automated PR merge',
-        deleteSourceBranch: false,
+        deleteSourceBranch: true,
         description: pullRequest.description,
         mergeCommitMessage,
       },

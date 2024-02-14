@@ -14,4 +14,3 @@ export enum ChangelogSection {
 }
 
 export const CHANGELOG_FILE_NAME = 'CHANGELOG.md'
-export const DEVELOP_TARGET_REF_BRANCH = 'refs/heads/develop'

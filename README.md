@@ -24,6 +24,7 @@ When extension is added to your organization then you can find it from the exten
     email: $(VTEX_EMAIL_PROD)
     apiKey: $(VTEX_API_KEY_PROD)
     apiToken: $(VTEX_API_TOKEN_PROD)
+    devBranch: 'develop'
   displayName: 'Beta publish'
 ```
 

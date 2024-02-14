@@ -1,7 +1,6 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  DEVELOP_TARGET_REF_BRANCH,
   GitConnection,
   ReleaseType,
   changeOriginToSourceBranch,
@@ -14,13 +13,14 @@ import {
   setEmailAndUserGit,
   startBuildBetaMessage,
   vtexPublish,
+  getDevelopTargetRefBranch,
 } from '../shared'
 
 async function run() {
   try {
     // ******* Setup utilities *******
     // 1. install vtex, projex and make login in vtex with projex
-    await makeInitialSetup()
+    const { devBranch } = await makeInitialSetup()
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName } = pullRequest
@@ -56,7 +56,10 @@ async function run() {
     await createRelease(azureConnection, titleRelease, ReleaseType.prerelease)
 
     // 3. Create pull request to develop and automatically merge it
-    await createPullRequestService(azureConnection, DEVELOP_TARGET_REF_BRANCH)
+    await createPullRequestService(
+      azureConnection,
+      getDevelopTargetRefBranch(devBranch)
+    )
     // ******* Beta publish *******
 
     // ******* Beta success thread *******
