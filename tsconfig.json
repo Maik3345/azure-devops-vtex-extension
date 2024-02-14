@@ -1,0 +1,14 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"],
+  "exclude": ["./**/dist/**/*.tsx", "./**/dist/**/*.ts"]
+}

@@ -1,0 +1,7 @@
+node_modules
+*.vsix
+/BuildTasks/PublishExtension/debug.cmd
+/BuildTasks/IsValidExtensionAgent/debug.cmd
+*.env
+BuildTasks/*/**/*.js
+BuildTasks/*/**/*.js.map

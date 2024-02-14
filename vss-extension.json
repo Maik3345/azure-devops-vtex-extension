@@ -1,0 +1,53 @@
+{
+  "manifestVersion": 1,
+  "id": "vtex-io-ci-cd",
+  "publisher": "MaikRestrepo",
+  "version": "1.1.0",
+  "name": "VTEX IO CI/CD Utilities",
+  "description": "A collection of utilities for VTEX IO CI/CD",
+  "public": true,
+  "categories": ["Azure Repos"],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "files": [
+    {
+      "path": "BuildTasks/VtexBuildBeta"
+    },
+    {
+      "path": "BuildTasks/VtexBuildRelease"
+    },
+    {
+      "path": "screenshots",
+      "addressable": true
+    }
+  ],
+  "contributions": [
+    {
+      "id": "custom-build-vtex-beta-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "BuildTasks/VtexBuildBeta"
+      }
+    },
+    {
+      "id": "custom-build-vtex-release-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "BuildTasks/VtexBuildRelease"
+      }
+    }
+  ],
+  "icons": {
+    "default": "images/logo-128x128.png"
+  },
+  "content": {
+    "details": {
+      "path": "README.md"
+    }
+  }
+}

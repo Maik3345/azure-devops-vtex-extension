@@ -1,0 +1,22 @@
+{
+  "name": "shared",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "azure-devops-node-api": "^11.2.0",
+    "azure-pipelines-task-lib": "^4.9.0",
+    "chalk": "~2.3.2",
+    "child-process-es6-promise": "~1.2.1"
+  },
+  "devDependencies": {
+    "@types/q": "^1.5.8",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "2.5.1"
+  }
+}

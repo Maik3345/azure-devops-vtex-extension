@@ -1,0 +1,8 @@
+{
+  "plugins": ["unused-imports"],
+  "ignorePatterns": [ "**/dist/*.js"],
+  "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "no-unused-vars": "error"
+        }       
+}
