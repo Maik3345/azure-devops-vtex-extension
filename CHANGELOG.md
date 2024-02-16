@@ -7,24 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.4.0] - 2024-02-16
+
+## Changed
+
+- 🔄 update the manifest information of the extension, add the repository link to github and tags
+
 ## [1.3.0] - 2024-02-14
 
 ## Added
 
-- add the `devBranch` input to the tasks to specify the branch to make the pull request in the `VtexBuildBeta` task.
+- ✨ add the `devBranch` input to the tasks to specify the branch to make the pull request in the `VtexBuildBeta` task.
 
 ## [1.2.0] - 2024-02-14
 
 ## Changed
 
-- change the task icons and the screenshots of the extension
+- 🔄 change the task icons and the screenshots of the extension
 
 ## [1.1.0] - 2024-02-14
 
 ## Added
 
-- Create the task `VtexBuildRelease` and `VtexBuildBeta` to build the release and beta versions of the VTEX app.
-- Implement the logic for:
+- ✅ Create the task `VtexBuildRelease` and `VtexBuildBeta` to build the release and beta versions of the VTEX app.
+- ✅ Implement the logic for:
   - Push messages in the thread of the pull request.
   - Create pull request in the specified repository with the changes of the current pull request
   - Create the logic for complete the pull request and make the release process with the cli `projex`
