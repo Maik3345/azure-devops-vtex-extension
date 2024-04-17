@@ -20,7 +20,7 @@ async function run() {
   try {
     // ******* Setup utilities *******
     // 1. install vtex, projex and make login in vtex with projex
-    const { devBranch } = await makeInitialSetup()
+    const { devBranch, forceVtexPublish } = await makeInitialSetup()
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName } = pullRequest
@@ -50,7 +50,12 @@ async function run() {
 
     // ******* Beta publish *******
     // 1. make the beta publish
-    await vtexPublish(azureConnection, titleRelease, ReleaseType.prerelease)
+    await vtexPublish(
+      azureConnection,
+      titleRelease,
+      ReleaseType.prerelease,
+      forceVtexPublish
+    )
 
     // 2. Create the beta release and push the changes to git
     await createRelease(azureConnection, titleRelease, ReleaseType.prerelease)

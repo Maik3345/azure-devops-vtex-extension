@@ -5,3 +5,6 @@ node_modules
 *.env
 BuildTasks/*/**/*.js
 BuildTasks/*/**/*.js.map
+BuildTasks/shared/dist
+BuildTasks/VtexBuildBeta/dist
+BuildTasks/VtexBuildRelease/dist

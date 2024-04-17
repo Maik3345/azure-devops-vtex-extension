@@ -19,9 +19,13 @@ const makeReleaseWithoutPush = async (
   )
 }
 
-const makePublish = async (azureConnection: AzureConnectionType) => {
+const makePublish = async (
+  azureConnection: AzureConnectionType,
+  forceVtexPublish: string
+) => {
+  const forcePublish = forceVtexPublish === 'true' ? '--force' : ''
   return await runCommand(
-    `projex vtex run "vtex publish -y"`,
+    `projex vtex run "vtex publish -y ${forcePublish}"`,
     '.',
     'vtex publish',
     false,
@@ -48,7 +52,8 @@ const makeResetHard = async (azureConnection: AzureConnectionType) => {
 export const vtexPublish = async (
   azureConnection: AzureConnectionType,
   titleRelease: string,
-  releaseType: ReleaseType
+  releaseType: ReleaseType,
+  forceVtexPublish: string
 ) => {
   // 1. update changelog file with the release type, not push changes to git, only overwrite the file
   await makeReleaseWithoutPush(
@@ -56,7 +61,7 @@ export const vtexPublish = async (
     `${releaseType} stable ${titleRelease}`
   )
   // 2. publish using vtex
-  await makePublish(azureConnection)
+  await makePublish(azureConnection, forceVtexPublish)
   // 3. reset --hard
   await makeResetHard(azureConnection)
 }

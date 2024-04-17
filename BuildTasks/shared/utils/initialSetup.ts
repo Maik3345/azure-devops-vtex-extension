@@ -9,6 +9,10 @@ export const makeInitialSetup = async () => {
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
   const devBranch: string | undefined = tl.getInput('devBranch', true)
+  const forceVtexPublish: string | undefined = tl.getInput(
+    'forceVtexPublish',
+    true
+  )
 
   const root = getAppRoot()
   const manifestFile = resolve(root, 'manifest.json')
@@ -55,18 +59,11 @@ export const makeInitialSetup = async () => {
   )
 
   // Install packages
-  await runCommand(
-    `projex bash run "yarn install"`,
-    '.',
-    'yarn install',
-    false,
-    0,
-    false
-  )
+  await runCommand(`yarn install`, '.', 'yarn install', false, 0, false)
 
   // Install vtex
   await runCommand(
-    `projex bash run "yarn global add vtex"`,
+    `yarn global add vtex`,
     '.',
     'yarn global add vtex',
     false,
@@ -96,5 +93,6 @@ export const makeInitialSetup = async () => {
     packageFile,
     changelogPath,
     devBranch,
+    forceVtexPublish,
   }
 }

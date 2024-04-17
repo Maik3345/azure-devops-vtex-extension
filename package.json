@@ -1,6 +1,6 @@
 {
   "name": "pco-mkp-azure-vtex-extension-front",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,9 @@
     "eslint-plugin-prettier": "^4.0.0",
     "glob-exec": "^0.1.1",
     "husky": "^9.0.10",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "tfx-cli": "^0.17.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "@types/node": "^20.11.17"

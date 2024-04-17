@@ -19,7 +19,7 @@ async function run() {
   try {
     // ******* Setup utilities *******
     // 1. install vtex, projex and make login in vtex with projex
-    await makeInitialSetup()
+    const { forceVtexPublish } = await makeInitialSetup()
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName, targetRefName } = pullRequest
@@ -50,7 +50,12 @@ async function run() {
 
     // ******* Publish *******
     // 1. make the publish
-    await vtexPublish(azureConnection, titleRelease, typeRelease)
+    await vtexPublish(
+      azureConnection,
+      titleRelease,
+      typeRelease,
+      forceVtexPublish
+    )
 
     // 2. Complete the pull request in the main branch
     await completePullRequestService(azureConnection, pullRequest)

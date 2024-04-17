@@ -77,3 +77,18 @@ You may need to add **Contribute to pull requests** permission to your **Project
 9. **Change the origin to the targetRefName**: Change the origin to the targetRefName, this is required to make the commit and push in the repository.
 10. **Create release**: Create the release in the repository with the changes of the current pull request, this process use the cli `projex` to create the release in the repository.
 11. **Show end message**: Show the end message in the pull request thread.
+
+
+# Development and contribution
+
+To contribute to this project, you need to clone the repository and install the dependencies:
+
+```bash
+npm install
+```
+
+To build the extension, you need to run the following command:
+
+```bash
+npm run package:tasks
+```

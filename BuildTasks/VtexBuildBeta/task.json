@@ -10,7 +10,7 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 2
+    "Patch": 3
   },
   "inputs": [
     {
@@ -48,6 +48,13 @@
       "label": "Pass the branch to integrate the changes automatically",
       "defaultValue": "develop",
       "required": true
+    },
+    {
+      "name": "forceVtexPublish",
+      "type": "boolean",
+      "label": "Execute the vtex publish command with the --force flag",
+      "defaultValue": false,
+      "required": false
     }
   ],
   "execution": {

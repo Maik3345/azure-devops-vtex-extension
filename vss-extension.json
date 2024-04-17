@@ -2,20 +2,12 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
-  "tags": ["publish vtex", "pr", "beta vtex publish", "pullrequest"],
-  "categories": [
-    "Azure Repos",
-    "VTEX",
-    "VTEX IO",
-    "VTEX Publish",
-    "VTEX Publish Beta",
-    "VTEX Publish Release",
-    "VTEX IO CI/CD"
-  ],
+  "tags": ["publish vtex", "pr", "beta vtex publish", "pullrequest", "vtex io"],
+  "categories": ["Azure Repos", "Azure Pipelines"],
   "repository": {
     "type": "git",
     "uri": "https://github.com/Maik3345/azure-devops-vtex-extension"

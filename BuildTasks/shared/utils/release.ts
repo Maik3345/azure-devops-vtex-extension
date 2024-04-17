@@ -21,7 +21,59 @@ const makeRelease = async (
   await runCommand(
     `projex git release ${args} --yes --no-deploy --no-check-release`,
     '.',
-    'reset changes and push the beta build to git',
+    'generate release change in the manifest.json file without push to git',
+    false,
+    0,
+    false,
+    true,
+    () => vtexBuildFailureMessage(azureConnection)
+  )
+}
+
+/**
+ * The function `updateChangelogContent` updates the changelog file with the last commits for a
+ * specific release in an Azure project.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter likely represents a
+ * connection to an Azure service or resource. It could be an object containing authentication details,
+ * such as credentials or tokens, needed to interact with Azure services programmatically. This
+ * connection is used within the `updateChangelogContent` function to retrieve pull request commits and
+ * @param {string} titleRelease - The `titleRelease` parameter is a string that represents the title of
+ * the release for which you want to update the changelog content. It is used as part of the arguments
+ * passed to the `projex git update changelog` command to specify the title of the release.
+ */
+const updateChangelogContent = async (
+  azureConnection: AzureConnectionType,
+  titleRelease: string
+) => {
+  const commitsInString = await getPullRequestCommits(azureConnection)
+
+  // Release Type, Title Release, Commits in string
+  const args = `${titleRelease} ${JSON.stringify(commitsInString)}`
+  await runCommand(
+    `projex git update changelog ${args}`,
+    '.',
+    'update changelog file with the last commits',
+    false,
+    0,
+    false,
+    true,
+    () => vtexBuildFailureMessage(azureConnection)
+  )
+}
+
+/**
+ * This function adds all changes in the Git repository.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is likely an object
+ * or a type that contains information related to connecting to Azure services. It could include
+ * details such as authentication credentials, connection settings, or other necessary information for
+ * interacting with Azure services in the context of the function `makeAddGitChanges`.
+ * @returns The `makeAddGitChanges` function is being returned.
+ */
+const makeAddGitChanges = async (azureConnection: AzureConnectionType) => {
+  return await runCommand(
+    `git add .`,
+    '.',
+    'add git changes',
     false,
     0,
     false,
@@ -48,12 +100,12 @@ export const createRelease = async (
   titleRelease: string,
   releaseType: ReleaseType
 ) => {
-  const commitsInString = await getPullRequestCommits(azureConnection)
+  // Update the changelog file with the last commits
+  await updateChangelogContent(azureConnection, titleRelease)
+  await makeAddGitChanges(azureConnection)
 
-  // Release Type, Title Release, Commits in string
-  const args = `${releaseType} stable ${titleRelease} ${JSON.stringify(
-    commitsInString
-  )}`
+  // Release Type, Title Release
+  const args = `${releaseType} stable`
 
   // Generate the release and push the changes to git, this execution change the manifest.json file and update the changelog file with the last commits
   return makeRelease(azureConnection, args)
