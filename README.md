@@ -78,7 +78,6 @@ You may need to add **Contribute to pull requests** permission to your **Project
 10. **Create release**: Create the release in the repository with the changes of the current pull request, this process use the cli `projex` to create the release in the repository.
 11. **Show end message**: Show the end message in the pull request thread.
 
-
 # Development and contribution
 
 To contribute to this project, you need to clone the repository and install the dependencies:
@@ -86,6 +85,15 @@ To contribute to this project, you need to clone the repository and install the 
 ```bash
 npm install
 ```
+
+To install all package dependencies in the tasks run the following command:
+
+```bash
+
+npm run initdev
+```
+
+When make any change in the tasks, you need to update the version of the `task.json` and the `vss-extension.json`
 
 To build the extension, you need to run the following command:
 
