@@ -12,7 +12,7 @@ import {
   betaPublishAppSuccessMessage,
   setEmailAndUserGit,
   startPublishBetaMessage,
-  vtexPublish,
+  vtexPullRequestPublish,
   getDevelopTargetRefBranch,
 } from '../../../shared'
 
@@ -20,7 +20,7 @@ async function run() {
   try {
     // ******* Setup utilities *******
     // 1. install vtex, projex and make login in vtex with projex
-    const { devBranch, forceVtexPublish } = await initialSetup()
+    const { devBranch, forceVtexPublish, deploy } = await initialSetup()
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName } = pullRequest
@@ -50,11 +50,12 @@ async function run() {
 
     // ******* Beta publish *******
     // 1. make the beta publish
-    await vtexPublish(
+    await vtexPullRequestPublish(
       azureConnection,
       titleRelease,
       ReleaseType.prerelease,
-      forceVtexPublish
+      forceVtexPublish,
+      deploy
     )
 
     // 2. Create the beta release and push the changes to git

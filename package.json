@@ -10,11 +10,10 @@
     "initdev:npm:audit": "glob-exec --parallel --foreach \"tasks/*/tsconfig.json\" -- \"cd {{file.dir}} && npm audit fix --no-update-notifier --no-progress --legacy-peer-deps --no-fund\"",
     "initdev:npm:tasks": "glob-exec --parallel --foreach \"tasks/*/tsconfig.json\" -- \"cd {{file.dir}} && npm install --no-update-notifier --no-progress --legacy-peer-deps --no-fund\"",
     "compile:tasks": "glob-exec \"tasks/*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}}\"",
-    "compile-watch:tasks": "glob-exec \"tasks/*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}} --watch\"",
+    "dev": "glob-exec \"tasks/*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}} --watch\"",
     "package:tasks": "tfx extension create --root . --output-path dist --manifest-globs vss-extension.json",
-    "build": "npm run build:tasks",
+    "build": "npm run compile:tasks",
     "build:clean": "npm run clean && npm run initdev && npm run build",
-    "build:tasks": "npm run compile:tasks",
     "package": "npm run build:clean && npm run package:tasks",
     "prettier": "npx prettier --write .",
     "clean": "git clean -fdX"

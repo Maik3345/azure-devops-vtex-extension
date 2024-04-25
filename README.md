@@ -96,7 +96,7 @@ npm run initdev
 To start the development server, you need to run the following command:
 
 ```bash
-npm run compile-watch:tasks
+npm run dev
 ```
 
 When make any change in the tasks, you need to update the version of the `task.json` and the `vss-extension.json`
@@ -104,5 +104,5 @@ When make any change in the tasks, you need to update the version of the `task.j
 To build the extension, you need to run the following command:
 
 ```bash
-npm run package:tasks
+npm run build
 ```
