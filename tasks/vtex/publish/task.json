@@ -48,6 +48,13 @@
       "label": "Execute the vtex publish command with the --force flag",
       "defaultValue": false,
       "required": false
+    },
+    {
+      "name": "deploy",
+      "type": "boolean",
+      "label": "Execute the command vtex deploy --force before the vtex publish command",
+      "defaultValue": false,
+      "required": false
     }
   ],
   "execution": {
