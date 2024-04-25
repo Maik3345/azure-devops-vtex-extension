@@ -40,19 +40,19 @@ const makeReleaseWithoutPush = async (
  * connection to an Azure service or resource. It could be an object or configuration that contains
  * information needed to interact with Azure services, such as credentials, endpoints, or other
  * settings. This connection is used within the `makePublish` function to handle a failure scenario
- * @param {string} forceVtexPublish - The `forceVtexPublish` parameter is a string that determines
- * whether the VTEX publish command should be forced. If the value of `forceVtexPublish` is `'true'`,
+ * @param {boolean} forcePublish - The `forcePublish` parameter is a string that determines
+ * whether the VTEX publish command should be forced. If the value of `forcePublish` is `'true'`,
  * then the `--force` flag will be included in the VTEX publish command.
  * @returns The `makePublish` function is returning the result of the `runCommand` function with the
  * specified parameters.
  */
 const makePublish = async (
   azureConnection: AzureConnectionType,
-  forceVtexPublish: string
+  forcePublish: boolean
 ) => {
-  const forcePublish = forceVtexPublish === 'true' ? '--force' : ''
+  const force = forcePublish ? '--force' : ''
   return await runCommand(
-    `projex vtex run "vtex publish -y ${forcePublish}"`,
+    `projex vtex run "vtex publish -y ${force}"`,
     '.',
     'vtex publish',
     false,
@@ -65,9 +65,9 @@ const makePublish = async (
 
 const makeDeploy = async (
   azureConnection: AzureConnectionType,
-  deploy: string
+  deploy: boolean
 ) => {
-  const forceDeploy = deploy === 'true' ? '--force' : ''
+  const forceDeploy = deploy ? '--force' : ''
   return await runCommand(
     `projex vtex run "vtex deploy -y ${forceDeploy}"`,
     '.',
@@ -113,7 +113,7 @@ const makeResetHard = async (azureConnection: AzureConnectionType) => {
  * @param {ReleaseType} releaseType - The `releaseType` parameter in the `vtexPullRequestPublish`
  * function is used to specify the type of release being published. It could be values like "major",
  * "minor", or "patch" indicating the significance of the release version.
- * @param {string} forceVtexPublish - The `forceVtexPublish` parameter is used to specify whether the
+ * @param {boolean} forcePublish - The `forcePublish` parameter is used to specify whether the
  * VTEX publish should be forced. When set to `true`, it indicates that the publish operation should
  * proceed even if there are potential conflicts or issues that would normally prevent the publish.
  * This can be useful in situations where you want to
@@ -122,8 +122,8 @@ export const vtexPullRequestPublish = async (
   azureConnection: AzureConnectionType,
   titleRelease: string,
   releaseType: ReleaseType,
-  forceVtexPublish: string,
-  deploy: string
+  forcePublish: boolean,
+  deploy: boolean
 ) => {
   // 1. update changelog file with the release type, not push changes to git, only overwrite the file
   await makeReleaseWithoutPush(
@@ -131,7 +131,7 @@ export const vtexPullRequestPublish = async (
     `${releaseType} stable ${titleRelease}`
   )
   // 2. publish using vtex
-  await makePublish(azureConnection, forceVtexPublish)
+  await makePublish(azureConnection, forcePublish)
   // 2.1 deploy using vtex
   await makeDeploy(azureConnection, deploy)
   // 3. reset --hard

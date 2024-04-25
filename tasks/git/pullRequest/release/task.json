@@ -12,6 +12,29 @@
     "Minor": 1,
     "Patch": 0
   },
+  "inputs": [
+    {
+      "name": "beta",
+      "type": "boolean",
+      "label": "Generate a beta release",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "mergeIntoDevelop",
+      "type": "boolean",
+      "label": "Create a pull request to merge the changes into the develop passed branch automatically",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "devBranch",
+      "type": "string",
+      "label": "Pass the branch to integrate the changes automatically",
+      "defaultValue": "develop",
+      "required": true
+    }
+  ],
   "execution": {
     "Node16": {
       "target": "dist/git/pullRequest/release/index.js"

@@ -5,10 +5,16 @@ import {
   asyncTimeout,
   changeOriginToSourceBranch,
   completePullRequestService,
+  createPullRequestService,
   createRelease,
-  getReleaseType,
+  determineReleaseType,
+  getDevelopTargetRefBranch,
   getReleaseVersion,
+  ignoreBetaRelease,
+  ignoreExecutionBeta,
   initialSetup,
+  installPackages,
+  installProjex,
   releaseAppSuccessMessage,
   setEmailAndUserGit,
   startReleaseMessage,
@@ -17,21 +23,33 @@ import {
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. setup the initial configuration for the task and only install projex to make the release
-    await initialSetup({
-      projex: true,
-    })
+    // 1. Get the task variables and check the directory
+    const taskVariables = await initialSetup()
+    const { beta, mergeIntoDevelop, devBranch } = taskVariables
     const azureConnection = await GitConnection()
+    const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
+
+    if (ignoreBeta) {
+      return
+    }
+
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName, targetRefName } = pullRequest
+
+    // 2. install packages, vtex, projex and make login in vtex with projex
+    await installPackages()
+    await installProjex()
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    // 1. get the release type from the title of the pull request
+    // 1. get the release type from the title of the pull request, if it is a beta release, it will return the type and title
     const { typeRelease, titleRelease } =
-      (await getReleaseType(azureConnection)) ?? {}
+      (await determineReleaseType(azureConnection, beta)) ?? {}
+
     if (!titleRelease || !typeRelease) {
-      throw new Error('Error on get release type')
+      throw new Error(
+        'Failed to retrieve release type from the pull request title'
+      )
     }
 
     // 2. get the release version from the title of the pull request
@@ -49,17 +67,27 @@ async function run() {
     // ******* Configuration *******
 
     // ******* Release *******
-    // 1. Complete the pull request in the main branch
-    await completePullRequestService(azureConnection, pullRequest)
+    if (!beta) {
+      // 1. Complete the pull request in the main branch
+      await completePullRequestService(azureConnection, pullRequest)
 
-    // 1.1 Esperar 30 segundos para que el pull request se cree correctamente
-    await asyncTimeout(30000)
+      // 1.1 Esperar 30 segundos para que el pull request se cree correctamente
+      await asyncTimeout(30000)
 
-    // 2. Change to the main branch
-    await changeOriginToSourceBranch(azureConnection, targetRefName)
+      // 2. Change to the main branch
+      await changeOriginToSourceBranch(azureConnection, targetRefName)
+    }
 
     // 3. Create the release and push the changes to git
     await createRelease(azureConnection, titleRelease, typeRelease)
+
+    if (beta && mergeIntoDevelop) {
+      // 3. Create pull request to develop and automatically merge it
+      await createPullRequestService(
+        azureConnection,
+        getDevelopTargetRefBranch(devBranch)
+      )
+    }
     // ******* Release *******
 
     // ******* Release success thread *******

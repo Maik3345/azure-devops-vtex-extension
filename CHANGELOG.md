@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - 🔄 update the release process to call the command `projex git update changelog` to write the `CHANGELOG.md` file wiuth the commit list of the current branch
-- 🔄 update the tasks parameters, add `forceVtexPublish` to allow the execution with the force flag in the `vtex publish` command
+- 🔄 update the tasks parameters, add `forcePublish` to allow the execution with the force flag in the `vtex publish` command
 
 ## [1.4.0] - 2024-02-16
 

@@ -2,37 +2,50 @@ import * as tl from 'azure-pipelines-task-lib'
 
 import {
   GitConnection,
-  asyncTimeout,
   changeOriginToSourceBranch,
-  completePullRequestService,
-  createRelease,
-  getReleaseType,
+  determineReleaseType,
   getReleaseVersion,
+  ignoreExecutionBeta,
   initialSetup,
   publishAppSuccessMessage,
   setEmailAndUserGit,
   startPublishMessage,
   vtexPullRequestPublish,
+  installPackages,
+  installProjex,
+  installVtex,
+  makeLoginVtex,
 } from '../../../shared'
 
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. install vtex, projex and make login in vtex with projex
-    const { forceVtexPublish, deploy } = await initialSetup()
+    // 1. Get the task variables and check the directory
+    const taskVariables = await initialSetup()
+    const { forcePublish, deploy, beta } = taskVariables
     const azureConnection = await GitConnection()
-    const { pullRequest } = azureConnection
-    const { createdBy, sourceRefName, targetRefName } = pullRequest
+    const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
 
+    if (ignoreBeta) {
+      return
+    }
+
+    const { pullRequest } = azureConnection
+    const { createdBy, sourceRefName } = pullRequest
+
+    // 2. install packages, vtex, projex and make login in vtex with projex
+    await installPackages()
+    await installVtex()
+    await installProjex()
+    await makeLoginVtex(taskVariables)
     // ******* Setup utilities *******
 
     // ******* Configuration *******
     // 1. get the release type from the title of the pull request
-    const { typeRelease, titleRelease } =
-      (await getReleaseType(azureConnection)) ?? {}
-    if (!titleRelease || !typeRelease) {
-      throw new Error('Error on get release type')
-    }
+    const { typeRelease, titleRelease } = await determineReleaseType(
+      azureConnection,
+      beta
+    )
 
     // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
@@ -54,21 +67,9 @@ async function run() {
       azureConnection,
       titleRelease,
       typeRelease,
-      forceVtexPublish,
+      forcePublish,
       deploy
     )
-
-    // 2. Complete the pull request in the main branch
-    await completePullRequestService(azureConnection, pullRequest)
-
-    // 2.1 Esperar 30 segundos para que el pull request se cree correctamente
-    await asyncTimeout(30000)
-
-    // 3. Change to the main branch
-    await changeOriginToSourceBranch(azureConnection, targetRefName)
-
-    // 4. Create the release and push the changes to git
-    await createRelease(azureConnection, titleRelease, typeRelease)
     // ******* Publish *******
 
     // ******* Publish success thread *******

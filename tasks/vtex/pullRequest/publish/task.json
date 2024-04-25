@@ -43,7 +43,7 @@
       "required": true
     },
     {
-      "name": "forceVtexPublish",
+      "name": "forcePublish",
       "type": "boolean",
       "label": "Execute the vtex publish command with the --force flag",
       "defaultValue": false,
@@ -53,6 +53,13 @@
       "name": "deploy",
       "type": "boolean",
       "label": "Execute the command vtex deploy --force before the vtex publish command",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "beta",
+      "type": "boolean",
+      "label": "Generate a beta version of the app",
       "defaultValue": false,
       "required": false
     }

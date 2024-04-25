@@ -28,9 +28,6 @@
       "path": "tasks/vtex/pullRequest/publish"
     },
     {
-      "path": "tasks/vtex/pullRequest/beta"
-    },
-    {
       "path": "screenshots",
       "addressable": true
     }
@@ -58,14 +55,6 @@
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/pullRequest/publish"
-      }
-    },
-    {
-      "id": "custom-build-vtex-pullRequest-beta-task",
-      "type": "ms.vss-distributed-task.task",
-      "targets": ["ms.vss-distributed-task.tasks"],
-      "properties": {
-        "name": "tasks/vtex/pullRequest/beta"
       }
     }
   ],

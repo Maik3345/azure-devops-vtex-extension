@@ -43,7 +43,7 @@
       "required": true
     },
     {
-      "name": "forceVtexPublish",
+      "name": "forcePublish",
       "type": "boolean",
       "label": "Execute the vtex publish command with the --force flag",
       "defaultValue": false,

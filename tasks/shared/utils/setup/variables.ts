@@ -1,4 +1,5 @@
 import * as tl from 'azure-pipelines-task-lib'
+import { TaskVariables } from '../../models'
 
 /**
  * The function `getTaskVariables` retrieves input variables for a task in a TypeScript script and
@@ -9,20 +10,22 @@ import * as tl from 'azure-pipelines-task-lib'
  * - email
  * - account
  * - devBranch
- * - forceVtexPublish
+ * - forcePublish
  * - deploy
  */
-export const getTaskVariables = () => {
+export const getTaskVariables = (): TaskVariables => {
   const apiKey: string | undefined = tl.getInput('apiKey', true)
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
   const devBranch: string | undefined = tl.getInput('devBranch', true)
-  const forceVtexPublish: string | undefined = tl.getInput(
-    'forceVtexPublish',
+  const forcePublish: string | undefined = tl.getInput('forcePublish', false)
+  const deploy: string | undefined = tl.getInput('deploy', false)
+  const beta: string | undefined = tl.getInput('beta', false)
+  const mergeIntoDevelop: string | undefined = tl.getInput(
+    'mergeIntoDevelop',
     false
   )
-  const deploy: string | undefined = tl.getInput('deploy', false)
 
   if (
     !apiKey ||
@@ -46,7 +49,9 @@ export const getTaskVariables = () => {
     email,
     account,
     devBranch,
-    forceVtexPublish,
-    deploy,
+    forcePublish: forcePublish === 'true' ? true : false,
+    deploy: deploy === 'true' ? true : false,
+    beta: beta === 'true' ? true : false,
+    mergeIntoDevelop: mergeIntoDevelop === 'true' ? true : false,
   }
 }

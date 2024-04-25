@@ -106,3 +106,9 @@ To build the extension, you need to run the following command:
 ```bash
 npm run build
 ```
+
+To generate the `vsix` file you need to run the following command:
+
+```bash
+npm run package:tasks
+```
