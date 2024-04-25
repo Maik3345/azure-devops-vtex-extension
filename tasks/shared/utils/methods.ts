@@ -1,4 +1,4 @@
-import * as tl from 'azure-pipelines-task-lib'
+import * as tl from '../../vtex/build/node_modules/azure-pipelines-task-lib/task'
 
 export const getPipelineUrl = () => {
   const url = `${tl.getVariable('System.CollectionUri')}${tl.getVariable(

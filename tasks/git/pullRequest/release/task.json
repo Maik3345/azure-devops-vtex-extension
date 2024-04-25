@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "9604e813-61ad-4dcf-87b1-6696b85a83c9",
+  "name": "GitPullRequestRelease",
+  "friendlyName": "Git Pull Request Release",
+  "description": "Generate a release in git updating the version in the package.json file and changelog.md using the standard version package with the cli projex",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
+  },
+  "execution": {
+    "Node16": {
+      "target": "dist/git/pullRequest/release/index.js"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import * as tl from 'azure-pipelines-task-lib'
+import * as tl from '../../vtex/build/node_modules/azure-pipelines-task-lib/task'
 import { runCommand } from './runCommand'
 import { getAppRoot } from './manifestUtils'
 import { resolve } from 'path'

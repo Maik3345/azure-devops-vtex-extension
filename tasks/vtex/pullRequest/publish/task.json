@@ -1,0 +1,58 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "c79fad9f-262d-4b65-b313-dbeacc167113",
+  "name": "VtexPullRequestPublish",
+  "friendlyName": "build a vtex stable app in a pull request",
+  "description": "This task will build a Vtex app in a pull request in stable mode",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
+  },
+  "inputs": [
+    {
+      "name": "apiKey",
+      "type": "string",
+      "label": "VTEX API KEY",
+      "defaultValue": "",
+      "required": true
+    },
+    {
+      "name": "apiToken",
+      "type": "string",
+      "label": "VTEX API TOKEN",
+      "defaultValue": "",
+      "required": true
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "label": "VTEX EMAIL",
+      "defaultValue": "",
+      "helpMarkDown": "Pass any email, example cicd@hotmail.com",
+      "required": true
+    },
+    {
+      "name": "account",
+      "type": "string",
+      "label": "VTEX ACCOUNT",
+      "defaultValue": "",
+      "required": true
+    },
+    {
+      "name": "forceVtexPublish",
+      "type": "boolean",
+      "label": "Execute the vtex publish command with the --force flag",
+      "defaultValue": false,
+      "required": false
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "dist/vtex/pullRequest/publish/index.js"
+    }
+  }
+}

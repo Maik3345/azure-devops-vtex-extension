@@ -19,10 +19,19 @@
   ],
   "files": [
     {
-      "path": "BuildTasks/VtexBuildBeta"
+      "path": "tasks/git/pullRequest/release"
     },
     {
-      "path": "BuildTasks/VtexBuildRelease"
+      "path": "tasks/vtex/beta"
+    },
+    {
+      "path": "tasks/vtex/publish"
+    },
+    {
+      "path": "tasks/vtex/pullRequest/publish"
+    },
+    {
+      "path": "tasks/vtex/pullRequest/beta"
     },
     {
       "path": "screenshots",
@@ -31,19 +40,35 @@
   ],
   "contributions": [
     {
-      "id": "custom-build-vtex-beta-task",
+      "id": "custom-build-git-pullRequest-release-task",
       "type": "ms.vss-distributed-task.task",
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
-        "name": "BuildTasks/VtexBuildBeta"
+        "name": "tasks/git/pullRequest/release"
       }
     },
     {
-      "id": "custom-build-vtex-release-task",
+      "id": "custom-build-vtex-publish-task",
       "type": "ms.vss-distributed-task.task",
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
-        "name": "BuildTasks/VtexBuildRelease"
+        "name": "tasks/vtex/publish"
+      }
+    },
+    {
+      "id": "custom-build-vtex-pullRequest-publish-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/pullRequest/publish"
+      }
+    },
+    {
+      "id": "custom-build-vtex-pullRequest-beta-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/pullRequest/beta"
       }
     }
   ],
