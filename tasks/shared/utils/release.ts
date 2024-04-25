@@ -1,6 +1,6 @@
 import { ReleaseType } from '../constants'
 import { AzureConnectionType } from '../models'
-import { vtexBuildFailureMessage } from './messages'
+import { vtexPublishFailureMessage } from './messages'
 import { getPullRequestCommits } from './pullRequest'
 import { runCommand } from './runCommand'
 
@@ -26,7 +26,7 @@ const makeRelease = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 
@@ -57,7 +57,7 @@ const updateChangelogContent = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 
@@ -78,7 +78,7 @@ const makeAddGitChanges = async (azureConnection: AzureConnectionType) => {
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 

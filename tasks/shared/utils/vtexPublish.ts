@@ -1,6 +1,6 @@
 import { ReleaseType } from '../constants'
 import { AzureConnectionType } from '../models'
-import { vtexBuildFailureMessage } from './messages'
+import { vtexPublishFailureMessage } from './messages'
 import { runCommand } from './runCommand'
 
 const makeReleaseWithoutPush = async (
@@ -15,7 +15,7 @@ const makeReleaseWithoutPush = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 
@@ -32,7 +32,7 @@ const makePublish = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 
@@ -45,7 +45,7 @@ const makeResetHard = async (azureConnection: AzureConnectionType) => {
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 

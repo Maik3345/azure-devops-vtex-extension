@@ -8,10 +8,10 @@ import {
   createRelease,
   getReleaseType,
   getReleaseVersion,
-  makeInitialSetup,
+  initialSetup,
   publishAppSuccessMessage,
   setEmailAndUserGit,
-  startBuildMessage,
+  startPublishMessage,
   vtexPublish,
 } from '../../shared'
 
@@ -19,7 +19,7 @@ async function run() {
   try {
     // ******* Setup utilities *******
     // 1. install vtex, projex and make login in vtex with projex
-    const { forceVtexPublish } = await makeInitialSetup()
+    const { forceVtexPublish } = await initialSetup()
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName, targetRefName } = pullRequest
@@ -45,7 +45,7 @@ async function run() {
     // 3. change current source origin to sourceBranchName
     await changeOriginToSourceBranch(azureConnection, sourceRefName)
     // 5. show pipeline start build process
-    await startBuildMessage(azureConnection, old_version, new_version)
+    await startPublishMessage(azureConnection, old_version, new_version)
     // ******* Configuration *******
 
     // ******* Publish *******

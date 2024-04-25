@@ -1,7 +1,21 @@
 import { AzureConnectionType } from '../models'
-import { vtexBuildFailureMessage } from './messages'
+import { vtexPublishFailureMessage } from './messages'
 import { runCommand } from './runCommand'
 
+/**
+ * This function sets the user name and email for Git globally using the provided author name and
+ * email.
+ * @param {AzureConnectionType} azureConnection - AzureConnectionType - a type representing the
+ * connection details to an Azure service, such as credentials or endpoint information.
+ * @param {string} authorName - The `authorName` parameter is a string that represents the name of the
+ * user that will be associated with the Git commits.
+ * @param {string} authorEmail - The `authorEmail` parameter is the email address that will be
+ * associated with the Git user when setting up the global Git configuration. This email address is
+ * typically used for identification and communication purposes when making commits to a Git
+ * repository.
+ * @returns The `setEmailAndUserGit` function is returning the result of running a command to set the
+ * global user name and email in Git configuration.
+ */
 export const setEmailAndUserGit = async (
   azureConnection: AzureConnectionType,
   authorName: string,
@@ -15,7 +29,7 @@ export const setEmailAndUserGit = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }
 
@@ -42,6 +56,6 @@ export const changeOriginToSourceBranch = async (
     0,
     false,
     true,
-    () => vtexBuildFailureMessage(azureConnection)
+    () => vtexPublishFailureMessage(azureConnection)
   )
 }

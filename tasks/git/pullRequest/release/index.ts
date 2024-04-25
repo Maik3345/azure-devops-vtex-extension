@@ -8,22 +8,22 @@ import {
   createRelease,
   getReleaseType,
   getReleaseVersion,
-  makeInitialSetup,
-  publishAppSuccessMessage,
+  initialSetup,
+  releaseAppSuccessMessage,
   setEmailAndUserGit,
-  startBuildMessage,
-  vtexPublish,
+  startReleaseMessage,
 } from '../../../shared'
 
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. install vtex, projex and make login in vtex with projex
-    const { forceVtexPublish } = await makeInitialSetup()
+    // 1. setup the initial configuration for the task and only install projex to make the release
+    await initialSetup({
+      projex: true,
+    })
     const azureConnection = await GitConnection()
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName, targetRefName } = pullRequest
-
     // ******* Setup utilities *******
 
     // ******* Configuration *******
@@ -44,34 +44,26 @@ async function run() {
     await setEmailAndUserGit(azureConnection, displayName, uniqueName)
     // 3. change current source origin to sourceBranchName
     await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 5. show pipeline start build process
-    await startBuildMessage(azureConnection, old_version, new_version)
+    // 5. show pipeline start release process
+    await startReleaseMessage(azureConnection, old_version, new_version)
     // ******* Configuration *******
 
-    // ******* Publish *******
-    // 1. make the publish
-    await vtexPublish(
-      azureConnection,
-      titleRelease,
-      typeRelease,
-      forceVtexPublish
-    )
-
-    // 2. Complete the pull request in the main branch
+    // ******* Release *******
+    // 1. Complete the pull request in the main branch
     await completePullRequestService(azureConnection, pullRequest)
 
-    // 2.1 Esperar 30 segundos para que el pull request se cree correctamente
+    // 1.1 Esperar 30 segundos para que el pull request se cree correctamente
     await asyncTimeout(30000)
 
-    // 3. Change to the main branch
+    // 2. Change to the main branch
     await changeOriginToSourceBranch(azureConnection, targetRefName)
 
-    // 4. Create the release and push the changes to git
+    // 3. Create the release and push the changes to git
     await createRelease(azureConnection, titleRelease, typeRelease)
-    // ******* Publish *******
+    // ******* Release *******
 
-    // ******* Publish success thread *******
-    await publishAppSuccessMessage(
+    // ******* Release success thread *******
+    await releaseAppSuccessMessage(
       azureConnection,
       old_version,
       new_version,
