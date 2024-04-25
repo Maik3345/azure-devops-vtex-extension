@@ -93,6 +93,12 @@ To install all package dependencies in the tasks run the following command:
 npm run initdev
 ```
 
+To start the development server, you need to run the following command:
+
+```bash
+npm run compile-watch:tasks
+```
+
 When make any change in the tasks, you need to update the version of the `task.json` and the `vss-extension.json`
 
 To build the extension, you need to run the following command:

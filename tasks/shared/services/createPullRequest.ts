@@ -1,5 +1,4 @@
-import * as tl from '../../vtex/build/node_modules/azure-pipelines-task-lib/task'
-
+import * as tl from 'azure-pipelines-task-lib'
 import { AzureConnectionType } from '../models'
 import {
   pullRequestCreationErrorMessage,

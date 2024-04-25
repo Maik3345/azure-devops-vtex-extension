@@ -13,7 +13,7 @@ import {
   setEmailAndUserGit,
   startBuildMessage,
   vtexPublish,
-} from '../../shared'
+} from '../../../shared'
 
 async function run() {
   try {

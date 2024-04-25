@@ -1,4 +1,4 @@
-import * as tl from '../../vtex/build/node_modules/azure-pipelines-task-lib/task'
+import * as tl from 'azure-pipelines-task-lib'
 import chalk from 'chalk'
 import { execSync } from 'child-process-es6-promise'
 
