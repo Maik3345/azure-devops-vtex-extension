@@ -1,6 +1,11 @@
 {
+<<<<<<< Updated upstream
   "name": "azure-devops-vtex-extension",
   "version": "1.9.17",
+=======
+  "name": "pco-mkp-azure-vtex-extension-front",
+  "version": "1.9.19",
+>>>>>>> Stashed changes
   "description": "",
   "keywords": [],
   "license": "ISC",
