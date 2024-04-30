@@ -88,6 +88,9 @@ export const errorOnGetReleaseTypeMessage = async (
   **[minor]** or [changed] New feature, functionality, or content added to the project.
   **[patch]** Modifications or updates to existing features, functionality, or content.
   **[major]** Significant changes that may impact compatibility or require special attention.
+  **[no-beta]** Skip the beta version and release directly to the stable version.
+  **[no-publish]** Skip the release process and do not publish the app.
+
 
   > example: **[minor] Merge feature/branch into develop**
 

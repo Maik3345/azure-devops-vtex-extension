@@ -19,7 +19,7 @@ export const getReleaseType = async (azureConnection: AzureConnectionType) => {
   const { title } = pullRequest
 
   // Expresión regular para buscar la estructura deseada
-  const regex = /^\[(minor|patch|major|changed)\]\s+(.*)/
+  const regex = /\[(minor|patch|major|changed)\](.*|$)/
 
   // Comprobar si el título cumple con la estructura deseada
   const match = title.match(regex)
@@ -75,7 +75,7 @@ export const ignoreBetaRelease = async (
   const { title } = pullRequest
 
   // Expresión regular para buscar la estructura deseada
-  const regex = /^\[no-beta\]\s+(.*)/
+  const regex = /\[no-beta\](.*|$)/
 
   // Comprobar si el título cumple con la estructura deseada
   const match = title.match(regex)
@@ -85,6 +85,36 @@ export const ignoreBetaRelease = async (
   }
 
   console.log(`Beta release is ignore because pass in the title: ${match[1]}`)
+
+  return true
+}
+
+/**
+ * The function `ignorePublish` checks if a pull request title contains the `[no-publish]` tag and logs
+ * a message if it does.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter in the
+ * `ignorePublish` function is of type `AzureConnectionType`. It contains information related to the
+ * Azure connection, specifically the `pullRequest` object which has a `title` property. The function
+ * checks if the title of the pull request matches a specific pattern (`
+ * @returns The `ignorePublish` function returns a boolean value. It returns `true` if the title of the
+ * pull request contains the pattern "[no-publish] " followed by any text, indicating that the publish
+ * app should be ignored. Otherwise, it returns `false`.
+ */
+export const ignorePublish = async (azureConnection: AzureConnectionType) => {
+  const { pullRequest } = azureConnection
+  const { title } = pullRequest
+
+  // Expresión regular para buscar la estructura deseada
+  const regex = /\[no-publish\](.*|$)/
+
+  // Comprobar si el título cumple con la estructura deseada
+  const match = title.match(regex)
+
+  if (!match || match.length < 1) {
+    return false
+  }
+
+  console.log(`Publish app is ignore because pass in the title: ${match[1]}`)
 
   return true
 }
@@ -117,17 +147,17 @@ export const determineReleaseType = async (
   azureConnection: AzureConnectionType,
   beta: boolean
 ) => {
+  const release = await getReleaseType(azureConnection)
+
+  if (!release.titleRelease || !release.typeRelease) {
+    throw new Error('Error on get release type')
+  }
+
   if (beta) {
     return {
       titleRelease: ChangelogSection.added,
       typeRelease: ReleaseType.prerelease,
     }
-  }
-
-  const release = await getReleaseType(azureConnection)
-
-  if (!release.titleRelease || !release.typeRelease) {
-    throw new Error('Error on get release type')
   }
 
   return release

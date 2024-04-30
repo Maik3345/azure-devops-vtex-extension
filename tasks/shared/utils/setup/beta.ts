@@ -19,15 +19,21 @@ export const ignoreExecutionBeta = async (
 ) => {
   // 1. check if the pull request is a beta release and if it should be ignored
   if (!beta) {
-    return true
+    tl.setResult(
+      tl.TaskResult.Succeeded,
+      'Continue the execution because the pull request is not a beta release'
+    )
+    return false
   }
 
   const ignoreBetaExecution = await ignoreBetaRelease(azureConnection)
   if (ignoreBetaExecution) {
     tl.setResult(
-      tl.TaskResult.Succeeded,
+      tl.TaskResult.Skipped,
       'Beta release ignored because of the title of the pull request have [no-beta]'
     )
-    return false
+    return true
   }
+
+  return false
 }

@@ -1,7 +1,8 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  initialSetup,
+  checkDirectory,
+  getPublishVariables,
   installPackages,
   installProjex,
   installVtex,
@@ -13,12 +14,12 @@ import {
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. install vtex, projex and make login in vtex with projex
-    // 1. Get the task variables and check the directory
-    const taskVariables = await initialSetup()
+    // 1. Check the directory
+    await checkDirectory()
+    // 2. Get the git release variables
+    const taskVariables = getPublishVariables()
     const { forcePublish, deploy } = taskVariables
-
-    // 2. install packages, vtex, projex and make login in vtex with projex
+    // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
     await installProjex()

@@ -68,3 +68,20 @@ export const betaPublishAppSuccessMessage = async (
 `
   return await createPullRequestThreadService(azureConnection, message)
 }
+
+export const betaPublishIgnoreMessage = async (
+  azureConnection: AzureConnectionType
+) => {
+  const message = `
+  Hi there! 👋 I'm the CI/CD Bot, and I'm here to assist you! 🤖
+
+  You use the tag [no-beta] in the title of the pull request.
+
+  🚫 The beta publish app process has been ignored based on the title of the pull request. No action has been taken.
+
+  If you believe this is an error or need further assistance, please let us know.
+
+  Thank you! 🙏
+`
+  return await createPullRequestThreadService(azureConnection, message)
+}

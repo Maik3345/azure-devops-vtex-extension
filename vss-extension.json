@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.7.0",
+  "version": "1.9.17",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
@@ -19,6 +19,12 @@
   ],
   "files": [
     {
+      "path": "tasks/deprecated/VtexBuildBeta"
+    },
+    {
+      "path": "tasks/deprecated/VtexBuildRelease"
+    },
+    {
       "path": "tasks/git/pullRequest/release"
     },
     {
@@ -33,6 +39,22 @@
     }
   ],
   "contributions": [
+    {
+      "id": "custom-build-vtex-beta-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/deprecated/VtexBuildBeta"
+      }
+    },
+    {
+      "id": "custom-build-vtex-release-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/deprecated/VtexBuildRelease"
+      }
+    },
     {
       "id": "custom-build-git-pullRequest-release-task",
       "type": "ms.vss-distributed-task.task",

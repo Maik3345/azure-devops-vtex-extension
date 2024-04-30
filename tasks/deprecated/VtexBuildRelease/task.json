@@ -1,23 +1,24 @@
 {
   "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
-  "id": "c74e5326-4dde-4e6d-9201-77dfe607060c",
-  "name": "VtexPublish",
-  "friendlyName": "Vtex Publish",
-  "description": "Publish a Vtex",
+  "id": "22ef0b79-fa1a-42c9-8207-18ccc54ac61e",
+  "name": "VtexBuildRelease",
+  "deprecated": true,
+  "deprecationMessage": "This task is deprecated. Use the VtexPullRequestPublish or VtexPublish to build and  GitPullRequestRelease to make the release.",
+  "friendlyName": "Vtex Build And Release",
+  "description": "Builds a Vtex app and make a release (deprecated)",
   "helpMarkDown": "",
   "category": "Utility",
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 9
+    "Patch": 4
   },
   "inputs": [
     {
       "name": "apiKey",
       "type": "string",
       "label": "VTEX API KEY",
-      "helpMarkDown": "You can get the API KEY from the VTEX admin panel, go to the account settings and then to the API keys section.",
       "defaultValue": "",
       "required": true
     },
@@ -25,7 +26,6 @@
       "name": "apiToken",
       "type": "string",
       "label": "VTEX API TOKEN",
-      "helpMarkDown": "You can get the API TOKEN from the VTEX admin panel, go to the account settings and then to the API keys section.",
       "defaultValue": "",
       "required": true
     },
@@ -41,30 +41,20 @@
       "name": "account",
       "type": "string",
       "label": "VTEX ACCOUNT",
-      "helpMarkDown": "The account name of the VTEX store",
       "defaultValue": "",
       "required": true
     },
     {
-      "name": "forcePublish",
+      "name": "forceVtexPublish",
       "type": "boolean",
       "label": "Execute the vtex publish command with the --force flag",
-      "helpMarkDown": "This flag will force the publish command of vtex with the --force flag.",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "deploy",
-      "type": "boolean",
-      "label": "Execute the command vtex deploy --force before the vtex publish command",
-      "helpMarkDown": "This flag will execute the vtex deploy command with the --force flag before the vtex publish command.",
       "defaultValue": false,
       "required": false
     }
   ],
   "execution": {
     "Node16": {
-      "target": "dist/vtex/publish/publish.js"
+      "target": "dist/tasks/VtexBuildRelease/VtexBuildRelease.js"
     }
   }
 }

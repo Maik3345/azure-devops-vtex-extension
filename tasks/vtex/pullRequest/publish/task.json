@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
   "id": "c79fad9f-262d-4b65-b313-dbeacc167113",
   "name": "VtexPullRequestPublish",
-  "friendlyName": "build a vtex stable app in a pull request",
+  "friendlyName": "Build a vtex stable app in a pull request",
   "description": "This task will build a Vtex app in a pull request in stable mode",
   "helpMarkDown": "",
   "category": "Utility",
@@ -10,13 +10,14 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 0
+    "Patch": 16
   },
   "inputs": [
     {
       "name": "apiKey",
       "type": "string",
       "label": "VTEX API KEY",
+      "helpMarkDown": "You can get the API KEY from the VTEX admin panel, go to the account settings and then to the API keys section.",
       "defaultValue": "",
       "required": true
     },
@@ -24,6 +25,7 @@
       "name": "apiToken",
       "type": "string",
       "label": "VTEX API TOKEN",
+      "helpMarkDown": "You can get the API TOKEN from the VTEX admin panel, go to the account settings and then to the API keys section.",
       "defaultValue": "",
       "required": true
     },
@@ -39,6 +41,7 @@
       "name": "account",
       "type": "string",
       "label": "VTEX ACCOUNT",
+      "helpMarkDown": "The account name of the VTEX store",
       "defaultValue": "",
       "required": true
     },
@@ -46,6 +49,7 @@
       "name": "forcePublish",
       "type": "boolean",
       "label": "Execute the vtex publish command with the --force flag",
+      "helpMarkDown": "This flag will force the publish command of vtex with the --force flag.",
       "defaultValue": false,
       "required": false
     },
@@ -53,6 +57,7 @@
       "name": "deploy",
       "type": "boolean",
       "label": "Execute the command vtex deploy --force before the vtex publish command",
+      "helpMarkDown": "This flag will execute the vtex deploy command with the --force flag before the vtex publish command.",
       "defaultValue": false,
       "required": false
     },
@@ -60,13 +65,14 @@
       "name": "beta",
       "type": "boolean",
       "label": "Generate a beta version of the app",
+      "helpMarkDown": "This flag will generate a beta version of the app.",
       "defaultValue": false,
       "required": false
     }
   ],
   "execution": {
     "Node16": {
-      "target": "dist/vtex/pullRequest/publish/index.js"
+      "target": "dist/vtex/pullRequest/publish/publish.js"
     }
   }
 }

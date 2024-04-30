@@ -1,4 +1,4 @@
-import { TaskVariables } from '../../../models'
+import { TaskPublishVariablesType } from '../../../models'
 import { runCommand } from '../../runCommand'
 
 /**
@@ -40,10 +40,10 @@ export const installPackages = async () => {
 /**
  * The function `makeLoginVtex` in TypeScript takes in variables and calls the `loginVtex` function
  * with specific parameters.
- * @param {TaskVariables} variables - The `variables` parameter in the `makeLoginVtex` function is an
+ * @param {TaskPublishVariablesType} variables - The `variables` parameter in the `makeLoginVtex` function is an
  * object that contains the following properties:
  */
-export const makeLoginVtex = async (variables: TaskVariables) => {
+export const makeLoginVtex = async (variables: TaskPublishVariablesType) => {
   const { email, account, apiKey, apiToken } = variables
   // Login to vtex with projex
   await runCommand(

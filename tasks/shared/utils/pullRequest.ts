@@ -14,7 +14,9 @@ export const getPullRequestCommits = async (
   const commits = await getAllPullRequestCommitsService(azureConnection)
   const commitsInString =
     commits && commits.value && commits.value.length
-      ? commits.value.map((item) => item.comment).join('\n')
+      ? commits.value
+          .map((item) => `${item.commitId} ${item.comment}`)
+          .join('\n')
       : ''
   console.log(
     `Commits in the current pull request: ${JSON.stringify(commitsInString)}`

@@ -6,7 +6,6 @@ import {
   determineReleaseType,
   getReleaseVersion,
   ignoreExecutionBeta,
-  initialSetup,
   publishAppSuccessMessage,
   setEmailAndUserGit,
   startPublishMessage,
@@ -15,25 +14,45 @@ import {
   installProjex,
   installVtex,
   makeLoginVtex,
+  getPublishVariables,
+  checkDirectory,
+  ignoreExecutionPublish,
+  publishAppIsIgnoredMessage,
+  betaPublishIgnoreMessage,
 } from '../../../shared'
 
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. Get the task variables and check the directory
-    const taskVariables = await initialSetup()
+    // 1. Check the directory
+    await checkDirectory()
+    // 2. Get the git release variables
+    const taskVariables = getPublishVariables()
     const { forcePublish, deploy, beta } = taskVariables
     const azureConnection = await GitConnection()
     const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
+    const ignorePublish = await ignoreExecutionPublish(azureConnection)
 
     if (ignoreBeta) {
+      console.log('Ignoring beta release')
+      betaPublishIgnoreMessage(azureConnection)
+      tl.setResult(tl.TaskResult.Skipped, 'Ignoring beta release')
+      return
+    }
+
+    if (ignorePublish) {
+      console.log('Ignoring publish')
+      publishAppIsIgnoredMessage(azureConnection)
+      tl.setResult(tl.TaskResult.Skipped, 'Ignoring publish')
       return
     }
 
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName } = pullRequest
+    // 3. get the release type from the title of the pull request
+    const { typeRelease } = await determineReleaseType(azureConnection, beta)
 
-    // 2. install packages, vtex, projex and make login in vtex with projex
+    // 4. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
     await installProjex()
@@ -41,23 +60,17 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    // 1. get the release type from the title of the pull request
-    const { typeRelease, titleRelease } = await determineReleaseType(
-      azureConnection,
-      beta
-    )
-
-    // 2. get the release version from the title of the pull request
+    const { displayName, uniqueName } = createdBy ?? {}
+    // 1. set the email and user in git
+    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
+    // 2. change current source origin to sourceBranchName
+    await changeOriginToSourceBranch(azureConnection, sourceRefName)
+    // 3. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
       azureConnection,
       typeRelease
     )
-    const { displayName, uniqueName } = createdBy ?? {}
-    // 2. set the email and user in git
-    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
-    // 3. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 5. show pipeline start build process
+    // 4. show pipeline start build process
     await startPublishMessage(azureConnection, old_version, new_version)
     // ******* Configuration *******
 
@@ -65,20 +78,14 @@ async function run() {
     // 1. make the publish
     await vtexPullRequestPublish(
       azureConnection,
-      titleRelease,
       typeRelease,
       forcePublish,
-      deploy
-    )
-    // ******* Publish *******
-
-    // ******* Publish success thread *******
-    await publishAppSuccessMessage(
-      azureConnection,
+      deploy,
       old_version,
       new_version,
       app_name
     )
+    // ******* Publish *******
   } catch (err: any) {
     tl.setResult(tl.TaskResult.Failed, err.message)
   }

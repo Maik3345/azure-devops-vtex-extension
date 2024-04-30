@@ -1,6 +1,11 @@
 import { ReleaseType } from '../../../constants'
 import { AzureConnectionType } from '../../../models'
-import { vtexPublishFailureMessage } from '../../messages'
+import {
+  publishAppSuccessMessage,
+  publishWithDeployAppSuccessMessage,
+  vtexPublishFailureMessage,
+  warnForceDeployMessage,
+} from '../../messages'
 import { runCommand } from '../../runCommand'
 
 /**
@@ -22,7 +27,7 @@ const makeReleaseWithoutPush = async (
   release: string
 ) => {
   return await runCommand(
-    `projex git release ${release} --yes --no-deploy --no-push --no-check-release`,
+    `projex git release ${release} --yes --no-deploy --no-push --no-check-release --no-tag`,
     '.',
     'generate release change in the manifest.json file without push to git',
     false,
@@ -65,9 +70,9 @@ const makePublish = async (
 
 const makeDeploy = async (
   azureConnection: AzureConnectionType,
-  deploy: boolean
+  force: boolean
 ) => {
-  const forceDeploy = deploy ? '--force' : ''
+  const forceDeploy = force ? '--force' : ''
   return await runCommand(
     `projex vtex run "vtex deploy -y ${forceDeploy}"`,
     '.',
@@ -120,20 +125,36 @@ const makeResetHard = async (azureConnection: AzureConnectionType) => {
  */
 export const vtexPullRequestPublish = async (
   azureConnection: AzureConnectionType,
-  titleRelease: string,
   releaseType: ReleaseType,
   forcePublish: boolean,
-  deploy: boolean
+  deploy: boolean,
+  old_version: string,
+  new_version: string,
+  app_name: string
 ) => {
   // 1. update changelog file with the release type, not push changes to git, only overwrite the file
-  await makeReleaseWithoutPush(
-    azureConnection,
-    `${releaseType} stable ${titleRelease}`
-  )
+  await makeReleaseWithoutPush(azureConnection, `${releaseType} stable`)
   // 2. publish using vtex
   await makePublish(azureConnection, forcePublish)
-  // 2.1 deploy using vtex
-  await makeDeploy(azureConnection, deploy)
+  if (deploy) {
+    await warnForceDeployMessage(azureConnection)
+    // 2.1 deploy using vtex
+    await makeDeploy(azureConnection, forcePublish)
+    await publishWithDeployAppSuccessMessage(
+      azureConnection,
+      old_version,
+      new_version,
+      app_name
+    )
+  } else {
+    await publishAppSuccessMessage(
+      azureConnection,
+      old_version,
+      new_version,
+      app_name
+    )
+  }
+
   // 3. reset --hard
   await makeResetHard(azureConnection)
 }
