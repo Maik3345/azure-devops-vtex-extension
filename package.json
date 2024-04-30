@@ -2,40 +2,33 @@
   "name": "pco-mkp-azure-vtex-extension-front",
   "version": "1.6.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
-    "initdev": "npm run initdev:npm",
-    "initdev:npm": "npm run initdev:npm:base & npm run initdev:npm:tasks",
-    "initdev:npm:base": "npm install --no-progress --no-update-notifier --legacy-peer-deps --no-fund",
-    "initdev:npm:tasks": "glob-exec --parallel --foreach \"BuildTasks/*/tsconfig.json\" -- \"cd {{file.dir}} && npm install --no-update-notifier --no-progress --legacy-peer-deps --no-fund\"",
-    "compile:tasks": "glob-exec \"BuildTasks/*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}}\"",
-    "compile-watch:tasks": "glob-exec \"BuildTasks/*/tsconfig.json\" -- \"tsc -b {{files.join(' ')}} --watch\"",
-    "postcompile:tasks": "npm run lint:tasks",
-    "lint:tasks": "glob-exec --parallel --foreach \"BuildTasks/*/tsconfig.json\" -- \"eslint {{file.dir}} --parser-options \"{'project':['{{file}}','BuildTasks/tsconfig.json']}\"",
-    "package:tasks": "tfx extension create --root . --output-path dist --manifest-globs vss-extension.json",
-    "build": "npm run build:tasks",
-    "build:clean": "npm run clean && npm run initdev && npm run build",
-    "build:tasks": "npm run compile:tasks",
-    "package": "npm run build:clean && npm run package:tasks",
-    "prettier": "npx prettier --write .",
     "clean": "git clean -fdX",
-    "prepare": "npx husky install"
+    "prettier": "npx prettier --write .",
+    "install": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} sh -c 'cd $(dirname {}) && npm install'",
+    "build": "npm run compile:tasks && npm run package:tasks",
+    "build:clean": "npm run clean && npm run initdev && npm run build",
+    "build:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
+    "compile:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
+    "dev": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b --watch {}",
+    "package:tasks": "tfx extension create --root . --output-path dist --manifest-globs vss-extension.json",
+    "package": "npm run build:clean && npm run package:tasks"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.11.17"
+  },
   "devDependencies": {
     "@commitlint/cli": "^18.6.0",
     "@commitlint/config-conventional": "^18.6.0",
     "eslint": "^8.52.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "glob-exec": "^0.1.1",
     "husky": "^9.0.10",
     "prettier": "2.5.1",
     "tfx-cli": "^0.17.0",
     "typescript": "^5.4.5"
-  },
-  "dependencies": {
-    "@types/node": "^20.11.17"
   }
 }
