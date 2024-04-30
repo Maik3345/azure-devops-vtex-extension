@@ -1,10 +1,6 @@
 <h1 align="center">
-  <br>
-    <img style="border-radius:20px;" align="center" src="images/logo-512x512.png" width="200">
-  <br>
 	<br>
   VTEX IO Azure Pipeline CI/CD
-  <br>
   <br>
 </h1>
 
@@ -24,6 +20,15 @@ This project is a VTEX IO app that provides a set of tasks to automate the CI/CD
 - [VtexPullRequestPublish](./tasks/vtex/pullRequest/publish/README.md)
 - [VtexPublish](./tasks/vtex/publish/README.md)
 - [GitPullRequestRelease](./tasks/git/pullRequest/release/README.md)
+
+# Installation
+
+You can install the extension to your Azure DevOps organization from Marketplace:
+[VTEX IO CI/CD Utilities](https://marketplace.visualstudio.com/items?itemName=MaikRestrepo.vtex-io-ci-cd)
+
+You may need to add **Contribute to pull requests** permission to your **Project Collection Build Service Accounts** from project -> repository -> **Security**.
+
+![Permissions](screenshots/screen3.png)
 
 ### Development and contribution
 
