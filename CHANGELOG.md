@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.9.17] - 2024-04-30
+
 ### Changed
 
 - feat: :sparkles: create a tasks for make the publish, release and beta and publish in a pr ([21f517a0](https://github.com/Maik3345/azure-devops-vtex-extension/commit/21f517a0e98c7f139d81321089afd26dd4e11dac))
