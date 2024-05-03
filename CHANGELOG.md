@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.9.20] - 2024-05-02
+
+### Added
+
+- feat: ✨ add the task to deploy a app
+
 ## [1.9.19] - 2024-04-30
+
+- feat: ✨ refactor git and vtex task
 
 ## [1.9.17] - 2024-04-30
 
