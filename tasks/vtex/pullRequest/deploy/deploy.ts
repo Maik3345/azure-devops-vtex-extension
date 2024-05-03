@@ -15,6 +15,9 @@ import {
   installVtex,
   makeLoginVtex,
   publishAppIsIgnoredMessage,
+  setEmailAndUserGit,
+  startPublishMessage,
+  vtexPullRequestDeploy,
   vtexPullRequestPublish,
 } from '../../../shared'
 
@@ -25,29 +28,12 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const { forcePublish, deploy, beta } = taskVariables
     const azureConnection = await GitConnection()
-    const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
-    const ignorePublish = await ignoreExecutionPublish(azureConnection)
-
-    if (ignoreBeta) {
-      console.log('Ignoring beta release')
-      betaPublishIgnoreMessage(azureConnection)
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring beta release')
-      return
-    }
-
-    if (ignorePublish) {
-      console.log('Ignoring publish')
-      publishAppIsIgnoredMessage(azureConnection)
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring publish')
-      return
-    }
 
     const { pullRequest } = azureConnection
-    const { sourceRefName } = pullRequest
+    const { createdBy, sourceRefName } = pullRequest
     // 3. get the release type from the title of the pull request
-    const { typeRelease } = await determineReleaseType(azureConnection, beta)
+    const { typeRelease } = await determineReleaseType(azureConnection, false)
 
     // 4. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
@@ -57,7 +43,10 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    // 1. change current source origin to sourceBranchName
+    const { displayName, uniqueName } = createdBy ?? {}
+    // 1. set the email and user in git
+    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
+    // 2. change current source origin to sourceBranchName
     await changeOriginToSourceBranch(azureConnection, sourceRefName)
     // 3. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
@@ -66,17 +55,16 @@ async function run() {
     )
     // ******* Configuration *******
 
-    // ******* Publish *******
-    // 1. make the publish
-    await vtexPullRequestPublish(
+    // ******* Deploy *******
+    // 1. make the Deploy
+    await vtexPullRequestDeploy(
       azureConnection,
       typeRelease,
-      forcePublish,
       old_version,
       new_version,
       app_name
     )
-    // ******* Publish *******
+    // ******* Deploy *******
   } catch (err: any) {
     tl.setResult(tl.TaskResult.Failed, err.message)
   }

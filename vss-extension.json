@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.9.19",
+  "version": "1.9.20",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
@@ -32,6 +32,9 @@
     },
     {
       "path": "tasks/vtex/pullRequest/publish"
+    },
+    {
+      "path": "tasks/vtex/pullRequest/deploy"
     },
     {
       "path": "screenshots",
@@ -77,6 +80,14 @@
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/pullRequest/publish"
+      }
+    },
+    {
+      "id": "custom-build-vtex-pullRequest-deploy-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/pullRequest/deploy"
       }
     }
   ],

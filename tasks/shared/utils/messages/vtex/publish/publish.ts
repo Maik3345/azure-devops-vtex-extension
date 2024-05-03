@@ -151,7 +151,7 @@ export const publishWithDeployAppSuccessMessage = async (
   const deployMessage = code(`vtex install ${app_name}@${new_version}`)
   const updateStore = code(`vtex update`)
   const message = `
-  Your app has been successfully published and deployed! 🚀:
+  Your app has been successfully deployed! 🚀:
   version: **${old_version} :arrow_right: ${new_version}**
   
   The new version of your app has been successfully deployed to all accounts.
@@ -201,32 +201,21 @@ export const publishAppIsIgnoredMessage = async (
   return await createPullRequestThreadService(azureConnection, message)
 }
 
-/**
- * The function `warnForceDeployMessage` sends a warning message about deploying with the force flag
- * enabled to an Azure connection.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter in the
- * `warnForceDeployMessage` function is of type `AzureConnectionType`. This parameter likely represents
- * the connection details or configuration required to interact with Azure services for deployment
- * purposes. It could include information such as authentication credentials, resource identifiers, or
- * other necessary data to communicate
- * @returns The `warnForceDeployMessage` function is returning a Promise that resolves to the result of
- * calling the `createPullRequestThreadService` function with the `azureConnection` and `message`
- * parameters. The `message` is a warning message about deploying the app with the force flag enabled,
- * advising caution and suggesting reaching out for assistance if needed.
- */
-export const warnForceDeployMessage = async (
-  azureConnection: AzureConnectionType
+export const startDeployMessage = async (
+  azureConnection: AzureConnectionType,
+  old_version: string,
+  new_version: string
 ) => {
+  const pipelineLink = getPipelineUrl()
   const message = `
-  Hi there! 👋 I'm the CI/CD Bot, and I'm here to assist you! 🤖
-
-  ⚠️ Warning: You are about to deploy the app with the force flag enabled. This action will force the deployment of the app to all accounts, potentially causing disruptions or conflicts with existing versions.
-
-  Please ensure that you have thoroughly tested the new version of the app and that the force deployment is necessary to resolve critical issues or conflicts.
-
-  If you are unsure about using the force flag or need further assistance, please reach out to us before proceeding with the deployment.
-
-  Thank you! 🙏
+  Your app is being deployed! 📦
+  version: **${old_version} :arrow_right: ${new_version}**
+  
+  You can check the execution of the deploy process by following this.
+  
+  <a href="${pipelineLink}">pipeline link</a>
+  
+  Happy build 😉!
 `
   return await createPullRequestThreadService(azureConnection, message)
 }
