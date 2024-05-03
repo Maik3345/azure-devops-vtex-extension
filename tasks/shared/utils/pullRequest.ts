@@ -1,5 +1,5 @@
 import { AzureConnectionType } from '../models'
-import { getAllPullRequestCommitsService } from '../services/getAllCommitTitle'
+import { getAllPullRequestCommitsService } from '../services/commitInformation'
 
 /**
  * The function `getPullRequestCommits` retrieves all the commits in the current pull request and

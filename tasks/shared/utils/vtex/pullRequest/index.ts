@@ -3,8 +3,9 @@ import { AzureConnectionType } from '../../../models'
 import {
   publishAppSuccessMessage,
   publishWithDeployAppSuccessMessage,
+  startDeployMessage,
+  startPublishMessage,
   vtexPublishFailureMessage,
-  warnForceDeployMessage,
 } from '../../messages'
 import { runCommand } from '../../runCommand'
 
@@ -57,7 +58,7 @@ const makePublish = async (
 ) => {
   const force = forcePublish ? '--force' : ''
   return await runCommand(
-    `projex vtex run "vtex publish -y ${force}"`,
+    `projex vtex run "vtex publish -y ${force} --verbose" --verbose`,
     '.',
     'vtex publish',
     false,
@@ -74,7 +75,7 @@ const makeDeploy = async (
 ) => {
   const forceDeploy = force ? '--force' : ''
   return await runCommand(
-    `projex vtex run "vtex deploy -y ${forceDeploy}"`,
+    `projex vtex run "vtex deploy -y ${forceDeploy} --verbose" --verbose`,
     '.',
     'vtex deploy',
     false,
@@ -127,34 +128,67 @@ export const vtexPullRequestPublish = async (
   azureConnection: AzureConnectionType,
   releaseType: ReleaseType,
   forcePublish: boolean,
-  deploy: boolean,
   old_version: string,
   new_version: string,
   app_name: string
 ) => {
-  // 1. update changelog file with the release type, not push changes to git, only overwrite the file
+  // 1. show pipeline start build process
+  await startPublishMessage(azureConnection, old_version, new_version)
+  // 2. update changelog file with the release type, not push changes to git, only overwrite the file
   await makeReleaseWithoutPush(azureConnection, `${releaseType} stable`)
-  // 2. publish using vtex
+  // 3. publish using vtex
   await makePublish(azureConnection, forcePublish)
-  if (deploy) {
-    await warnForceDeployMessage(azureConnection)
-    // 2.1 deploy using vtex
-    await makeDeploy(azureConnection, forcePublish)
-    await publishWithDeployAppSuccessMessage(
-      azureConnection,
-      old_version,
-      new_version,
-      app_name
-    )
-  } else {
-    await publishAppSuccessMessage(
-      azureConnection,
-      old_version,
-      new_version,
-      app_name
-    )
-  }
+  // 4. print success message
+  await publishAppSuccessMessage(
+    azureConnection,
+    old_version,
+    new_version,
+    app_name
+  )
+  // 5. reset --hard
+  await makeResetHard(azureConnection)
+}
 
-  // 3. reset --hard
+/**
+ * The function `vtexPullRequestDeploy` deploys an application using VTEX, with the option to force
+ * publish, and includes warning and success messages.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is of type
+ * `AzureConnectionType` and likely contains the necessary information to connect to an Azure service
+ * for deployment.
+ * @param {boolean} forcePublish - The `forcePublish` parameter is a boolean value that determines
+ * whether the deployment should be forced or not. If set to `true`, the deployment will be forced,
+ * bypassing any checks or restrictions. If set to `false`, the deployment will proceed normally
+ * without forcing it.
+ * @param {string} old_version - The `old_version` parameter in the `vtexPullRequestDeploy` function
+ * represents the version of the application before the deployment process. It is a string that
+ * indicates the previous version of the application that is being updated or deployed.
+ * @param {string} new_version - The `new_version` parameter in the `vtexPullRequestDeploy` function
+ * represents the version number of the application that you are deploying. It is used to specify the
+ * new version of the application that will be deployed during the process.
+ * @param {string} app_name - The `app_name` parameter in the `vtexPullRequestDeploy` function
+ * represents the name of the application that is being deployed using VTEX. It is a string value that
+ * identifies the specific application being deployed.
+ */
+export const vtexPullRequestDeploy = async (
+  azureConnection: AzureConnectionType,
+  releaseType: ReleaseType,
+  old_version: string,
+  new_version: string,
+  app_name: string
+) => {
+  // 1. print warning message
+  await startDeployMessage(azureConnection, old_version, new_version)
+  // 2. update changelog file with the release type, not push changes to git, only overwrite the file
+  await makeReleaseWithoutPush(azureConnection, `${releaseType} stable`)
+  // 3 deploy using vtex
+  await makeDeploy(azureConnection, true)
+  // 4. print success message
+  await publishWithDeployAppSuccessMessage(
+    azureConnection,
+    old_version,
+    new_version,
+    app_name
+  )
+  // 5. reset --hard
   await makeResetHard(azureConnection)
 }

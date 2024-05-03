@@ -3,7 +3,6 @@ import * as tl from 'azure-pipelines-task-lib'
 import {
   GitConnection,
   asyncTimeout,
-  betaPublishIgnoreMessage,
   changeOriginToSourceBranch,
   checkDirectory,
   completePullRequestService,
@@ -17,9 +16,7 @@ import {
   ignoreExecutionPublish,
   installPackages,
   installProjex,
-  publishAppIsIgnoredMessage,
   releaseAppSuccessMessage,
-  setEmailAndUserGit,
   startReleaseMessage,
 } from '../../../shared'
 
@@ -36,20 +33,18 @@ async function run() {
 
     if (ignoreBeta) {
       console.log('Ignoring beta release')
-      betaPublishIgnoreMessage(azureConnection)
       tl.setResult(tl.TaskResult.Skipped, 'Ignoring beta release')
       return
     }
 
     if (ignorePublish) {
       console.log('Ignoring publish')
-      publishAppIsIgnoredMessage(azureConnection)
       tl.setResult(tl.TaskResult.Skipped, 'Ignoring publish')
       return
     }
 
     const { pullRequest } = azureConnection
-    const { createdBy, sourceRefName, targetRefName } = pullRequest
+    const { sourceRefName, targetRefName } = pullRequest
     // 3. get the release type from the title of the pull request, if it is a beta release, it will return the type and title
     const { typeRelease, titleRelease } =
       (await determineReleaseType(azureConnection, beta)) ?? {}
@@ -60,18 +55,14 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-
-    const { displayName, uniqueName } = createdBy ?? {}
-    // 1. set the email and user in git
-    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
-    // 2. change current source origin to sourceBranchName
+    // 1. change current source origin to sourceBranchName
     await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 3. get the release version from the title of the pull request
+    // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
       azureConnection,
       typeRelease
     )
-    // 4. show pipeline start release process
+    // 3. show pipeline start release process
     await startReleaseMessage(azureConnection, old_version, new_version)
     // ******* Configuration *******
 
@@ -87,18 +78,18 @@ async function run() {
       await changeOriginToSourceBranch(azureConnection, targetRefName)
     }
 
-    // 3. Create the release and push the changes to git
+    // 4. Create the release and push the changes to git
     await createRelease(azureConnection, titleRelease, typeRelease)
 
     if (beta && mergeIntoDevelop) {
-      // 3. Create pull request to develop and automatically merge it
+      // 1. Create pull request to develop and automatically merge it
       await createPullRequestService(
         azureConnection,
         getDevelopTargetRefBranch(devBranch)
       )
     }
 
-    // 4. Show pipeline success message
+    // 5. Show pipeline success message
     await releaseAppSuccessMessage(
       azureConnection,
       old_version,
