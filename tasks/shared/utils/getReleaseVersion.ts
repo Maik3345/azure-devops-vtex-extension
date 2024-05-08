@@ -1,4 +1,3 @@
-import { ReleaseType } from '../constants'
 import { AzureConnectionType, ReleaseOutputType } from '../models'
 import { errorOnGetTheReleaseVersionMessage } from './messages'
 import { runCommand } from './runCommand'
@@ -14,11 +13,11 @@ import { runCommand } from './runCommand'
  * @returns an object of type `ReleaseOutputType`, which contains the following properties:
  */
 export const getReleaseVersion = async (
-  azureConnection: AzureConnectionType,
-  releaseType: keyof typeof ReleaseType
+  beta: boolean,
+  azureConnection?: AzureConnectionType
 ) => {
   const versions = await runCommand(
-    `projex git release ${releaseType} stable --get-version`,
+    `projex git release ${beta ? '' : 'stable'} --get-version`,
     '.',
     'get release version',
     true,

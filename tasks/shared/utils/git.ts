@@ -59,3 +59,36 @@ export const changeOriginToSourceBranch = async (
     () => vtexPublishFailureMessage(azureConnection)
   )
 }
+
+export const makeReleaseWithoutPush = async (
+  tagName: string,
+  azureConnection?: AzureConnectionType
+) => {
+  return await runCommand(
+    `projex git release ${tagName} --yes --no-deploy --no-push --no-check-release --no-tag`,
+    '.',
+    'generate release change in the manifest.json file without push to git',
+    false,
+    0,
+    false,
+    true,
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
+  )
+}
+
+export const makeResetHard = async (azureConnection?: AzureConnectionType) => {
+  return await runCommand(
+    `projex bash run "git reset --hard"`,
+    '.',
+    'reset changes',
+    false,
+    0,
+    false,
+    true,
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
+  )
+}

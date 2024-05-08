@@ -28,6 +28,9 @@
       "path": "tasks/git/pullRequest/release"
     },
     {
+      "path": "tasks/git/release"
+    },
+    {
       "path": "tasks/vtex/publish"
     },
     {
@@ -64,6 +67,14 @@
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/git/pullRequest/release"
+      }
+    },
+    {
+      "id": "custom-build-git-release-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/git/release"
       }
     },
     {

@@ -111,16 +111,19 @@ export const errorOnGetReleaseTypeMessage = async (
  * @returns a promise that resolves to the result of the `createPullRequestThreadService` function.
  */
 export const errorOnGetTheReleaseVersionMessage = async (
-  azureConnection: AzureConnectionType
+  azureConnection?: AzureConnectionType
 ) => {
-  const messageThread = `
+  if (azureConnection) {
+    const messageThread = `
   Hi there! 👋 I'm the CI/CD Bot, and I'm here to assist you! 🤖
 
   🚨 It seems that there was an error while attempting to get the release version. Please check the logs and address the issue as soon as possible.
 
   Thank you! 🙏
 `
-  await createPullRequestThreadService(azureConnection, messageThread)
+    await createPullRequestThreadService(azureConnection, messageThread)
+  }
+
   const errorMessage =
     'Could not get release version. Please make sure you have the correct configuration in the package.json or manifest.json file.'
   tl.setResult(tl.TaskResult.Failed, errorMessage)

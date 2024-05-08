@@ -60,6 +60,14 @@
       "helpMarkDown": "This flag will execute the vtex deploy command with the --force flag before the vtex publish command.",
       "defaultValue": false,
       "required": false
+    },
+    {
+      "name": "beta",
+      "type": "boolean",
+      "label": "Generate a beta version of the app",
+      "helpMarkDown": "This flag will generate a beta version of the app.",
+      "defaultValue": false,
+      "required": false
     }
   ],
   "execution": {

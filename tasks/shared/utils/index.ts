@@ -1,6 +1,5 @@
 export * from './asyncTmeOut'
 export * from './getPullRequestId'
-export * from './getReleaseType'
 export * from './getReleaseVersion'
 export * from './git'
 export * from './setup'

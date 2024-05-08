@@ -18,6 +18,7 @@ This task is used in a standard pipeline execution to create a stable version of
 | account      | string  | VTEX ACCOUNT                                                            | The account name of the VTEX store                                                                                | ""            | true     |
 | forcePublish | boolean | Execute the vtex publish command with the --force flag                  | This flag will force the publish command of vtex with the --force flag.                                           | false         | false    |
 | deploy       | boolean | Execute the command vtex deploy --force before the vtex publish command | This flag will execute the vtex deploy command with the --force flag before the vtex publish command.             | false         | false    |
+| beta         | boolean | Generate a beta version of the app                     | This flag will generate a beta version of the app.                                                                | false         | false    |
 
 ## Example
 

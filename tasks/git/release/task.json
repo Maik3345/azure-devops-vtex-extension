@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "f23f7ccf-0fd5-4c00-9e60-a04935a4fb95",
+  "name": "GitRelease",
+  "friendlyName": "Git Release",
+  "description": "Generate a release in git updating the version in the package.json file and changelog.md using semantic versioning with the cli projex",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 15
+  },
+  "inputs": [
+    {
+      "name": "devBranch",
+      "type": "string",
+      "label": "Branch to integrate the changes",
+      "helpMarkDown": "Pass the branch to integrate the changes automatically, by default is develop",
+      "defaultValue": "develop",
+      "required": false
+    },
+    {
+      "name": "beta",
+      "type": "boolean",
+      "label": "Create a beta release",
+      "helpMarkDown": "Pass true to create a beta release, by default is false",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "mergeIntoDevelop",
+      "type": "boolean",
+      "label": "Merge the release into the develop branch",
+      "helpMarkDown": "Create a pull request to merge the changes into the develop passed branch automatically, by default is true, this only works if the beta option is true",
+      "defaultValue": true,
+      "required": false
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "dist/git/release/release.js"
+    }
+  }
+}
