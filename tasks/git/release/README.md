@@ -6,7 +6,9 @@
 
 This task works in the existing pull request only. It merges the pull request to the target branch and creates a release version with a tag. The task uses the `projex` CLI to create the release with the command `projex git release`.
 
-To determine the type of release `projex` use the list of commits without release in the current branch with the standard of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
+To determine the type of release, the task relies on the pull request title. The title must have one of the following formats: `[minor]`, `[major]`, or `[patch]`.
+
+To ignore the creation of a beta or the publish release, you can use `[no-beta]` or `[no-publish]` in the title.
 
 ## Parameters
 

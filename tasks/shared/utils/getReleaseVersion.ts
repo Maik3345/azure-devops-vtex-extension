@@ -1,4 +1,3 @@
-import { ReleaseType } from '../constants'
 import { AzureConnectionType, ReleaseOutputType } from '../models'
 import { errorOnGetTheReleaseVersionMessage } from './messages'
 import { runCommand } from './runCommand'
@@ -14,42 +13,48 @@ import { runCommand } from './runCommand'
  * @returns an object of type `ReleaseOutputType`, which contains the following properties:
  */
 export const getReleaseVersion = async (
-  azureConnection: AzureConnectionType,
-  releaseType: keyof typeof ReleaseType
+  beta: boolean,
+  azureConnection?: AzureConnectionType
 ) => {
-  const versions = await runCommand(
-    `projex git release ${releaseType} stable --get-version`,
+  const str = await runCommand(
+    `projex git release ${beta ? '' : 'stable'} --get-version`,
     '.',
     'get release version',
     true,
     0,
     false
   )
-  console.log(versions)
+  console.log(str)
 
-  if (!versions || versions === '') {
-    errorOnGetTheReleaseVersionMessage(azureConnection)
+  if (!str || str === '') {
+    return errorOnGetTheReleaseVersionMessage(azureConnection)
   }
 
-  // Dividir el string en un array usando la coma como separador
-  const parts = versions.split(',')
+  let oldVersionMatch = str.match(/oldVersion: '([^']*)'/)
+  let newVersionMatch = str.match(/newVersion: '([^']*)'/)
+  let pushCommandTextMatch = str.match(/pushCommandText: '([^']*)'/)
+  let appNameMatch = str.match(/appName: '([^']*)'/)
+
+  let old_version = oldVersionMatch ? oldVersionMatch[1] : null
+  let new_version = newVersionMatch ? newVersionMatch[1] : null
+  let push = pushCommandTextMatch ? pushCommandTextMatch[1] : null
+  let app_name = appNameMatch ? appNameMatch[1] : null
+
+  console.log('Get release version')
+  console.log({
+    old_version,
+    new_version,
+    push,
+    app_name,
+  })
 
   // Inicializar un objeto para almacenar los valores
   const values: ReleaseOutputType = {
-    new_version: null,
-    old_version: null,
-    app_name: null,
-    push: null,
+    new_version,
+    old_version,
+    app_name,
+    push,
   }
-
-  // Iterar sobre cada elemento del array
-  parts.forEach((part: string) => {
-    // Dividir cada elemento en clave y valor usando ":" como separador
-    const [key, value] = part.split(':')
-
-    // Almacenar el valor en el objeto utilizando la clave correspondiente
-    values[key as keyof typeof values] = value
-  })
 
   if (
     !values.new_version ||
@@ -57,7 +62,7 @@ export const getReleaseVersion = async (
     !values.app_name ||
     !values.push
   ) {
-    errorOnGetTheReleaseVersionMessage(azureConnection)
+    return errorOnGetTheReleaseVersionMessage(azureConnection)
   }
 
   // Imprimir el objeto resultante

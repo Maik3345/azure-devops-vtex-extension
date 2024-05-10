@@ -23,21 +23,9 @@ export const vtexPublish = async (forcePublish: boolean) => {
   )
 }
 
-/**
- * The function `vtexDeploy` is used to deploy a VTEX project with an optional force flag.
- * @param {boolean} deploy - The `deploy` parameter is a string that determines whether the deployment
- * should be forced or not. If the value of `deploy` is `'true'`, then the deployment will be forced by
- * adding the `--force` flag to the command.
- * @returns The `vtexDeploy` function is returning the result of the `runCommand` function with the
- * specified parameters. The `runCommand` function is executing the command `projex vtex run "vtex
- * deploy --yes "` in the current directory (`'.'`) with the command name `'vtex
- * deploy'`, without logging the command, with a timeout of 0 milliseconds
- */
-export const vtexDeploy = async (deploy: boolean) => {
-  const forceDeploy = deploy ? '--force' : ''
-
+export const vtexDeploy = async () => {
   return await runCommand(
-    `projex vtex run "vtex deploy --yes ${forceDeploy}"`,
+    `projex vtex run "vtex deploy --yes --force"`,
     '.',
     'vtex deploy',
     false,

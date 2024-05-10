@@ -171,36 +171,6 @@ export const publishWithDeployAppSuccessMessage = async (
   return await createPullRequestThreadService(azureConnection, message)
 }
 
-/**
- * The function `publishAppIsIgnoredMessage` sends a message indicating that the publish app process
- * has been ignored based on the title of a pull request.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter in the
- * `publishAppIsIgnoredMessage` function is likely an object representing a connection to an Azure
- * service. It could contain information such as credentials, endpoints, or configuration settings
- * needed to interact with Azure services like Azure DevOps or Azure Functions.
- * @returns The `publishAppIsIgnoredMessage` function is returning a promise that resolves to the
- * result of calling the `createPullRequestThreadService` function with the `azureConnection` and
- * `message` parameters. The `message` is a string containing a helpful message from the CI/CD Bot
- * informing the user that the publish app process has been ignored based on the title of the pull
- * request.
- */
-export const publishAppIsIgnoredMessage = async (
-  azureConnection: AzureConnectionType
-) => {
-  const message = `
-  Hi there! 👋 I'm the CI/CD Bot, and I'm here to assist you! 🤖
-
-  You use the tag [no-publish] in the title of the pull request.
-
-  🚫 The publish app process has been ignored based on the title of the pull request. No action has been taken.
-
-  If you believe this is an error or need further assistance, please let us know.
-
-  Thank you! 🙏
-`
-  return await createPullRequestThreadService(azureConnection, message)
-}
-
 export const startDeployMessage = async (
   azureConnection: AzureConnectionType,
   old_version: string,

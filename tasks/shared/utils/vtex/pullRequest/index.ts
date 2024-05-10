@@ -1,5 +1,5 @@
-import { ReleaseType } from '../../../constants'
 import { AzureConnectionType } from '../../../models'
+import { makeReleaseWithoutPush, makeResetHard } from '../../git'
 import {
   publishAppSuccessMessage,
   publishWithDeployAppSuccessMessage,
@@ -8,36 +8,6 @@ import {
   vtexPublishFailureMessage,
 } from '../../messages'
 import { runCommand } from '../../runCommand'
-
-/**
- * This TypeScript function generates a release change in the manifest.json file without pushing to
- * git.
- * @param {AzureConnectionType} azureConnection - AzureConnectionType - a type representing the
- * connection details needed to interact with Azure services, such as authentication credentials or
- * connection settings.
- * @param {string} release - The `release` parameter is a string that represents the version or name of
- * the release being created. In this function, it is used as part of the command to generate a release
- * change in the manifest.json file without pushing to Git.
- * @returns The function `makeReleaseWithoutPush` is returning the result of the `runCommand` function
- * with the specified parameters. The `runCommand` function is executing the command `projex git
- * release  --yes --no-deploy --no-push --no-check-release` in the current directory (`'.'`)
- * with a description of 'generate release change in the manifest.json file without push to
- */
-const makeReleaseWithoutPush = async (
-  azureConnection: AzureConnectionType,
-  release: string
-) => {
-  return await runCommand(
-    `projex git release ${release} --yes --no-deploy --no-push --no-check-release --no-tag`,
-    '.',
-    'generate release change in the manifest.json file without push to git',
-    false,
-    0,
-    false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
-  )
-}
 
 /**
  * The function `makePublish` asynchronously runs a VTEX publish command with optional force flag based
@@ -87,55 +57,43 @@ const makeDeploy = async (
 }
 
 /**
- * The function `makeResetHard` resets changes in a Git repository using a specific command and handles
- * failure messages related to Azure connections.
- * @param {AzureConnectionType} azureConnection - AzureConnectionType
- * @returns The `makeResetHard` function is returning the result of the `runCommand` function with the
- * specified parameters.
- */
-const makeResetHard = async (azureConnection: AzureConnectionType) => {
-  return await runCommand(
-    `projex bash run "git reset --hard"`,
-    '.',
-    'reset changes',
-    false,
-    0,
-    false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
-  )
-}
-
-/**
- * The function `vtexPullRequestPublish` updates a changelog file, publishes using VTEX, and then
- * resets the changes.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter likely represents the
- * connection details or credentials required to interact with Azure services in your code. It could
- * include information such as the Azure account credentials, subscription details, or any other
- * necessary authentication information needed to perform actions in Azure.
- * @param {string} titleRelease - The `titleRelease` parameter is a string that represents the title of
- * the release being published. It is used in the process of updating the changelog file and publishing
- * the release using VTEX.
- * @param {ReleaseType} releaseType - The `releaseType` parameter in the `vtexPullRequestPublish`
- * function is used to specify the type of release being published. It could be values like "major",
- * "minor", or "patch" indicating the significance of the release version.
- * @param {boolean} forcePublish - The `forcePublish` parameter is used to specify whether the
- * VTEX publish should be forced. When set to `true`, it indicates that the publish operation should
- * proceed even if there are potential conflicts or issues that would normally prevent the publish.
- * This can be useful in situations where you want to
+ * This TypeScript function handles the process of publishing a VTEX pull request, including starting
+ * the build process, updating the changelog, publishing using VTEX, printing success messages, and
+ * resetting changes.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is likely an object
+ * that contains connection information for interacting with Azure services, such as authentication
+ * details, endpoints, and other configuration settings. It is used throughout the
+ * `vtexPullRequestPublish` function to perform various actions related to publishing a VTEX pull
+ * request.
+ * @param {boolean} forcePublish - The `forcePublish` parameter is a boolean value that determines
+ * whether the publishing process should be forced or not. If set to `true`, the publishing will be
+ * done forcefully without any checks or validations. If set to `false`, the publishing process will
+ * proceed as usual with the necessary checks and validations in
+ * @param {string} old_version - The `old_version` parameter in the `vtexPullRequestPublish` function
+ * represents the version of the application before the update or changes being made. It is a string
+ * value that indicates the previous version of the application.
+ * @param {string} new_version - The `new_version` parameter in the `vtexPullRequestPublish` function
+ * is used to specify the new version number of the application being published. It is a string type
+ * parameter that represents the version number to be assigned to the updated application.
+ * @param {string} app_name - The `app_name` parameter in the `vtexPullRequestPublish` function
+ * represents the name of the application that is being published. It is used in the final step to
+ * print a success message after the publishing process is completed.
+ * @param {boolean} beta - The `beta` parameter is a boolean flag that indicates whether the release is
+ * a beta version or not. If `beta` is true, the release will be marked as a beta version; otherwise,
+ * it will be marked as a stable version.
  */
 export const vtexPullRequestPublish = async (
   azureConnection: AzureConnectionType,
-  releaseType: ReleaseType,
   forcePublish: boolean,
   old_version: string,
   new_version: string,
-  app_name: string
+  app_name: string,
+  beta: boolean
 ) => {
   // 1. show pipeline start build process
   await startPublishMessage(azureConnection, old_version, new_version)
   // 2. update changelog file with the release type, not push changes to git, only overwrite the file
-  await makeReleaseWithoutPush(azureConnection, `${releaseType} stable`)
+  await makeReleaseWithoutPush(beta ? '' : 'stable', azureConnection)
   // 3. publish using vtex
   await makePublish(azureConnection, forcePublish)
   // 4. print success message
@@ -150,36 +108,36 @@ export const vtexPullRequestPublish = async (
 }
 
 /**
- * The function `vtexPullRequestDeploy` deploys an application using VTEX, with the option to force
- * publish, and includes warning and success messages.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is of type
- * `AzureConnectionType` and likely contains the necessary information to connect to an Azure service
- * for deployment.
- * @param {boolean} forcePublish - The `forcePublish` parameter is a boolean value that determines
- * whether the deployment should be forced or not. If set to `true`, the deployment will be forced,
- * bypassing any checks or restrictions. If set to `false`, the deployment will proceed normally
- * without forcing it.
+ * This TypeScript function handles the deployment process for a VTEX pull request, including printing
+ * messages, updating changelog, deploying using VTEX, and resetting changes.
+ * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is likely an object
+ * that contains connection information for Azure services, such as credentials, endpoints, or other
+ * configuration details needed to interact with Azure resources.
  * @param {string} old_version - The `old_version` parameter in the `vtexPullRequestDeploy` function
- * represents the version of the application before the deployment process. It is a string that
+ * represents the version of the application before the deployment process begins. It is a string that
  * indicates the previous version of the application that is being updated or deployed.
  * @param {string} new_version - The `new_version` parameter in the `vtexPullRequestDeploy` function
- * represents the version number of the application that you are deploying. It is used to specify the
- * new version of the application that will be deployed during the process.
+ * represents the version number of the application that you are deploying. It is the updated version
+ * that will be deployed as part of the pull request deployment process.
  * @param {string} app_name - The `app_name` parameter in the `vtexPullRequestDeploy` function
- * represents the name of the application that is being deployed using VTEX. It is a string value that
- * identifies the specific application being deployed.
+ * represents the name of the application that is being deployed. It is a string value that specifies
+ * the name of the application for which the deployment process is being carried out.
+ * @param {boolean} beta - The `beta` parameter in the `vtexPullRequestDeploy` function is a boolean
+ * flag that indicates whether the deployment is for a beta version or a stable version of the
+ * application. If `beta` is `true`, the deployment is for a beta version; otherwise, it is for a
+ * stable
  */
 export const vtexPullRequestDeploy = async (
   azureConnection: AzureConnectionType,
-  releaseType: ReleaseType,
   old_version: string,
   new_version: string,
-  app_name: string
+  app_name: string,
+  beta: boolean
 ) => {
   // 1. print warning message
   await startDeployMessage(azureConnection, old_version, new_version)
   // 2. update changelog file with the release type, not push changes to git, only overwrite the file
-  await makeReleaseWithoutPush(azureConnection, `${releaseType} stable`)
+  await makeReleaseWithoutPush(`${beta ? '' : 'stable'}`, azureConnection)
   // 3 deploy using vtex
   await makeDeploy(azureConnection, true)
   // 4. print success message

@@ -12,7 +12,7 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 4
+    "Patch": 5
   },
   "inputs": [
     {
@@ -54,7 +54,7 @@
   ],
   "execution": {
     "Node16": {
-      "target": "dist/tasks/VtexBuildRelease/VtexBuildRelease.js"
+      "target": "dist/deprecated/VtexBuildRelease/VtexBuildRelease.js"
     }
   }
 }

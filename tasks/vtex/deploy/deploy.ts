@@ -9,7 +9,7 @@ import {
   makeLoginVtex,
   makeReleaseWithoutPush,
   makeResetHard,
-  vtexPublish,
+  vtexDeploy,
 } from '../../shared'
 
 async function run() {
@@ -19,7 +19,7 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const { forcePublish, beta } = taskVariables
+    const { beta } = taskVariables
     // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
@@ -27,15 +27,13 @@ async function run() {
     await makeLoginVtex(taskVariables)
     // ******* Setup utilities *******
 
-    // ******* Publish And Deploy *******
+    // ******* Deploy *******
     await makeReleaseWithoutPush(beta ? '' : 'stable')
-    // 1. make the publish
-    await vtexPublish(forcePublish)
+    await vtexDeploy()
     await makeResetHard()
-
     // 2. Show pipeline success message
-    tl.setResult(tl.TaskResult.Succeeded, `publish success`)
-    // ******* Publish And Deploy *******
+    tl.setResult(tl.TaskResult.Succeeded, `deploy success`)
+    // ******* Deploy *******
   } catch (err: any) {
     tl.setResult(tl.TaskResult.Failed, err.message)
   }

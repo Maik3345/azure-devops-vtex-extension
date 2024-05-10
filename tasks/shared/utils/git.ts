@@ -17,9 +17,9 @@ import { runCommand } from './runCommand'
  * global user name and email in Git configuration.
  */
 export const setEmailAndUserGit = async (
-  azureConnection: AzureConnectionType,
   authorName: string,
-  authorEmail: string
+  authorEmail: string,
+  azureConnection?: AzureConnectionType
 ) => {
   return runCommand(
     `git config --global user.name "${authorName}" && git config --global user.email "${authorEmail}"`,
@@ -29,7 +29,9 @@ export const setEmailAndUserGit = async (
     0,
     false,
     true,
-    () => vtexPublishFailureMessage(azureConnection)
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
   )
 }
 
@@ -43,19 +45,54 @@ export const setEmailAndUserGit = async (
  * not return any value.
  */
 export const changeOriginToSourceBranch = async (
-  azureConnection: AzureConnectionType,
-  sourceRefName: string
+  sourceRefName: string,
+  azureConnection?: AzureConnectionType
 ) => {
   const sourceBranchName = sourceRefName.replace('refs/heads/', '')
 
   return await runCommand(
-    `git fetch origin && git checkout ${sourceBranchName}`,
+    `git fetch origin && git checkout ${sourceBranchName} && git pull origin ${sourceBranchName} && git fetch --unshallow && git rev-list HEAD --pretty=oneline`,
     '.',
     'fetch origin and checkout source branch',
     false,
     0,
     false,
     true,
-    () => vtexPublishFailureMessage(azureConnection)
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
+  )
+}
+
+export const makeReleaseWithoutPush = async (
+  tagName: string,
+  azureConnection?: AzureConnectionType
+) => {
+  return await runCommand(
+    `projex git release ${tagName} --yes --no-deploy --no-push --no-check-release --no-tag`,
+    '.',
+    'generate release change in the manifest.json file without push to git',
+    false,
+    0,
+    false,
+    true,
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
+  )
+}
+
+export const makeResetHard = async (azureConnection?: AzureConnectionType) => {
+  return await runCommand(
+    `projex bash run "git reset --hard"`,
+    '.',
+    'reset changes',
+    false,
+    0,
+    false,
+    true,
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
   )
 }

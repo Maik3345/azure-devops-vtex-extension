@@ -4,5 +4,5 @@
     "outDir": "dist/",
     "sourceRoot": "./"
   },
-  "files": ["VtexBuildRelease.ts"]
+  "files": ["deploy.ts"]
 }

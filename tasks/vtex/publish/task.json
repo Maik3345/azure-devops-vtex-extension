@@ -10,7 +10,7 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 9
+    "Patch": 12
   },
   "inputs": [
     {
@@ -54,10 +54,10 @@
       "required": false
     },
     {
-      "name": "deploy",
+      "name": "beta",
       "type": "boolean",
-      "label": "Execute the command vtex deploy --force before the vtex publish command",
-      "helpMarkDown": "This flag will execute the vtex deploy command with the --force flag before the vtex publish command.",
+      "label": "Generate a beta version of the app",
+      "helpMarkDown": "This flag will generate a beta version of the app.",
       "defaultValue": false,
       "required": false
     }

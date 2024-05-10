@@ -1,7 +1,5 @@
-import { ReleaseType } from '../constants'
 import { AzureConnectionType } from '../models'
 import { vtexPublishFailureMessage } from './messages'
-import { getPullRequestCommits } from './pullRequest'
 import { runCommand } from './runCommand'
 
 /**
@@ -15,98 +13,45 @@ import { runCommand } from './runCommand'
  * the release process.
  */
 const makeRelease = async (
-  azureConnection: AzureConnectionType,
-  args: string
+  tagName: string,
+  azureConnection?: AzureConnectionType
 ) => {
   await runCommand(
-    `projex git release ${args} --yes --no-deploy --no-check-release`,
+    `projex git release ${tagName} --yes --no-deploy --no-check-release`,
     '.',
     'generate release change in the manifest.json file without push to git',
     false,
     0,
     false,
     true,
-    () => vtexPublishFailureMessage(azureConnection)
+    azureConnection
+      ? () => vtexPublishFailureMessage(azureConnection)
+      : () => {}
   )
 }
 
 /**
- * The function `updateChangelogContent` updates the changelog file with the last commits for a
- * specific release in an Azure project.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter likely represents a
- * connection to an Azure service or resource. It could be an object containing authentication details,
- * such as credentials or tokens, needed to interact with Azure services programmatically. This
- * connection is used within the `updateChangelogContent` function to retrieve pull request commits and
- * @param {string} titleRelease - The `titleRelease` parameter is a string that represents the title of
- * the release for which you want to update the changelog content. It is used as part of the arguments
- * passed to the `projex git update changelog` command to specify the title of the release.
- */
-const updateChangelogContent = async (
-  azureConnection: AzureConnectionType,
-  titleRelease: string
-) => {
-  const commitsInString = await getPullRequestCommits(azureConnection)
-
-  // Release Type, Title Release, Commits in string
-  const args = `${titleRelease} ${JSON.stringify(commitsInString)}`
-  await runCommand(
-    `projex git update changelog ${args}`,
-    '.',
-    'update changelog file with the last commits',
-    false,
-    0,
-    false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
-  )
-}
-
-/**
- * This function adds all changes in the Git repository.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is likely an object
- * or a type that contains information related to connecting to Azure services. It could include
- * details such as authentication credentials, connection settings, or other necessary information for
- * interacting with Azure services in the context of the function `makeAddGitChanges`.
- * @returns The `makeAddGitChanges` function is being returned.
- */
-const makeAddGitChanges = async (azureConnection: AzureConnectionType) => {
-  return await runCommand(
-    `git add .`,
-    '.',
-    'add git changes',
-    false,
-    0,
-    false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
-  )
-}
-
-/**
- * The function `createRelease` generates a release and pushes the changes to git, updating the
- * manifest.json file and changelog file with the last commits.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is of type
- * `AzureConnectionType`, which represents the connection details for connecting to Azure services.
- * @param {string} titleRelease - The `titleRelease` parameter is a string that represents the title or
- * name of the release. It is used to identify the release in the system.
- * @param {ReleaseType} releaseType - The `releaseType` parameter is a string that represents the type
- * of release. It could be "major", "minor", or "patch" depending on the versioning scheme you are
- * using.
- * @returns the result of the `makeRelease` function, which is likely a promise that resolves to the
- * result of generating a release and pushing the changes to git.
+ * The function `createRelease` generates a release and pushes changes to git, updating the
+ * manifest.json file and changelog based on the specified beta flag and Azure connection.
+ * @param {boolean} beta - The `beta` parameter is a boolean value that indicates whether the release
+ * being created is a beta release or not. If `beta` is `true`, then the release will be a beta
+ * release; otherwise, it will be a stable release.
+ * @param {AzureConnectionType} [azureConnection] - The `azureConnection` parameter is an optional
+ * parameter of type `AzureConnectionType`. It is used to establish a connection to Azure services if
+ * needed for the release process. If provided, it will be used in the `makeRelease` function to
+ * interact with Azure services during the release creation.
+ * @returns The `createRelease` function is returning the result of calling the `makeRelease` function
+ * with the `args` and `azureConnection` parameters. The `makeRelease` function generates a release and
+ * pushes changes to git, updating the `manifest.json` file and changelog file with the last commits.
+ * The result of this operation is being returned by the `createRelease` function.
  */
 export const createRelease = async (
-  azureConnection: AzureConnectionType,
-  titleRelease: string,
-  releaseType: ReleaseType
+  beta: boolean,
+  azureConnection?: AzureConnectionType
 ) => {
-  // Update the changelog file with the last commits
-  await updateChangelogContent(azureConnection, titleRelease)
-  await makeAddGitChanges(azureConnection)
-
-  // Release Type, Title Release
-  const args = `${releaseType} stable`
+  // TagName to use in the release
+  const tagName = beta ? '' : 'stable'
 
   // Generate the release and push the changes to git, this execution change the manifest.json file and update the changelog file with the last commits
-  return makeRelease(azureConnection, args)
+  return makeRelease(tagName, azureConnection)
 }

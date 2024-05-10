@@ -1,22 +1,20 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  GitConnection,
+  GitPulRequestConnection,
   asyncTimeout,
   changeOriginToSourceBranch,
   checkDirectory,
   completePullRequestService,
   createPullRequestService,
   createRelease,
-  determineReleaseType,
   getDevelopTargetRefBranch,
   getGitReleaseVariables,
   getReleaseVersion,
-  ignoreExecutionBeta,
-  ignoreExecutionPublish,
   installPackages,
   installProjex,
   releaseAppSuccessMessage,
+  setEmailAndUserGit,
   startReleaseMessage,
 } from '../../../shared'
 
@@ -27,40 +25,26 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const { devBranch, mergeIntoDevelop, beta } = getGitReleaseVariables()
-    const azureConnection = await GitConnection()
-    const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
-    const ignorePublish = await ignoreExecutionPublish(azureConnection)
-
-    if (ignoreBeta) {
-      console.log('Ignoring beta release')
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring beta release')
-      return
-    }
-
-    if (ignorePublish) {
-      console.log('Ignoring publish')
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring publish')
-      return
-    }
+    const azureConnection = await GitPulRequestConnection()
 
     const { pullRequest } = azureConnection
-    const { sourceRefName, targetRefName } = pullRequest
-    // 3. get the release type from the title of the pull request, if it is a beta release, it will return the type and title
-    const { typeRelease, titleRelease } =
-      (await determineReleaseType(azureConnection, beta)) ?? {}
+    const { sourceRefName, targetRefName, createdBy } = pullRequest
 
-    // 4. install packages, vtex, projex and make login in vtex with projex
+    // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installProjex()
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    // 1. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 2. get the release version from the title of the pull request
+    const { displayName, uniqueName } = createdBy ?? {}
+    // 1. set the email and user in git
+    await setEmailAndUserGit(displayName, uniqueName, azureConnection)
+    // 2. change current source origin to sourceBranchName
+    await changeOriginToSourceBranch(sourceRefName, azureConnection)
+    // 3. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
-      azureConnection,
-      typeRelease
+      beta,
+      azureConnection
     )
     // 3. show pipeline start release process
     await startReleaseMessage(azureConnection, old_version, new_version)
@@ -75,11 +59,11 @@ async function run() {
       await asyncTimeout(30000)
 
       // 2. Change to the main branch
-      await changeOriginToSourceBranch(azureConnection, targetRefName)
+      await changeOriginToSourceBranch(targetRefName, azureConnection)
     }
 
     // 4. Create the release and push the changes to git
-    await createRelease(azureConnection, titleRelease, typeRelease)
+    await createRelease(beta, azureConnection)
 
     if (beta && mergeIntoDevelop) {
       // 1. Create pull request to develop and automatically merge it

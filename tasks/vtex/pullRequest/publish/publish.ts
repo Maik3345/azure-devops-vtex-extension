@@ -1,20 +1,15 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  GitConnection,
-  betaPublishIgnoreMessage,
+  GitPulRequestConnection,
   changeOriginToSourceBranch,
   checkDirectory,
-  determineReleaseType,
   getPublishVariables,
   getReleaseVersion,
-  ignoreExecutionBeta,
-  ignoreExecutionPublish,
   installPackages,
   installProjex,
   installVtex,
   makeLoginVtex,
-  publishAppIsIgnoredMessage,
   vtexPullRequestPublish,
 } from '../../../shared'
 
@@ -25,31 +20,12 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const { forcePublish, deploy, beta } = taskVariables
-    const azureConnection = await GitConnection()
-    const ignoreBeta = await ignoreExecutionBeta(azureConnection, beta)
-    const ignorePublish = await ignoreExecutionPublish(azureConnection)
-
-    if (ignoreBeta) {
-      console.log('Ignoring beta release')
-      betaPublishIgnoreMessage(azureConnection)
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring beta release')
-      return
-    }
-
-    if (ignorePublish) {
-      console.log('Ignoring publish')
-      publishAppIsIgnoredMessage(azureConnection)
-      tl.setResult(tl.TaskResult.Skipped, 'Ignoring publish')
-      return
-    }
-
+    const { forcePublish, beta } = taskVariables
+    const azureConnection = await GitPulRequestConnection()
     const { pullRequest } = azureConnection
     const { sourceRefName } = pullRequest
-    // 3. get the release type from the title of the pull request
-    const { typeRelease } = await determineReleaseType(azureConnection, beta)
 
-    // 4. install packages, vtex, projex and make login in vtex with projex
+    // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
     await installProjex()
@@ -58,11 +34,11 @@ async function run() {
 
     // ******* Configuration *******
     // 1. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 3. get the release version from the title of the pull request
+    await changeOriginToSourceBranch(sourceRefName, azureConnection)
+    // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
-      azureConnection,
-      typeRelease
+      beta,
+      azureConnection
     )
     // ******* Configuration *******
 
@@ -70,11 +46,11 @@ async function run() {
     // 1. make the publish
     await vtexPullRequestPublish(
       azureConnection,
-      typeRelease,
       forcePublish,
       old_version,
       new_version,
-      app_name
+      app_name,
+      beta
     )
     // ******* Publish *******
   } catch (err: any) {

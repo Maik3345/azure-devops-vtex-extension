@@ -1,24 +1,17 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  GitConnection,
-  betaPublishIgnoreMessage,
+  GitPulRequestConnection,
   changeOriginToSourceBranch,
   checkDirectory,
-  determineReleaseType,
   getPublishVariables,
   getReleaseVersion,
-  ignoreExecutionBeta,
-  ignoreExecutionPublish,
   installPackages,
   installProjex,
   installVtex,
   makeLoginVtex,
-  publishAppIsIgnoredMessage,
   setEmailAndUserGit,
-  startPublishMessage,
   vtexPullRequestDeploy,
-  vtexPullRequestPublish,
 } from '../../../shared'
 
 async function run() {
@@ -28,14 +21,11 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const azureConnection = await GitConnection()
+    const azureConnection = await GitPulRequestConnection()
 
     const { pullRequest } = azureConnection
     const { createdBy, sourceRefName } = pullRequest
-    // 3. get the release type from the title of the pull request
-    const { typeRelease } = await determineReleaseType(azureConnection, false)
-
-    // 4. install packages, vtex, projex and make login in vtex with projex
+    // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
     await installProjex()
@@ -43,15 +33,12 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    const { displayName, uniqueName } = createdBy ?? {}
-    // 1. set the email and user in git
-    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
-    // 2. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 3. get the release version from the title of the pull request
+    // 1. change current source origin to sourceBranchName
+    await changeOriginToSourceBranch(sourceRefName, azureConnection)
+    // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
-      azureConnection,
-      typeRelease
+      false,
+      azureConnection
     )
     // ******* Configuration *******
 
@@ -59,10 +46,10 @@ async function run() {
     // 1. make the Deploy
     await vtexPullRequestDeploy(
       azureConnection,
-      typeRelease,
       old_version,
       new_version,
-      app_name
+      app_name,
+      false
     )
     // ******* Deploy *******
   } catch (err: any) {

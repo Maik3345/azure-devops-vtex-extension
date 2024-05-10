@@ -4,7 +4,7 @@
 
 ## Description
 
-This task is used in a pull request execution to create a version of the app. It utilizes the `vtex` CLI to generate a stable version with the `vtex publish` command. To skip the creation of a beta or the publish process, you can use `[no-beta]` or `[no-publish]` in the title. It's important to note that this task does not make changes in the repository; it only creates the app version in the pipeline without pushing the changes to the repository.
+This task is used in a pull request execution to create a version of the app. It utilizes the `vtex` CLI to generate a stable version with the `vtex publish` command. It's important to note that this task does not make changes in the repository; it only creates the app version in the pipeline without pushing the changes to the repository.
 
 ## Parameters
 
