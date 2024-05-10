@@ -19,6 +19,7 @@ This project is a VTEX IO app that provides a set of tasks to automate the CI/CD
 
 - [VtexPullRequestPublish](./tasks/vtex/pullRequest/publish/README.md)
 - [VtexPublish](./tasks/vtex/publish/README.md)
+- [GitRelease](./tasks/git/release/README.md)
 - [VtexDeploy](./tasks/vtex/deploy/README.md)
 - [GitPullRequestRelease](./tasks/git/pullRequest/release/README.md)
 - [VtexPullRequestDeploy](./tasks/vtex/pullRequest/deploy/README.md)
