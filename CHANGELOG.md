@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.11.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.10.0...v1.11.0) - (2024-05-10)
+
+### Features
+
+* add GitRelease task for creating releases with projex CLI ([06fad761](https://github.com/Maik3345/azure-devops-vtex-extension/commit/06fad761e72a9fe2720f9634e9ccacdbe0d2b6fb))
+* remove commit-msg hook and commitlint configuration ([1c80ffc9](https://github.com/Maik3345/azure-devops-vtex-extension/commit/1c80ffc90dd0403b5f9be0d63d5b1b83ae05be1f))
+
+
 ## [1.10.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.9.20...v1.10.0) - (2024-05-10)
 
 ### Features
