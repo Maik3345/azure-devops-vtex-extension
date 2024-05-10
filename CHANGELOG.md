@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.10.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.9.20...v1.10.0) - (2024-05-10)
+
+### Features
+
+* ✨ create the release and deploy task to use in pipeline ([#9](https://github.com/Maik3345/azure-devops-vtex-extension/pull/9)) ([afb2192e](https://github.com/Maik3345/azure-devops-vtex-extension/commit/afb2192e4f4a1a152181708a7ae6a1e1ecad3ee6))
+
+
 ## [1.9.20] - 2024-05-02
 
 ### Added

@@ -1,11 +1,9 @@
-import * as tl from 'azure-pipelines-task-lib'
-
-async function run() {
+async function runRelease() {
   try {
-    tl.setResult(tl.TaskResult.Failed, 'Task deprecated.')
+    console.log('Task deprecated.')
   } catch {
-    tl.setResult(tl.TaskResult.Failed, 'Task deprecated.')
+    console.log('Task deprecated.')
   }
 }
 
-run()
+runRelease()
