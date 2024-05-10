@@ -10,7 +10,7 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 9
+    "Patch": 12
   },
   "inputs": [
     {
@@ -50,14 +50,6 @@
       "type": "boolean",
       "label": "Execute the vtex publish command with the --force flag",
       "helpMarkDown": "This flag will force the publish command of vtex with the --force flag.",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "deploy",
-      "type": "boolean",
-      "label": "Execute the command vtex deploy --force before the vtex publish command",
-      "helpMarkDown": "This flag will execute the vtex deploy command with the --force flag before the vtex publish command.",
       "defaultValue": false,
       "required": false
     },

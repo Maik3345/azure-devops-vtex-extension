@@ -34,7 +34,7 @@ async function run() {
 
     // ******* Configuration *******
     // 1. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
+    await changeOriginToSourceBranch(sourceRefName, azureConnection)
     // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
       beta,

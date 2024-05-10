@@ -10,31 +10,15 @@
   "version": {
     "Major": 0,
     "Minor": 1,
-    "Patch": 15
+    "Patch": 3
   },
   "inputs": [
-    {
-      "name": "devBranch",
-      "type": "string",
-      "label": "Branch to integrate the changes",
-      "helpMarkDown": "Pass the branch to integrate the changes automatically, by default is develop",
-      "defaultValue": "develop",
-      "required": false
-    },
     {
       "name": "beta",
       "type": "boolean",
       "label": "Create a beta release",
       "helpMarkDown": "Pass true to create a beta release, by default is false",
       "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "mergeIntoDevelop",
-      "type": "boolean",
-      "label": "Merge the release into the develop branch",
-      "helpMarkDown": "Create a pull request to merge the changes into the develop passed branch automatically, by default is true, this only works if the beta option is true",
-      "defaultValue": true,
       "required": false
     }
   ],

@@ -33,12 +33,9 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Configuration *******
-    const { displayName, uniqueName } = createdBy ?? {}
-    // 1. set the email and user in git
-    await setEmailAndUserGit(azureConnection, displayName, uniqueName)
-    // 2. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(azureConnection, sourceRefName)
-    // 3. get the release version from the title of the pull request
+    // 1. change current source origin to sourceBranchName
+    await changeOriginToSourceBranch(sourceRefName, azureConnection)
+    // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
       false,
       azureConnection

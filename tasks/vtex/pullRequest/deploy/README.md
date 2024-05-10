@@ -4,7 +4,7 @@
 
 ## Description
 
-This task is used in a pull request execution to make the deploy process of the current app, Additionally, it uses the `projex` CLI to create a release with the `projex git release` command. The type of release is determined based on the pull request title, which should be formatted as `[minor]`, `[major]`, or `[patch]`, it only creates the app version in the pipeline without pushing the changes to the repository.
+This task is used in a pull request execution to create a version of the app. It utilizes the `vtex` CLI to generate a stable version with the `vtex deploy`
 
 ## Parameters
 

@@ -15,19 +15,20 @@
     "build:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
     "compile:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
     "dev": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b --watch {}",
-    "package:tasks": "tfx extension create --root . --output-path dist --manifest-globs vss-extension.json",
+    "package:tasks": "tfx extension create --trace-level debug --root . --output-path dist --manifest-globs vss-extension.json",
     "package": "npm run build:clean && npm run package:tasks"
   },
   "dependencies": {
-    "@types/node": "^20.11.17"
+    "@types/node": "^20.12.11"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.6.0",
-    "@commitlint/config-conventional": "^18.6.0",
-    "eslint": "^8.52.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^9.0.10",
-    "prettier": "2.5.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "eslint": "^9.2.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^9.0.11",
+    "prettier": "3.2.5",
+    "tfx-cli": "^0.17.0",
     "typescript": "^5.4.5"
   }
 }
