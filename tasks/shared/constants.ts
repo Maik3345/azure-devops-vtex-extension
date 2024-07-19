@@ -14,3 +14,6 @@ export enum ChangelogSection {
 }
 
 export const CHANGELOG_FILE_NAME = 'CHANGELOG.md'
+export const PUBLISH_DEFAULT_COMMAND =
+  'projex vtex run "vtex publish --yes --force"'
+export const DEPLOY_DEFAULT_COMMAND = 'projex vtex run "vtex deploy --force"'

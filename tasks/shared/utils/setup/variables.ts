@@ -3,6 +3,10 @@ import {
   TaskGitReleaseVariablesType,
   TaskPublishVariablesType,
 } from '../../models'
+import {
+  DEPLOY_DEFAULT_COMMAND,
+  PUBLISH_DEFAULT_COMMAND,
+} from '../../constants'
 
 /**
  * This function retrieves the development branch variable for a Git release process.
@@ -34,8 +38,11 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
-  const publishCommand: string | undefined = tl.getInput('publishCommand', true)
-  const deployCommand: string | undefined = tl.getInput('deployCommand', true)
+  const publishCommand: string | undefined = tl.getInput(
+    'publishCommand',
+    false
+  )
+  const deployCommand: string | undefined = tl.getInput('deployCommand', false)
 
   if (
     !apiKey ||
@@ -45,11 +52,7 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiKey == 'bad' ||
     apiToken == 'bad' ||
     email == 'bad' ||
-    account == 'bad' ||
-    !publishCommand ||
-    !deployCommand ||
-    publishCommand == 'bad' ||
-    deployCommand == 'bad'
+    account == 'bad'
   ) {
     tl.setResult(tl.TaskResult.Failed, 'Bad input was given')
     return
@@ -60,8 +63,8 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiToken,
     email,
     account,
-    publishCommand,
-    deployCommand,
+    publishCommand: publishCommand || PUBLISH_DEFAULT_COMMAND,
+    deployCommand: deployCommand || DEPLOY_DEFAULT_COMMAND,
   }
 
   tl.setResult(

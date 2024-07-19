@@ -10,7 +10,7 @@
   "version": {
     "Major": 0,
     "Minor": 2,
-    "Patch": 0
+    "Patch": 1
   },
   "inputs": [
     {
@@ -51,7 +51,7 @@
       "label": "Pass the deploy command to execute",
       "helpMarkDown": "This flag will generate a beta version of the app.",
       "defaultValue": "projex vtex run \"vtex deploy --yes --force\"",
-      "required": true
+      "required": false
     }
   ],
   "execution": {
