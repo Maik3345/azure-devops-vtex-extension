@@ -1,21 +1,10 @@
 import { runCommand } from '../runCommand'
 
-/**
- * The function `vtexPublish` is used to run a VTEX publish command with an optional force flag.
- * @param {boolean} forcePublish - The `forcePublish` parameter is a string that determines
- * whether to force the VTEX publish operation. If the value of `forcePublish` is 'true', then the
- * `--force` flag will be included in the VTEX publish command.
- * @returns The `vtexPublish` function is returning the result of the `runCommand` function with the
- * specified parameters. The `runCommand` function is executing the command `projex vtex run "vtex
- * publish -y "` in the current directory (`'.'`) with the command name `'vtex
- * publish'`, without logging the command, with a timeout of 0,
- */
-export const vtexPublish = async (forcePublish: boolean) => {
-  const force = forcePublish ? '--force' : ''
+export const vtexPublish = async (command: string) => {
   return await runCommand(
-    `projex vtex run "vtex publish --yes ${force}"`,
+    command,
     '.',
-    'vtex publish',
+    `running ${command}`,
     false,
     0,
     false,
@@ -23,11 +12,11 @@ export const vtexPublish = async (forcePublish: boolean) => {
   )
 }
 
-export const vtexDeploy = async () => {
+export const vtexDeploy = async (command: string) => {
   return await runCommand(
-    `projex vtex run "vtex deploy --yes --force"`,
+    command,
     '.',
-    'vtex deploy',
+    `running ${command}`,
     false,
     0,
     false,

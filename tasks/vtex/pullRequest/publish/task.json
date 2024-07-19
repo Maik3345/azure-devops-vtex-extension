@@ -9,8 +9,8 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 1,
-    "Patch": 20
+    "Minor": 2,
+    "Patch": 0
   },
   "inputs": [
     {
@@ -46,20 +46,12 @@
       "required": true
     },
     {
-      "name": "forcePublish",
-      "type": "boolean",
-      "label": "Execute the vtex publish command with the --force flag",
-      "helpMarkDown": "This flag will force the publish command of vtex with the --force flag.",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "beta",
-      "type": "boolean",
-      "label": "Generate a beta version of the app",
+      "name": "publishCommand",
+      "type": "string",
+      "label": "Pass the publish command to execute",
       "helpMarkDown": "This flag will generate a beta version of the app.",
-      "defaultValue": false,
-      "required": false
+      "defaultValue": "projex vtex run \"vtex publish --yes --force\"",
+      "required": true
     }
   ],
   "execution": {

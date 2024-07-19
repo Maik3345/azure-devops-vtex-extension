@@ -15,11 +15,9 @@ export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
     'mergeIntoDevelop',
     false
   )
-  const beta: string | undefined = tl.getInput('beta', false)
 
   const variables = {
     devBranch,
-    beta: beta == 'true' ? true : false,
     mergeIntoDevelop: mergeIntoDevelop == 'true' ? true : false,
   }
 
@@ -31,26 +29,13 @@ export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
   return variables
 }
 
-/**
- * The function `getTaskVariables` retrieves input variables for a task in a TypeScript script and
- * performs validation before returning them.
- * @returns The `getTaskVariables` function returns an object containing the following properties:
- * - apiKey
- * - apiToken
- * - email
- * - account
- * - devBranch
- * - forcePublish
- * - deploy
- */
 export const getPublishVariables = (): TaskPublishVariablesType => {
   const apiKey: string | undefined = tl.getInput('apiKey', true)
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
-  const forcePublish: string | undefined = tl.getInput('forcePublish', false)
-  const deploy: string | undefined = tl.getInput('deploy', false)
-  const beta: string | undefined = tl.getInput('beta', false)
+  const publishCommand: string | undefined = tl.getInput('publishCommand', true)
+  const deployCommand: string | undefined = tl.getInput('deployCommand', true)
 
   if (
     !apiKey ||
@@ -60,7 +45,11 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiKey == 'bad' ||
     apiToken == 'bad' ||
     email == 'bad' ||
-    account == 'bad'
+    account == 'bad' ||
+    !publishCommand ||
+    !deployCommand ||
+    publishCommand == 'bad' ||
+    deployCommand == 'bad'
   ) {
     tl.setResult(tl.TaskResult.Failed, 'Bad input was given')
     return
@@ -71,9 +60,8 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiToken,
     email,
     account,
-    forcePublish: forcePublish == 'true' ? true : false,
-    deploy: deploy == 'true' ? true : false,
-    beta: beta == 'true' ? true : false,
+    publishCommand,
+    deployCommand,
   }
 
   tl.setResult(

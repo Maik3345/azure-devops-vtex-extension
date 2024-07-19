@@ -9,8 +9,8 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 1,
-    "Patch": 19
+    "Minor": 2,
+    "Patch": 0
   },
   "inputs": [
     {
@@ -19,14 +19,6 @@
       "label": "Branch to integrate the changes",
       "helpMarkDown": "Pass the branch to integrate the changes automatically, by default is develop",
       "defaultValue": "develop",
-      "required": false
-    },
-    {
-      "name": "beta",
-      "type": "boolean",
-      "label": "Create a beta release",
-      "helpMarkDown": "Pass true to create a beta release, by default is false",
-      "defaultValue": false,
       "required": false
     },
     {

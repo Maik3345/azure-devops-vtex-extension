@@ -24,7 +24,8 @@ async function run() {
     const azureConnection = await GitPulRequestConnection()
 
     const { pullRequest } = azureConnection
-    const { createdBy, sourceRefName } = pullRequest
+    const { sourceRefName } = pullRequest
+    const { deployCommand } = taskVariables
     // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
@@ -49,7 +50,7 @@ async function run() {
       old_version,
       new_version,
       app_name,
-      false
+      deployCommand
     )
     // ******* Deploy *******
   } catch (err: any) {

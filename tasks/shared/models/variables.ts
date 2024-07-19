@@ -3,13 +3,11 @@ export interface TaskPublishVariablesType {
   apiToken: string
   email: string
   account: string
-  forcePublish: boolean
-  deploy: boolean
-  beta: boolean
+  publishCommand: string
+  deployCommand: string
 }
 
 export interface TaskGitReleaseVariablesType {
   devBranch: string
-  beta: boolean
   mergeIntoDevelop: boolean
 }

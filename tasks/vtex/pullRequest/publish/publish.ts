@@ -20,7 +20,7 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const { forcePublish, beta } = taskVariables
+    const { publishCommand } = taskVariables
     const azureConnection = await GitPulRequestConnection()
     const { pullRequest } = azureConnection
     const { sourceRefName } = pullRequest
@@ -37,7 +37,7 @@ async function run() {
     await changeOriginToSourceBranch(sourceRefName, azureConnection)
     // 2. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
-      beta,
+      true,
       azureConnection
     )
     // ******* Configuration *******
@@ -46,11 +46,10 @@ async function run() {
     // 1. make the publish
     await vtexPullRequestPublish(
       azureConnection,
-      forcePublish,
       old_version,
       new_version,
       app_name,
-      beta
+      publishCommand
     )
     // ******* Publish *******
   } catch (err: any) {
