@@ -2,10 +2,8 @@ import * as tl from 'azure-pipelines-task-lib'
 
 import {
   GitPulRequestConnection,
-  asyncTimeout,
   changeOriginToSourceBranch,
   checkDirectory,
-  completePullRequestService,
   createPullRequestService,
   createRelease,
   getDevelopTargetRefBranch,
@@ -24,7 +22,7 @@ async function run() {
     // 1. Check the directory
     await checkDirectory()
     // 2. Get the git release variables
-    const { devBranch, mergeIntoDevelop, beta } = getGitReleaseVariables()
+    const { devBranch, mergeIntoDevelop } = getGitReleaseVariables()
     const azureConnection = await GitPulRequestConnection()
 
     const { pullRequest } = azureConnection
@@ -43,29 +41,17 @@ async function run() {
     await changeOriginToSourceBranch(sourceRefName, azureConnection)
     // 3. get the release version from the title of the pull request
     const { app_name, old_version, new_version } = await getReleaseVersion(
-      beta,
+      true,
       azureConnection
     )
     // 3. show pipeline start release process
     await startReleaseMessage(azureConnection, old_version, new_version)
     // ******* Configuration *******
 
-    // ******* Release *******
-    if (!beta) {
-      // 1. Complete the pull request in the main branch
-      await completePullRequestService(azureConnection, pullRequest)
-
-      // 1.1 Esperar 30 segundos para que el pull request se cree correctamente
-      await asyncTimeout(30000)
-
-      // 2. Change to the main branch
-      await changeOriginToSourceBranch(targetRefName, azureConnection)
-    }
-
     // 4. Create the release and push the changes to git
-    await createRelease(beta, azureConnection)
+    await createRelease(true, azureConnection)
 
-    if (beta && mergeIntoDevelop) {
+    if (mergeIntoDevelop) {
       // 1. Create pull request to develop and automatically merge it
       await createPullRequestService(
         azureConnection,

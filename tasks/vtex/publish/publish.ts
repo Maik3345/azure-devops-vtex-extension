@@ -19,7 +19,7 @@ async function run() {
     await checkDirectory()
     // 2. Get the git release variables
     const taskVariables = getPublishVariables()
-    const { forcePublish, beta } = taskVariables
+    const { publishCommand } = taskVariables
     // 3. install packages, vtex, projex and make login in vtex with projex
     await installPackages()
     await installVtex()
@@ -28,9 +28,9 @@ async function run() {
     // ******* Setup utilities *******
 
     // ******* Publish And Deploy *******
-    await makeReleaseWithoutPush(beta ? '' : 'stable')
+    await makeReleaseWithoutPush('stable')
     // 1. make the publish
-    await vtexPublish(forcePublish)
+    await vtexPublish(publishCommand)
     await makeResetHard()
 
     // 2. Show pipeline success message

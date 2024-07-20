@@ -9,7 +9,7 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 1,
+    "Minor": 2,
     "Patch": 1
   },
   "inputs": [
@@ -46,11 +46,11 @@
       "required": true
     },
     {
-      "name": "beta",
-      "type": "boolean",
-      "label": "Generate a beta version of the app",
+      "name": "deployCommand",
+      "type": "string",
+      "label": "Pass the deploy command to execute",
       "helpMarkDown": "This flag will generate a beta version of the app.",
-      "defaultValue": false,
+      "defaultValue": "projex vtex run \"vtex deploy --yes --force\"",
       "required": false
     }
   ],

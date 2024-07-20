@@ -3,6 +3,10 @@ import {
   TaskGitReleaseVariablesType,
   TaskPublishVariablesType,
 } from '../../models'
+import {
+  DEPLOY_DEFAULT_COMMAND,
+  PUBLISH_DEFAULT_COMMAND,
+} from '../../constants'
 
 /**
  * This function retrieves the development branch variable for a Git release process.
@@ -15,11 +19,9 @@ export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
     'mergeIntoDevelop',
     false
   )
-  const beta: string | undefined = tl.getInput('beta', false)
 
   const variables = {
     devBranch,
-    beta: beta == 'true' ? true : false,
     mergeIntoDevelop: mergeIntoDevelop == 'true' ? true : false,
   }
 
@@ -31,26 +33,16 @@ export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
   return variables
 }
 
-/**
- * The function `getTaskVariables` retrieves input variables for a task in a TypeScript script and
- * performs validation before returning them.
- * @returns The `getTaskVariables` function returns an object containing the following properties:
- * - apiKey
- * - apiToken
- * - email
- * - account
- * - devBranch
- * - forcePublish
- * - deploy
- */
 export const getPublishVariables = (): TaskPublishVariablesType => {
   const apiKey: string | undefined = tl.getInput('apiKey', true)
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
-  const forcePublish: string | undefined = tl.getInput('forcePublish', false)
-  const deploy: string | undefined = tl.getInput('deploy', false)
-  const beta: string | undefined = tl.getInput('beta', false)
+  const publishCommand: string | undefined = tl.getInput(
+    'publishCommand',
+    false
+  )
+  const deployCommand: string | undefined = tl.getInput('deployCommand', false)
 
   if (
     !apiKey ||
@@ -71,9 +63,8 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiToken,
     email,
     account,
-    forcePublish: forcePublish == 'true' ? true : false,
-    deploy: deploy == 'true' ? true : false,
-    beta: beta == 'true' ? true : false,
+    publishCommand: publishCommand || PUBLISH_DEFAULT_COMMAND,
+    deployCommand: deployCommand || DEPLOY_DEFAULT_COMMAND,
   }
 
   tl.setResult(
