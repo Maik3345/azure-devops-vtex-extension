@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.12.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.11.0...v1.12.0) - (2024-07-19)
+
+### Features
+
+* modify the publish and deploy process to pass the command to ecute in the process ([#10](https://github.com/Maik3345/azure-devops-vtex-extension/pull/10)) ([9236ffc7](https://github.com/Maik3345/azure-devops-vtex-extension/commit/9236ffc7ebb49513cce57a1e130ce8b4df54b488))
+
+
 ## [1.11.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.10.0...v1.11.0) - (2024-05-10)
 
 ### Features
