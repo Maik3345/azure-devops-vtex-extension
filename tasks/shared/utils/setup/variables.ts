@@ -15,20 +15,17 @@ import {
  */
 export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
   const devBranch: string | undefined = tl.getInput('devBranch', false)
-  const mergeIntoDevelop: string | undefined = tl.getInput(
+  const mergeIntoDevelop: boolean | undefined = tl.getBoolInput(
     'mergeIntoDevelop',
     false
   )
 
   const variables = {
     devBranch,
-    mergeIntoDevelop: mergeIntoDevelop == 'true' ? true : false,
+    mergeIntoDevelop,
   }
 
-  tl.setResult(
-    tl.TaskResult.Succeeded,
-    `Task variables: ${JSON.stringify(variables)}`
-  )
+  console.log(JSON.stringify(variables))
 
   return variables
 }

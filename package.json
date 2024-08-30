@@ -11,7 +11,7 @@
     "prettier": "npx prettier --write .",
     "install": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} sh -c 'cd $(dirname {}) && npm install'",
     "build": "npm run compile:tasks && npm run package:tasks",
-    "build:clean": "npm run clean && npm run initdev && npm run build",
+    "build:clean": "npm run clean && npm run build",
     "build:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
     "compile:tasks": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b {}",
     "dev": "find tasks -name tsconfig.json ! -path '*/node_modules/*' -print0 | xargs -0 -I {} tsc -b --watch {}",
