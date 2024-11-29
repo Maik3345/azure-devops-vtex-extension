@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "f96278f9-e5ea-419d-9cf1-1de8a498be72",
+  "name": "GitPullRequestMergeIntoBranch",
+  "friendlyName": "Git Pull Request Merge Into Branch",
+  "description": "Generate a pull request to merge the release branch into the another branch",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 5
+  },
+  "inputs": [
+    {
+      "name": "branch",
+      "type": "string",
+      "label": "Branch to integrate the changes",
+      "helpMarkDown": "Pass the branch to integrate the changes automatically, by default is develop",
+      "defaultValue": "develop",
+      "required": false
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "dist/mergeIntoBranch.js"
+    }
+  }
+}

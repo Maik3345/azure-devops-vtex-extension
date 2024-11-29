@@ -1,13 +1,22 @@
 export interface TaskPublishVariablesType {
-  apiKey: string
-  apiToken: string
-  email: string
-  account: string
   publishCommand: string
   deployCommand: string
 }
 
-export interface TaskGitReleaseVariablesType {
-  devBranch: string
-  mergeIntoDevelop: boolean
+export interface TaskLoginVariablesType {
+  apiKey: string
+  apiToken: string
+  email: string
+  account: string
+}
+
+export interface TaskGitMergeIntoBranchVariablesType {
+  branch: string
+}
+
+export interface TaskInstallDependenciesVariablesType {
+  installProjex: boolean
+  installVtex: boolean
+  installDependencies: boolean
+  checkDirectory: boolean
 }

@@ -9,12 +9,13 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 2,
-    "Patch": 1
+    "Minor": 3,
+    "Patch": 5
   },
+  "inputs": [],
   "execution": {
     "Node16": {
-      "target": "dist/git/release/release.js"
+      "target": "dist/release.js"
     }
   }
 }

@@ -9,42 +9,10 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 2,
-    "Patch": 2
+    "Minor": 3,
+    "Patch": 5
   },
   "inputs": [
-    {
-      "name": "apiKey",
-      "type": "string",
-      "label": "VTEX API KEY",
-      "helpMarkDown": "You can get the API KEY from the VTEX admin panel, go to the account settings and then to the API keys section.",
-      "defaultValue": "",
-      "required": true
-    },
-    {
-      "name": "apiToken",
-      "type": "string",
-      "label": "VTEX API TOKEN",
-      "helpMarkDown": "You can get the API TOKEN from the VTEX admin panel, go to the account settings and then to the API keys section.",
-      "defaultValue": "",
-      "required": true
-    },
-    {
-      "name": "email",
-      "type": "string",
-      "label": "VTEX EMAIL",
-      "defaultValue": "",
-      "helpMarkDown": "Pass any email, example cicd@hotmail.com",
-      "required": true
-    },
-    {
-      "name": "account",
-      "type": "string",
-      "label": "VTEX ACCOUNT",
-      "helpMarkDown": "The account name of the VTEX store",
-      "defaultValue": "",
-      "required": true
-    },
     {
       "name": "deployCommand",
       "type": "string",
@@ -56,7 +24,7 @@
   ],
   "execution": {
     "Node16": {
-      "target": "dist/vtex/pullRequest/deploy/deploy.js"
+      "target": "dist/prDeploy.js"
     }
   }
 }

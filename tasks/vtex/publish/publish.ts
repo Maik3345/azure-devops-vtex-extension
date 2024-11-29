@@ -1,12 +1,7 @@
 import * as tl from 'azure-pipelines-task-lib'
 
 import {
-  checkDirectory,
   getPublishVariables,
-  installPackages,
-  installProjex,
-  installVtex,
-  makeLoginVtex,
   makeReleaseWithoutPush,
   makeResetHard,
   vtexPublish,
@@ -15,27 +10,21 @@ import {
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. Check the directory
-    await checkDirectory()
-    // 2. Get the git release variables
-    const taskVariables = getPublishVariables()
-    const { publishCommand } = taskVariables
-    // 3. install packages, vtex, projex and make login in vtex with projex
-    await installPackages()
-    await installVtex()
-    await installProjex()
-    await makeLoginVtex(taskVariables)
+    // 1. Get the variables
+    const { publishCommand } = getPublishVariables()
     // ******* Setup utilities *******
 
-    // ******* Publish And Deploy *******
+    // ******* Publish *******
+    // 1. Create the release without push
     await makeReleaseWithoutPush('stable')
-    // 1. make the publish
+    // 2. Publish the app
     await vtexPublish(publishCommand)
+    // 3. Reset the hard
     await makeResetHard()
 
-    // 2. Show pipeline success message
+    // 4. Show pipeline success message
     tl.setResult(tl.TaskResult.Succeeded, `publish success`)
-    // ******* Publish And Deploy *******
+    // ******* Publish *******
   } catch (err: any) {
     tl.setResult(tl.TaskResult.Failed, err.message)
   }

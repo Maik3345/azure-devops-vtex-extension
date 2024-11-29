@@ -19,28 +19,7 @@
   ],
   "files": [
     {
-      "path": "tasks/deprecated/VtexBuildBeta"
-    },
-    {
-      "path": "tasks/deprecated/VtexBuildRelease"
-    },
-    {
-      "path": "tasks/git/pullRequest/release"
-    },
-    {
-      "path": "tasks/git/release"
-    },
-    {
-      "path": "tasks/vtex/publish"
-    },
-    {
-      "path": "tasks/vtex/deploy"
-    },
-    {
-      "path": "tasks/vtex/pullRequest/publish"
-    },
-    {
-      "path": "tasks/vtex/pullRequest/deploy"
+      "path": "tasks"
     },
     {
       "path": "screenshots",
@@ -110,6 +89,30 @@
       "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/pullRequest/deploy"
+      }
+    },
+    {
+      "id": "custom-build-vtex-login-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/login"
+      }
+    },
+    {
+      "id": "custom-build-git-pullRequest-mergeIntoBranch-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/git/pullRequest/mergeIntoBranch"
+      }
+    },
+    {
+      "id": "custom-build-project-setupDependencies-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/project/setupDependencies"
       }
     }
   ],
