@@ -10,7 +10,8 @@
     "clean": "git clean -fdX",
     "prettier": "npx prettier --write .",
     "build": "webpack && npm run package:tasks",
-    "package:tasks": "tfx extension create --trace-level debug --root . --output-path dist --manifest-globs vss-extension.json --verbose"
+    "package:tasks": "tfx extension create --trace-level debug --root . --output-path dist --manifest-globs vss-extension.json --verbose",
+    "prepare": "npx husky"
   },
   "dependencies": {
     "@types/node": "^20.17.9",
