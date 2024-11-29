@@ -3,34 +3,20 @@ import * as tl from 'azure-pipelines-task-lib'
 import {
   GitPulRequestConnection,
   changeOriginToSourceBranch,
-  checkDirectory,
   getPublishVariables,
   getReleaseVersion,
-  installPackages,
-  installProjex,
-  installVtex,
-  makeLoginVtex,
-  setEmailAndUserGit,
   vtexPullRequestDeploy,
 } from '../../../shared'
 
 async function run() {
   try {
     // ******* Setup utilities *******
-    // 1. Check the directory
-    await checkDirectory()
-    // 2. Get the git release variables
-    const taskVariables = getPublishVariables()
+    // 1. Get the variables
+    const { deployCommand } = getPublishVariables()
     const azureConnection = await GitPulRequestConnection()
-
-    const { pullRequest } = azureConnection
-    const { sourceRefName } = pullRequest
-    const { deployCommand } = taskVariables
-    // 3. install packages, vtex, projex and make login in vtex with projex
-    await installPackages()
-    await installVtex()
-    await installProjex()
-    await makeLoginVtex(taskVariables)
+    const {
+      pullRequest: { sourceRefName },
+    } = azureConnection
     // ******* Setup utilities *******
 
     // ******* Configuration *******

@@ -7,34 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.12.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.11.0...v1.12.0) - (2024-07-19)
+## [1.11.0](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/branchCompare?baseVersion=GTv1.10.0&targetVersion=GTv1.11.0) - (2024-07-19)
 
 ### Features
 
-- modify the publish and deploy process to pass the command to ecute in the process ([#10](https://github.com/Maik3345/azure-devops-vtex-extension/pull/10)) ([9236ffc7](https://github.com/Maik3345/azure-devops-vtex-extension/commit/9236ffc7ebb49513cce57a1e130ce8b4df54b488))
+- modify the publish and deploy process to pass the command to ecute in the process ([#37173](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/pullrequest/37173)) ([5a43dbb0](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/commit/5a43dbb055c4e23fcfc10eba81286dac5efc94d6))
+- add gitrelease task for creating releases with projex cli ([4bce26a5](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/commit/4bce26a5cc90d7e1f1a648d950c9520f9c026f05))
 
-## [1.11.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.10.0...v1.11.0) - (2024-05-10)
+### Miscellaneous Chores
 
-### Features
+- update vss-extension.json version to 1.10.0 ([43fb0a8a](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/commit/43fb0a8a76dbe543afc15f60342c6a733aa7577b))
 
-- add GitRelease task for creating releases with projex CLI ([06fad761](https://github.com/Maik3345/azure-devops-vtex-extension/commit/06fad761e72a9fe2720f9634e9ccacdbe0d2b6fb))
-- remove commit-msg hook and commitlint configuration ([1c80ffc9](https://github.com/Maik3345/azure-devops-vtex-extension/commit/1c80ffc90dd0403b5f9be0d63d5b1b83ae05be1f))
-
-## [1.10.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.9.20...v1.10.0) - (2024-05-10)
+## [1.10.0](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/branchCompare?baseVersion=GTv1.9.20&targetVersion=GTv1.10.0) - (2024-05-10)
 
 ### Features
 
-- ✨ create the release and deploy task to use in pipeline ([#9](https://github.com/Maik3345/azure-devops-vtex-extension/pull/9)) ([afb2192e](https://github.com/Maik3345/azure-devops-vtex-extension/commit/afb2192e4f4a1a152181708a7ae6a1e1ecad3ee6))
+- ✨ create the release and deploy task to use in pipeline ([d8f1c814](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/commit/d8f1c814780a4a94ae10aca15d259d43c120bcdc))
 
 ## [1.9.20] - 2024-05-02
 
-### Added
-
-- feat: ✨ add the task to deploy a app
-
-## [1.9.19] - 2024-04-30
-
-- feat: ✨ refactor git and vtex task
+## [1.9.18] - 2024-04-30
 
 ## [1.9.17] - 2024-04-30
 

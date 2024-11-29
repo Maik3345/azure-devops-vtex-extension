@@ -1,5 +1,5 @@
 <h1 align="center">
-	<br>
+ <br>
   VTEX IO Azure Pipeline CI/CD
   <br>
 </h1>
@@ -23,6 +23,9 @@ This project is a VTEX IO app that provides a set of tasks to automate the CI/CD
 - [VtexDeploy](./tasks/vtex/deploy/README.md)
 - [GitPullRequestRelease](./tasks/git/pullRequest/release/README.md)
 - [VtexPullRequestDeploy](./tasks/vtex/pullRequest/deploy/README.md)
+- [VtexLogin](./tasks/vtex/login/README.md)
+- [ProjectSetupDependencies](./tasks/project/setupDependencies/README.md)
+- [GitPullRequestMergeIntoBranch](./tasks/git/pullRequest/mergeIntoBranch/README.md)
 
 # Installation
 
@@ -50,13 +53,7 @@ cd azure-devops-vtex-extension
 npm install
 ```
 
-3. Install all package dependencies in the tasks:
-
-```bash
-npm run initdev
-```
-
-4. Start the development server:
+3. Start the development server:
 
 ```bash
 npm run dev
@@ -64,9 +61,9 @@ npm run dev
 
 This command will start the development server and allow you to make changes to the tasks.
 
-5. Update the version of task.json and vss-extension.json whenever you make changes to the tasks.
+4. Update the version of task.json and vss-extension.json whenever you make changes to the tasks.
 
-6. Build the extension:
+5. Build the extension:
 
 ```bash
 npm run build

@@ -9,30 +9,13 @@
   "author": "MaikRestrepo",
   "version": {
     "Major": 0,
-    "Minor": 2,
-    "Patch": 1
+    "Minor": 3,
+    "Patch": 6
   },
-  "inputs": [
-    {
-      "name": "devBranch",
-      "type": "string",
-      "label": "Branch to integrate the changes",
-      "helpMarkDown": "Pass the branch to integrate the changes automatically, by default is develop",
-      "defaultValue": "develop",
-      "required": false
-    },
-    {
-      "name": "mergeIntoDevelop",
-      "type": "boolean",
-      "label": "Merge the release into the develop branch",
-      "helpMarkDown": "Create a pull request to merge the changes into the develop passed branch automatically, by default is true, this only works if the beta option is true",
-      "defaultValue": true,
-      "required": false
-    }
-  ],
   "execution": {
     "Node16": {
-      "target": "dist/git/pullRequest/release/release.js"
+      "target": "dist/prRelease.js"
     }
   }
 }
+

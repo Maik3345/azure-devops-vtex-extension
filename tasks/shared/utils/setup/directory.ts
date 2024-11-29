@@ -3,14 +3,14 @@ import { resolve } from 'path'
 import * as tl from 'azure-pipelines-task-lib'
 
 /**
- * The function `checkDirectory` checks for the presence of specific files in a directory and returns
+ * The function `checkIfDirectoryIsCorrect` checks for the presence of specific files in a directory and returns
  * their paths if found.
- * @returns The function `checkDirectory` is returning an object with properties `manifestFile`,
+ * @returns The function `checkIfDirectoryIsCorrect` is returning an object with properties `manifestFile`,
  * `packageFile`, and `changelogPath` if they are found in the specified directory. If `CHANGELOG.md`
  * is not found, it will set the task result to 'Failed' with a message indicating that the file is not
  * found. If either `manifest.json` or `package.json` is not found
  */
-export const checkDirectory = () => {
+export const checkIfDirectoryIsCorrect = () => {
   const root = getAppRoot()
   const manifestFile = resolve(root, 'manifest.json')
   const packageFile = resolve(root, 'package.json')

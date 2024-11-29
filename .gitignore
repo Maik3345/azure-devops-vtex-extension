@@ -6,7 +6,9 @@ node_modules
 tasks/*/**/*.js
 tasks/*/**/*.js.map
 tasks/*/**/dist
+task/shared/dist
 dist
 yarn.lock
 tasks/*/**/node_modules
 tasks/*/**/yarn.lock
+task/dist

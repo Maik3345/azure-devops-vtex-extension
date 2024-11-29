@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "13840d47-a545-4eb5-afec-96e3ea4baf4d",
+  "name": "ProjectSetupDependencies",
+  "friendlyName": "Setup Dependencies and Utilities",
+  "description": "Setup Dependencies and Utilities",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 10
+  },
+  "inputs": [
+    {
+      "name": "checkDirectory",
+      "type": "boolean",
+      "label": "Check if the directory contains the files to use the tasks in vtex io",
+      "helpMarkDown": "If you don't need to check the directory, you can disable this option",
+      "defaultValue": true,
+      "required": false
+    },
+    {
+      "name": "installProjex",
+      "type": "boolean",
+      "label": "Install the CLI Projex",
+      "helpMarkDown": "If you don't need to install the Projex CLI, you can disable this option",
+      "defaultValue": true,
+      "required": false
+    },
+    {
+      "name": "installVtex",
+      "type": "boolean",
+      "label": "Install the CLI Vtex",
+      "helpMarkDown": "If you don't need to install the Vtex CLI, you can disable this option",
+      "defaultValue": true,
+      "required": false
+    },
+    {
+      "name": "installDependencies",
+      "type": "boolean",
+      "label": "Install the CLI Vtex",
+      "helpMarkDown": "If you don't need to install the Vtex CLI, you can disable this option",
+      "defaultValue": true,
+      "required": false
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "dist/setupDependencies.js"
+    }
+  }
+}

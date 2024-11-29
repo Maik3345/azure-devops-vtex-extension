@@ -96,3 +96,15 @@ export const makeResetHard = async (azureConnection?: AzureConnectionType) => {
       : () => {}
   )
 }
+
+export const configurePullRequestAndGit = async (
+  azureConnection?: AzureConnectionType
+) => {
+  const { pullRequest } = azureConnection
+  const { sourceRefName, createdBy } = pullRequest
+  const { displayName, uniqueName } = createdBy ?? {}
+  // 1. set the email and user in git
+  await setEmailAndUserGit(displayName, uniqueName, azureConnection)
+  // 2. change current source origin to sourceBranchName
+  await changeOriginToSourceBranch(sourceRefName, azureConnection)
+}

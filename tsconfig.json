@@ -10,5 +10,10 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["./typings/*.d.ts", "./**/*.tsx", "./**/*.ts"],
-  "exclude": ["./**/dist/**/*.tsx", "./**/dist/**/*.ts"]
+  "exclude": [
+    "./**/dist/**/*.tsx",
+    "./**/dist/**/*.ts",
+    "./node_modules",
+    "./**/node_modules"
+  ]
 }

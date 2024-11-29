@@ -1,6 +1,8 @@
 import * as tl from 'azure-pipelines-task-lib'
 import {
-  TaskGitReleaseVariablesType,
+  TaskGitMergeIntoBranchVariablesType,
+  TaskInstallDependenciesVariablesType,
+  TaskLoginVariablesType,
   TaskPublishVariablesType,
 } from '../../models'
 import {
@@ -9,37 +11,56 @@ import {
 } from '../../constants'
 
 /**
- * This function retrieves the development branch variable for a Git release process.
- * @returns The function `getGitReleaseVariables` is returning an object with the `devBranch` variable
- * as a property.
+ * This TypeScript function retrieves the branch name input and returns it as a task variable.
+ * @returns The function `getGitMergeIntoBranch` is returning an object `variables` which contains the
+ * `branch` value obtained from the input. The `variables` object is then logged as a string in the
+ * task result before being returned.
  */
-export const getGitReleaseVariables = (): TaskGitReleaseVariablesType => {
-  const devBranch: string | undefined = tl.getInput('devBranch', false)
-  const mergeIntoDevelop: boolean | undefined = tl.getBoolInput(
-    'mergeIntoDevelop',
-    false
-  )
+export const getGitMergeIntoBranch =
+  (): TaskGitMergeIntoBranchVariablesType => {
+    const branch: string | undefined = tl.getInput('branch', false)
 
-  const variables = {
-    devBranch,
-    mergeIntoDevelop,
+    const variables = {
+      branch,
+    }
+
+    tl.setResult(
+      tl.TaskResult.Succeeded,
+      `Task variables: ${JSON.stringify(variables)}`
+    )
+
+    return variables
   }
 
-  console.log(JSON.stringify(variables))
+export const getPublishVariables = (): TaskPublishVariablesType => {
+  const variables = {
+    publishCommand:
+      tl.getInput('publishCommand', false) || PUBLISH_DEFAULT_COMMAND,
+    deployCommand:
+      tl.getInput('deployCommand', false) || DEPLOY_DEFAULT_COMMAND,
+  }
+
+  tl.setResult(
+    tl.TaskResult.Succeeded,
+    `Task variables: ${JSON.stringify(variables)}`
+  )
 
   return variables
 }
 
-export const getPublishVariables = (): TaskPublishVariablesType => {
+/**
+ * The function `getLoginVariables` retrieves login variables from user inputs and returns them as an
+ * object if inputs are valid.
+ * @returns The function `getLoginVariables` returns an object containing the variables `apiKey`,
+ * `apiToken`, `email`, and `account` if all input values are provided and not equal to 'bad'. If any
+ * of the inputs are missing or equal to 'bad', the function sets the task result to 'Failed' with a
+ * message indicating bad input was given.
+ */
+export const getLoginVariables = (): TaskLoginVariablesType => {
   const apiKey: string | undefined = tl.getInput('apiKey', true)
   const apiToken: string | undefined = tl.getInput('apiToken', true)
   const email: string | undefined = tl.getInput('email', true)
   const account: string | undefined = tl.getInput('account', true)
-  const publishCommand: string | undefined = tl.getInput(
-    'publishCommand',
-    false
-  )
-  const deployCommand: string | undefined = tl.getInput('deployCommand', false)
 
   if (
     !apiKey ||
@@ -60,8 +81,6 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
     apiToken,
     email,
     account,
-    publishCommand: publishCommand || PUBLISH_DEFAULT_COMMAND,
-    deployCommand: deployCommand || DEPLOY_DEFAULT_COMMAND,
   }
 
   tl.setResult(
@@ -71,3 +90,28 @@ export const getPublishVariables = (): TaskPublishVariablesType => {
 
   return variables
 }
+
+export const getInstallDependenciesVariables =
+  (): TaskInstallDependenciesVariablesType => {
+    const installProjex: boolean = tl.getBoolInput('installProjex', false)
+    const installVtex: boolean = tl.getBoolInput('installVtex', false)
+    const installDependencies: boolean = tl.getBoolInput(
+      'installDependencies',
+      false
+    )
+    const checkDirectory: boolean = tl.getBoolInput('checkDirectory', false)
+
+    const variables = {
+      installProjex,
+      installVtex,
+      installDependencies,
+      checkDirectory,
+    }
+
+    tl.setResult(
+      tl.TaskResult.Succeeded,
+      `Task variables: ${JSON.stringify(variables)}`
+    )
+
+    return variables
+  }
