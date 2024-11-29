@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.13.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.12.0...v1.13.0) - (2024-11-29)
+
+### Features
+
+* refactor in the login, setup dependencies and pull request process ([#12](https://github.com/Maik3345/azure-devops-vtex-extension/pull/12)) ([430136ee](https://github.com/Maik3345/azure-devops-vtex-extension/commit/430136eee1f569450868a2d1603d5c33bca3a566))
+
+### Miscellaneous Chores
+
+* update copyright information in the license file ([af57601c](https://github.com/Maik3345/azure-devops-vtex-extension/commit/af57601c0d1076b969660d6bfe2ddefc8a1fb27a))
+* add mit license to the repository ([2b8efbc5](https://github.com/Maik3345/azure-devops-vtex-extension/commit/2b8efbc5b5381a70b2641f4b88b61d73175315d3))
+* update the mergeintodevelop variable to use has boolean variable ([7aca61e3](https://github.com/Maik3345/azure-devops-vtex-extension/commit/7aca61e3672d1baabf1b53ea5bf7b9e42fa726d4))
+
+
 ## [1.11.0](https://dev.azure.com/DevOpsPCO/Repositorio%20VTEX%20IO/_git/pco-azure-devops-vtex-extension-front/branchCompare?baseVersion=GTv1.10.0&targetVersion=GTv1.11.0) - (2024-07-19)
 
 ### Features
