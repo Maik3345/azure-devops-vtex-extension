@@ -10,7 +10,7 @@
   "version": {
     "Major": 1,
     "Minor": 0,
-    "Patch": 10
+    "Patch": 11
   },
   "inputs": [
     {
@@ -43,6 +43,14 @@
       "label": "Install the CLI Vtex",
       "helpMarkDown": "If you don't need to install the Vtex CLI, you can disable this option",
       "defaultValue": true,
+      "required": false
+    },
+    {
+      "name": "packageManager",
+      "type": "string",
+      "label": "Package Manager",
+      "helpMarkDown": "Select the package manager to use",
+      "defaultValue": "yarn",
       "required": false
     }
   ],

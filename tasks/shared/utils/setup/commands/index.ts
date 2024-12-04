@@ -33,8 +33,15 @@ export const installVtexCli = async () => {
  * The `installPackages` function uses `yarn install` command to install packages in the current
  * directory asynchronously.
  */
-export const installPackages = async () => {
-  await runCommand(`yarn install`, '.', 'yarn install', false, 0, false)
+export const installPackages = async (packageManager: string) => {
+  await runCommand(
+    `${packageManager} install`,
+    '.',
+    `${packageManager} install`,
+    false,
+    0,
+    false
+  )
 }
 
 /**

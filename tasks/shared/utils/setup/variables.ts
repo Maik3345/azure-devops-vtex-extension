@@ -4,6 +4,7 @@ import {
   TaskInstallDependenciesVariablesType,
   TaskLoginVariablesType,
   TaskPublishVariablesType,
+  TaskReleaseVariablesType,
 } from '../../models'
 import {
   DEPLOY_DEFAULT_COMMAND,
@@ -100,12 +101,14 @@ export const getInstallDependenciesVariables =
       false
     )
     const checkDirectory: boolean = tl.getBoolInput('checkDirectory', false)
+    const packageManager: string = tl.getInput('packageManager', false)
 
     const variables = {
       installProjex,
       installVtex,
       installDependencies,
       checkDirectory,
+      packageManager,
     }
 
     tl.setResult(
@@ -115,3 +118,18 @@ export const getInstallDependenciesVariables =
 
     return variables
   }
+
+export const getReleaseVariables = (): TaskReleaseVariablesType => {
+  const beta: boolean = tl.getBoolInput('beta', false)
+
+  const variables = {
+    beta,
+  }
+
+  tl.setResult(
+    tl.TaskResult.Succeeded,
+    `Task variables: ${JSON.stringify(variables)}`
+  )
+
+  return variables
+}

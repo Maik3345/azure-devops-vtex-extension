@@ -10,9 +10,18 @@
   "version": {
     "Major": 0,
     "Minor": 3,
-    "Patch": 5
+    "Patch": 6
   },
-  "inputs": [],
+  "inputs": [
+    {
+      "name": "beta",
+      "type": "string",
+      "label": "Make a beta release",
+      "helpMarkDown": "Pass this flag to make a beta release",
+      "defaultValue": false,
+      "required": false
+    }
+  ],
   "execution": {
     "Node16": {
       "target": "dist/release.js"

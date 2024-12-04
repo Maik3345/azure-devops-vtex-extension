@@ -14,6 +14,7 @@ This task sets up dependencies and utilities for the project. It checks the dire
 | installProjex       | boolean | Install the CLI Projex                                                | If you don't need to install the Projex CLI, you can disable this option                              | true          | false    |
 | installVtex         | boolean | Install the CLI Vtex                                                  | If you don't need to install the Vtex CLI, you can disable this option                                | true          | false    |
 | installDependencies | boolean | Install the CLI Vtex                                                  | If you don't need to install the Vtex CLI, you can disable this option                                | true          | false    |
+| packageManager | string | Package manager to use | The package manager to use to install the dependencies. | npm | false |
 
 ## Example
 

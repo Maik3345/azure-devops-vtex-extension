@@ -19,4 +19,9 @@ export interface TaskInstallDependenciesVariablesType {
   installVtex: boolean
   installDependencies: boolean
   checkDirectory: boolean
+  packageManager: string
+}
+
+export interface TaskReleaseVariablesType {
+  beta: boolean
 }
