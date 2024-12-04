@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.14.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.13.0...v1.14.0) - (2024-12-04)
+
+### Features
+
+* add beta release support in the release process ([2d2748e7](https://github.com/Maik3345/azure-devops-vtex-extension/commit/2d2748e7534a8bedd2aa8f2d4c5a55ee1ff08a27))
+
+### Documentation
+
+* update readme.md to include input parameters for setupdependencies task ([d6801864](https://github.com/Maik3345/azure-devops-vtex-extension/commit/d680186489954c6921a93496b8ccb0cc522a0f43))
+
+
 ## [1.13.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.12.0...v1.13.0) - (2024-11-29)
 
 ### Features
