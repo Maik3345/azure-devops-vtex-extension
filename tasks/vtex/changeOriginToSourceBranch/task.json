@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "ab44eae8-2de6-4f89-b764-6e7f5578ee60",
+  "name": "ChangeOriginToSourceBranch",
+  "friendlyName": "Change Origin To Source Branch",
+  "description": "Change the origin of the repository to the source branch",
+  "helpMarkDown": "",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "execution": {
+    "Node16": {
+      "target": "dist/changeOriginToSourceBranch.js"
+    }
+  }
+}

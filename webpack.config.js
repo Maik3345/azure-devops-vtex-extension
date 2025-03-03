@@ -14,14 +14,18 @@ module.exports = {
     login: './tasks/vtex/login/login.ts',
     prDeploy: './tasks/vtex/pullRequest/deploy/deploy.ts',
     prPublish: './tasks/vtex/pullRequest/publish/publish.ts',
+    prChangeOriginToSourceBranch:
+      './tasks/vtex/pullRequest/changeOriginToSourceBranch/changeOriginToSourceBranch.ts',
+    changeOriginToSourceBranch:
+      './tasks/vtex/changeOriginToSourceBranch/changeOriginToSourceBranch.ts',
   },
   output: {
     path: path.resolve(__dirname),
     filename: (pathData) => {
-      const name = pathData.chunk.name;
-      const entryPath = module.exports.entry[name];
-      const entryDir = path.dirname(entryPath);
-      return `${entryDir}/dist/${name}.js`;
+      const name = pathData.chunk.name
+      const entryPath = module.exports.entry[name]
+      const entryDir = path.dirname(entryPath)
+      return `${entryDir}/dist/${name}.js`
     },
   },
   resolve: {

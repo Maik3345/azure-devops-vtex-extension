@@ -2,21 +2,12 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
-  "tags": [
-    "publish vtex",
-    "pr",
-    "beta vtex publish",
-    "pullrequest",
-    "vtex io"
-  ],
-  "categories": [
-    "Azure Repos",
-    "Azure Pipelines"
-  ],
+  "tags": ["publish vtex", "pr", "beta vtex publish", "pullrequest", "vtex io"],
+  "categories": ["Azure Repos", "Azure Pipelines"],
   "repository": {
     "type": "git",
     "uri": "https://github.com/Maik3345/azure-devops-vtex-extension"
@@ -39,9 +30,7 @@
     {
       "id": "custom-build-vtex-beta-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/deprecated/VtexBuildBeta"
       }
@@ -49,9 +38,7 @@
     {
       "id": "custom-build-vtex-release-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/deprecated/VtexBuildRelease"
       }
@@ -59,9 +46,7 @@
     {
       "id": "custom-build-git-pullRequest-release-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/git/pullRequest/release"
       }
@@ -69,9 +54,7 @@
     {
       "id": "custom-build-git-release-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/git/release"
       }
@@ -79,9 +62,7 @@
     {
       "id": "custom-build-vtex-publish-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/publish"
       }
@@ -89,9 +70,7 @@
     {
       "id": "custom-build-vtex-deploy-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/deploy"
       }
@@ -99,9 +78,7 @@
     {
       "id": "custom-build-vtex-pullRequest-publish-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/pullRequest/publish"
       }
@@ -109,9 +86,7 @@
     {
       "id": "custom-build-vtex-pullRequest-deploy-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/pullRequest/deploy"
       }
@@ -119,9 +94,7 @@
     {
       "id": "custom-build-vtex-login-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/vtex/login"
       }
@@ -129,9 +102,7 @@
     {
       "id": "custom-build-git-pullRequest-mergeIntoBranch-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/git/pullRequest/mergeIntoBranch"
       }
@@ -139,11 +110,25 @@
     {
       "id": "custom-build-project-setupDependencies-task",
       "type": "ms.vss-distributed-task.task",
-      "targets": [
-        "ms.vss-distributed-task.tasks"
-      ],
+      "targets": ["ms.vss-distributed-task.tasks"],
       "properties": {
         "name": "tasks/project/setupDependencies"
+      }
+    },
+    {
+      "id": "custom-build-project-changeOriginToSourceBranch-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/pullRequest/changeOriginToSourceBranch"
+      }
+    },
+    {
+      "id": "custom-build-project-publish-changeOriginToSourceBranch-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": ["ms.vss-distributed-task.tasks"],
+      "properties": {
+        "name": "tasks/vtex/changeOriginToSourceBranch"
       }
     }
   ],
