@@ -33,7 +33,7 @@ This extension provides YAML pipeline templates to simplify your CI/CD workflows
 
 ## Available Templates and Usage Order
 
-1. **[Beta Generation (1.beta.yml)](./docs/azure-devops/beta-example.yml)** - First step in the CI/CD process
+1. **[Beta Generation (1.beta.yml)](./docs/azure-devops/1.beta.yml)** - First step in the CI/CD process
    - Creates a beta version of your VTEX IO app for testing
    - Runs when a pull request is created
    - Publishes app with beta tag and creates a release tag
