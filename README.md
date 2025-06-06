@@ -27,6 +27,54 @@ This project is a VTEX IO app that provides a set of tasks to automate the CI/CD
 - [ProjectSetupDependencies](./tasks/project/setupDependencies/README.md)
 - [GitPullRequestMergeIntoBranch](./tasks/git/pullRequest/mergeIntoBranch/README.md)
 
+# Pipeline Templates
+
+This extension provides YAML pipeline templates to simplify your CI/CD workflows for VTEX IO projects. These templates are organized in a logical order to support the full development lifecycle:
+
+## Available Templates and Usage Order
+
+1. **[Beta Generation (1.beta.yml)](./docs/azure-devops/beta-example.yml)** - First step in the CI/CD process
+   - Creates a beta version of your VTEX IO app for testing
+   - Runs when a pull request is created
+   - Publishes app with beta tag and creates a release tag
+
+2. **[Publication (2.publish.yml)](./docs/azure-devops/2.publish.yml)** - Second step for production release
+   - Publishes your VTEX IO app to production
+   - Typically runs after PR is merged to main branch
+   - Handles authentication and publication to VTEX IO
+
+3. **[Deployment & Release (3.deploy-release.yml)](./docs/azure-devops/3.deploy-release.yml)** - Final step
+   - Deploys the published app to production workspace
+   - Creates a Git release with updated version number
+   - Updates changelog and finalizes the release process
+
+### How to Use
+
+1. Add these YAML files to your Azure DevOps pipeline configuration
+2. Configure the required parameters (account, email, apiKey, etc.)
+3. Set up appropriate triggers for each pipeline stage
+
+For example, to set up a beta release pipeline:
+
+```yaml
+# azure-pipelines.yml
+trigger: none
+
+pr:
+  branches:
+    include:
+      - main
+
+extends:
+  template: docs/azure-devops/beta-example.yml
+  parameters:
+    account: 'your-vtex-account'
+    email: '$(VTEX_EMAIL)'
+    apiKey: '$(VTEX_API_KEY)'
+    apiToken: '$(VTEX_API_TOKEN)'
+    environment: 'development'
+```
+
 # Installation
 
 You can install the extension to your Azure DevOps organization from Marketplace:

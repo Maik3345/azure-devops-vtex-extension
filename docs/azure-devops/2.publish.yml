@@ -1,0 +1,50 @@
+parameters:
+  - name: account
+    type: string
+  - name: email
+    type: string
+  - name: apiKey
+    type: string
+  - name: apiToken
+    type: string
+  - name: npmAuthenticate
+    type: boolean
+    default: false
+  - name: environment
+    type: string
+  - name: publishCommand
+    type: string
+    default: 'projex vtex run "npm run publish"'
+
+jobs:
+  - deployment: Publish
+    environment: ${{ parameters.environment }}
+    displayName: "🚀 Build and Publish"
+    condition: succeeded()
+    cancelTimeoutInMinutes: 1
+    timeoutInMinutes: 25
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              persistCredentials: true
+
+            - task: ChangeOriginToSourceBranch@1
+              displayName: "🔄 Switch to Source Branch"
+
+            - task: ProjectSetupDependencies@1
+              displayName: "📦 Install Project Dependencies"
+
+            - task: VtexLogin@1
+              displayName: "🔑 VTEX IO Authentication"
+              inputs:
+                apiKey: ${{ parameters.apiKey }}
+                apiToken: ${{ parameters.apiToken }}
+                email: ${{ parameters.email }}
+                account: ${{ parameters.account }}
+
+            - task: VtexPublish@0
+              displayName: "📤 Publish VTEX IO App"
+              inputs:
+                publishCommand: ${{ parameters.publishCommand }}

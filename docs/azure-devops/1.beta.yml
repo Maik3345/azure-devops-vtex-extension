@@ -1,0 +1,63 @@
+parameters:
+  - name: account
+    type: string
+  - name: email
+    type: string
+  - name: apiKey
+    type: string
+  - name: apiToken
+    type: string
+  - name: environment
+    type: string
+  - name: publishCommand
+    type: string
+    default: 'projex vtex run "npm run publish"'
+  - name: devBranch
+    type: string
+    default: "develop"
+
+jobs:
+  - job: Beta
+    displayName: "Generate a Beta Version 🔖"
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: PullRequestChangeOriginToSourceBranch@1
+        displayName: "🔄 Switch to Source Branch"
+
+      - task: ProjectSetupDependencies@1
+        displayName: "📦 Install Project Dependencies"
+
+      - task: VtexLogin@1
+        displayName: "🔑 VTEX IO Authentication"
+        inputs:
+          apiKey: ${{ parameters.apiKey }}
+          apiToken: ${{ parameters.apiToken }}
+          email: ${{ parameters.email }}
+          account: ${{ parameters.account }}
+
+      - task: VtexPullRequestPublish@0
+        displayName: "🚀 Publish Beta Version"
+        inputs:
+          publishCommand: ${{ parameters.publishCommand }}
+
+  - job: BetaRelease
+    displayName: "Generate a Beta Release 📦️"
+    dependsOn: Beta
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: ProjectSetupDependencies@1
+        displayName: "📦 Install Project Dependencies"
+        inputs:
+          installVtex: false
+
+      - task: GitPullRequestRelease@0
+        displayName: "🏷️ Create Beta Release Tag"
+
+      - task: GitPullRequestMergeIntoBranch@0
+        displayName: "🔀 Merge into ${{ parameters.devBranch }} Branch"
+        inputs:
+          branch: ${{ parameters.devBranch }}

@@ -1,0 +1,60 @@
+parameters:
+  - name: account
+    type: string
+  - name: email
+    type: string
+  - name: apiKey
+    type: string
+  - name: apiToken
+    type: string
+  - name: environment
+    type: string
+  - name: deployCommand
+    type: string
+    default: 'projex vtex run "npm run deploy"'
+
+jobs:
+  - deployment: Deploy
+    environment: ${{ parameters.environment }}
+    displayName: "Deploy 🚀"
+    condition: succeeded()
+    cancelTimeoutInMinutes: 1
+    timeoutInMinutes: 25
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+              persistCredentials: true
+
+            - task: ProjectSetupDependencies@1
+              displayName: "📦 Install Project Dependencies"
+
+            - task: VtexLogin@1
+              displayName: "🔑 VTEX IO Authentication"
+              inputs:
+                apiKey: ${{ parameters.apiKey }}
+                apiToken: ${{ parameters.apiToken }}
+                email: ${{ parameters.email }}
+                account: ${{ parameters.account }}
+
+            - task: VtexDeploy@0
+              displayName: "🚀 Deploy VTEX IO App"
+              inputs:
+                deployCommand: ${{ parameters.deployCommand }}
+
+  - job: Release
+    displayName: "📦 Release Version"
+    dependsOn: Deploy
+    condition: succeeded()
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: ProjectSetupDependencies@1
+        displayName: "📦 Install Project Dependencies"
+        inputs:
+          installVtex: false
+
+      - task: GitRelease@0
+        displayName: "📝 Create Git Release"
