@@ -1,60 +1,234 @@
-<h1 align="center">
- <br>
-  VTEX IO Azure Pipeline CI/CD
-  <br>
-</h1>
+# VTEX IO Azure DevOps Extension
 
-This project is a VTEX IO app that provides a set of tasks to automate the CI/CD process in the VTEX IO platform.
+[![Azure DevOps Extension](https://img.shields.io/badge/Azure%20DevOps-Extension-blue?logo=azure-devops)](https://marketplace.visualstudio.com/items?itemName=MaikRestrepo.vtex-io-ci-cd)
+[![VTEX IO](https://img.shields.io/badge/VTEX-IO%20Platform-red?logo=vtex)](https://vtex.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-16+-green?logo=node.js)](https://nodejs.org/)
+[![Build Status](https://img.shields.io/badge/Build-Passing-green?logo=github-actions)](https://github.com/Maik3345/azure-devops-vtex-extension)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)](./package.json)
 
-## Features
+A comprehensive **dual-purpose Azure DevOps extension** that provides both work item management capabilities and a complete collection of Azure DevOps pipeline tasks specifically designed for VTEX IO development workflows.
 
-- Push messages in the thread of the pull request.
-- Create a pull request in the specified repository with the changes of the current pull request.
-- Implement the logic to complete the pull request and initiate the release process using the `projex` CLI.
-- Handle exceptions and errors in the tasks and generate error messages in the pull request thread.
-- Set up the core settings of the tasks, including installing `projex`, `vtex`, and `yarn` in the pipeline.
-- Implement the logic to log in to the VTEX account using the `apiKey` and `apiToken` in the pipeline. These parameters are required to execute the tasks and are passed as inputs to the task.
+## 🎯 Purpose and Functionality
 
-# Available tasks
+This extension serves two primary functions:
 
-- [VtexPullRequestPublish](./tasks/vtex/pullRequest/publish/README.md)
-- [VtexPublish](./tasks/vtex/publish/README.md)
-- [GitRelease](./tasks/git/release/README.md)
-- [VtexDeploy](./tasks/vtex/deploy/README.md)
-- [GitPullRequestRelease](./tasks/git/pullRequest/release/README.md)
-- [VtexPullRequestDeploy](./tasks/vtex/pullRequest/deploy/README.md)
-- [VtexLogin](./tasks/vtex/login/README.md)
-- [ProjectSetupDependencies](./tasks/project/setupDependencies/README.md)
-- [GitPullRequestMergeIntoBranch](./tasks/git/pullRequest/mergeIntoBranch/README.md)
+1. **Work Item Extension**: Enhances Azure DevOps work items with automated branch information generation and comment management
+2. **VTEX CI/CD Pipeline Tasks**: Provides 11 specialized Azure DevOps pipeline tasks for complete VTEX IO development automation
 
-# Pipeline Templates
+The extension is designed for VTEX IO development teams who need streamlined CI/CD processes, automated release management, and enhanced work item tracking capabilities within their Azure DevOps environment.
 
-This extension provides YAML pipeline templates to simplify your CI/CD workflows for VTEX IO projects. These templates are organized in a logical order to support the full development lifecycle:
+## 🎯 Target Audience
 
-## Available Templates and Usage Order
+- **VTEX IO Developers**: Teams building applications on the VTEX IO platform
+- **DevOps Engineers**: Professionals implementing CI/CD automation for VTEX projects  
+- **Project Managers**: Teams using Azure DevOps for VTEX project management and tracking
 
-1. **[Beta Generation (1.beta.yml)](./docs/azure-devops/1.beta.yml)** - First step in the CI/CD process
-   - Creates a beta version of your VTEX IO app for testing
-   - Runs when a pull request is created
-   - Publishes app with beta tag and creates a release tag
+## ✨ Key Features
 
-2. **[Publication (2.publish.yml)](./docs/azure-devops/2.publish.yml)** - Second step for production release
-   - Publishes your VTEX IO app to production
-   - Typically runs after PR is merged to main branch
-   - Handles authentication and publication to VTEX IO
+### Work Item Management
+- **Automated Branch Name Generation**: Creates standardized branch names from work item titles and sprint information
+- **Smart Comment Integration**: Adds formatted branch information directly to work items
+- **Simple User Interface**: Uses intuitive browser dialogs for seamless user experience
 
-3. **[Deployment & Release (3.deploy-release.yml)](./docs/azure-devops/3.deploy-release.yml)** - Final step
-   - Deploys the published app to production workspace
-   - Creates a Git release with updated version number
-   - Updates changelog and finalizes the release process
+### VTEX CI/CD Automation
+- **Complete Authentication Flow**: Secure VTEX login and session management
+- **Deployment Automation**: Automated app deployment to VTEX workspaces
+- **Publishing Pipeline**: Streamlined app publishing to VTEX registry
+- **Release Management**: Automated version bumping, changelog generation, and Git release creation
+- **Pull Request Integration**: Automated PR creation, merging, and completion workflows
+- **Dependency Management**: Automated project setup and dependency configuration
 
-### How to Use
+### Advanced Pipeline Features
+- **Error Handling**: Comprehensive error reporting with pull request thread integration
+- **Parallel Processing**: Optimized task execution for faster pipeline performance
+- **Security Integration**: Secure credential management using Azure DevOps variable groups
+- **Monitoring Support**: Built-in logging and metrics collection for pipeline observability
 
-1. Add these YAML files to your Azure DevOps pipeline configuration
-2. Configure the required parameters (account, email, apiKey, etc.)
-3. Set up appropriate triggers for each pipeline stage
+## 📚 Documentation
 
-For example, to set up a beta release pipeline:
+### Core Components
+- [**Work Item Extension**](./docs/work-item-extension.md) - Branch information management for Azure DevOps work items
+- [**VTEX Pipeline Tasks**](./docs/vtex-pipeline-tasks.md) - Complete VTEX IO CI/CD automation tasks
+- [**Git Integration Tasks**](./docs/git-integration-tasks.md) - Advanced Git operations and pull request management
+- [**Shared Services & Utilities**](./docs/shared-services-utilities.md) - Common services and utility functions
+
+### Development & Deployment
+- [**Build System & Configuration**](./docs/build-system-configuration.md) - Webpack configuration and build processes
+- [**Deployment & Release Process**](./docs/deployment-release-process.md) - Complete deployment and release workflows
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Azure DevOps Organization**: Active Azure DevOps instance
+- **Node.js 16+**: For Azure DevOps agent compatibility
+- **VTEX Account**: Valid VTEX account with API credentials
+- **PNPM**: Package manager for development
+
+### Installation from Marketplace
+
+1. **Install the Extension**
+   ```bash
+   # Visit Azure DevOps Marketplace
+   https://marketplace.visualstudio.com/items?itemName=MaikRestrepo.vtex-io-ci-cd
+   ```
+
+2. **Configure Permissions**
+   - Add **Contribute to pull requests** permission to **Project Collection Build Service Accounts**
+   - Navigate to: Project → Repository → Security
+
+   ![Permissions](screenshots/screen3.png)
+
+3. **Set Up Variable Groups**
+   ```yaml
+   # Create variable group with VTEX credentials
+   VTEX_API_KEY: "your-vtex-api-key"
+   VTEX_API_TOKEN: "your-vtex-api-token"  
+   VTEX_EMAIL: "your-vtex-email"
+   VTEX_ACCOUNT: "your-vtex-account-name"
+   ```
+
+### Basic Pipeline Configuration
+
+```yaml
+# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+    - main
+
+variables:
+- group: vtex-credentials
+
+stages:
+- stage: Setup
+  jobs:
+  - job: Dependencies
+    steps:
+    - task: SetupDependencies@1
+      displayName: 'Setup Project Dependencies'
+
+- stage: Authentication  
+  jobs:
+  - job: VTEXLogin
+    steps:
+    - task: VtexLogin@1
+      displayName: 'Login to VTEX'
+      inputs:
+        apiKey: $(VTEX_API_KEY)
+        apiToken: $(VTEX_API_TOKEN)
+        email: $(VTEX_EMAIL)
+        account: $(VTEX_ACCOUNT)
+
+- stage: Deploy
+  jobs:
+  - job: VTEXDeploy
+    steps:
+    - task: VtexDeploy@1
+      displayName: 'Deploy to VTEX Workspace'
+```
+
+## 🔧 Development Commands
+
+### Building the Extension
+```bash
+# Install dependencies
+pnpm install
+
+# Build all tasks
+pnpm run build:tasks
+
+# Build extension 
+pnpm run build:extension
+
+# Build everything
+pnpm run build
+
+# Watch mode for development
+pnpm run watch
+```
+
+### Testing
+```bash
+# Run unit tests
+pnpm run test
+
+# Run tests with coverage
+pnpm run test:coverage
+
+# Run integration tests
+pnpm run test:integration
+```
+
+### Linting and Quality
+```bash
+# Run ESLint
+pnpm run lint
+
+# Fix linting issues
+pnpm run lint:fix
+
+# Type checking
+pnpm run type-check
+```
+
+## 📋 Available Pipeline Tasks
+
+### VTEX Tasks
+| Task                               | Description                    | Documentation                                               |
+| ---------------------------------- | ------------------------------ | ----------------------------------------------------------- |
+| **VtexLogin**                      | Authenticate with VTEX APIs    | [README](./tasks/vtex/login/README.md)                      |
+| **VtexDeploy**                     | Deploy app to VTEX workspace   | [README](./tasks/vtex/deploy/README.md)                     |
+| **VtexPublish**                    | Publish app to VTEX registry   | [README](./tasks/vtex/publish/README.md)                    |
+| **VtexChangeOriginToSourceBranch** | Git branch management for VTEX | [README](./tasks/vtex/changeOriginToSourceBranch/README.md) |
+
+### Git Integration Tasks  
+| Task                              | Description                        | Documentation                                               |
+| --------------------------------- | ---------------------------------- | ----------------------------------------------------------- |
+| **GitPullRequestMergeIntoBranch** | Merge PR into target branch        | [README](./tasks/git/pullRequest/mergeIntoBranch/README.md) |
+| **GitPullRequestRelease**         | Create release PR with changelog   | [README](./tasks/git/pullRequest/release/README.md)         |
+| **GitPullRequestLabels**          | Auto-manage PR labels using projex | [README](./tasks/git/pullRequest/labels/README.md)          |
+| **GitRelease**                    | Handle complete release automation | [README](./tasks/git/release/README.md)                     |
+
+### Project Management Tasks
+| Task                         | Description                    | Documentation                                         |
+| ---------------------------- | ------------------------------ | ----------------------------------------------------- |
+| **ProjectSetupDependencies** | Configure project dependencies | [README](./tasks/project/setupDependencies/README.md) |
+
+## 🔄 Pipeline Templates
+
+This extension provides YAML pipeline templates to simplify your CI/CD workflows for VTEX IO projects. These templates are organized in a logical workflow order:
+
+### Available Templates
+
+| Template                                                             | Purpose                 | Usage                                     |
+| -------------------------------------------------------------------- | ----------------------- | ----------------------------------------- |
+| **[1.beta.yml](./docs/azure-devops/1.beta.yml)**                     | Beta version generation | Creates beta versions for PR testing      |
+| **[2.publish.yml](./docs/azure-devops/2.publish.yml)**               | Production publication  | Publishes apps to VTEX registry           |
+| **[3.deploy-release.yml](./docs/azure-devops/3.deploy-release.yml)** | Deployment & release    | Final deployment and Git release creation |
+
+### Workflow Sequence
+
+```mermaid
+%%{init: { "flowchart": { "defaultRenderer": "elk" } } }%%
+flowchart LR
+    classDef statementClass fill:#7f56d9,color:white,stroke:#5d3ba2,stroke-width:2px
+    classDef inicioClass fill:#00c2a8,color:white,stroke-width:2px,stroke:lightGreen
+    classDef finClass fill:black,color:white,stroke-width:2px
+
+    pr(("Pull Request")):::inicioClass
+    beta["1. Beta Generation"]:::statementClass  
+    merge["PR Merge"]:::statementClass
+    publish["2. Publication"]:::statementClass
+    deploy["3. Deploy & Release"]:::finClass
+
+    pr --> beta
+    beta --> merge
+    merge --> publish  
+    publish --> deploy
+```
+
+### Example Implementation
 
 ```yaml
 # azure-pipelines.yml
@@ -66,7 +240,7 @@ pr:
       - main
 
 extends:
-  template: docs/azure-devops/beta-example.yml
+  template: docs/azure-devops/1.beta.yml
   parameters:
     account: 'your-vtex-account'
     email: '$(VTEX_EMAIL)'
@@ -75,44 +249,114 @@ extends:
     environment: 'development'
 ```
 
-# Installation
+## 🏗️ Architecture Overview
 
-You can install the extension to your Azure DevOps organization from Marketplace:
-[VTEX IO CI/CD Utilities](https://marketplace.visualstudio.com/items?itemName=MaikRestrepo.vtex-io-ci-cd)
+The extension follows a modular architecture with clear separation of concerns:
 
-You may need to add **Contribute to pull requests** permission to your **Project Collection Build Service Accounts** from project -> repository -> **Security**.
+```mermaid
+%%{init: { "flowchart": { "defaultRenderer": "elk" } } }%%
+flowchart TB
+    classDef statementClass fill:#7f56d9,color:white,stroke:#5d3ba2,stroke-width:2px
+    classDef dbClass fill:#3578ff,color:white,stroke:blue,stroke-width:2px
+    classDef amazonClass fill:#da0063,stroke:pink,color:white,stroke-width:2px
 
-![Permissions](screenshots/screen3.png)
+    subgraph "Extension Components"
+        workitem["Work Item Extension"]:::amazonClass
+        tasks["Pipeline Tasks"]:::statementClass
+    end
 
-### Development and contribution
+    subgraph "Shared Foundation"
+        models["Data Models"]:::dbClass
+        services["Azure DevOps Services"]:::dbClass
+        utils["Utility Functions"]:::dbClass
+    end
 
-To contribute to this project, follow these steps:
+    subgraph "Build System"
+        webpack["Webpack Dual Config"]:::statementClass
+        typescript["TypeScript Compilation"]:::statementClass
+    end
 
-1. Clone the repository and navigate to the project directory:
-
-```bash
-git clone https://github.com/Maik3345/azure-devops-vtex-extension
-cd azure-devops-vtex-extension
+    workitem --> services
+    tasks --> services
+    services --> models
+    services --> utils
+    
+    webpack --> workitem
+    webpack --> tasks
+    typescript --> webpack
 ```
 
-2. Install the project dependencies:
+## 🔧 Development & Contribution
 
-```bash
-npm install
-```
+### Development Setup
 
-3. Start the development server:
+1. **Clone and Setup**
+   ```bash
+   git clone https://github.com/Maik3345/azure-devops-vtex-extension
+   cd azure-devops-vtex-extension
+   pnpm install
+   ```
 
-```bash
-npm run dev
-```
+2. **Start Development**
+   ```bash
+   # Watch mode for tasks
+   pnpm run watch:tasks
+   
+   # Watch mode for extension
+   pnpm run watch:extension
+   ```
 
-This command will start the development server and allow you to make changes to the tasks.
+3. **Testing Changes**
+   ```bash
+   # Build and test
+   pnpm run build
+   pnpm run test
+   
+   # Package for testing
+   pnpm run package
+   ```
 
-4. Update the version of task.json and vss-extension.json whenever you make changes to the tasks.
+### Version Management
 
-5. Build the extension:
+- **Extension Version**: Controlled in `vss-extension.json`
+- **Task Versions**: Each task has independent versioning in `task.json`
+- **Automated Updates**: Use `updateVersion.js` script for synchronized updates
 
-```bash
-npm run build
-```
+### Contribution Guidelines
+
+1. **Feature Development**: Create feature branches from `main`
+2. **Testing**: Ensure all tests pass and add new tests for features
+3. **Documentation**: Update relevant documentation in `/docs`
+4. **Pull Requests**: Use the automated PR template system
+5. **Code Quality**: Follow TypeScript strict mode and ESLint rules
+
+## 📊 Extension Metrics
+
+| Metric                    | Value                                            |
+| ------------------------- | ------------------------------------------------ |
+| **Total Tasks**           | 11 specialized pipeline tasks                    |
+| **Supported Platforms**   | Azure DevOps Server 2020+, Azure DevOps Services |
+| **Node.js Compatibility** | 16.x, 18.x, 20.x                                 |
+| **TypeScript Version**    | 4.9+                                             |
+| **Build Target**          | Dual (Node.js + Browser)                         |
+| **Package Size**          | Optimized for fast installation                  |
+
+## 🤝 Support & Community
+
+### Getting Help
+- **Documentation**: Comprehensive guides in `/docs` folder
+- **GitHub Issues**: [Report bugs and request features](https://github.com/Maik3345/azure-devops-vtex-extension/issues)
+- **VTEX Community**: [VTEX IO Developer Portal](https://developers.vtex.com/)
+
+### Contributing
+- **Code Contributions**: Follow the development setup and contribution guidelines
+- **Documentation**: Help improve documentation and examples
+- **Testing**: Report issues and help test new features
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+**Built with ❤️ for the VTEX IO community**

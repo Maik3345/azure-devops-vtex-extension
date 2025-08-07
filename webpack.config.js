@@ -24,6 +24,7 @@ module.exports = [
     entry: {
       VtexBuildBeta: './tasks/deprecated/VtexBuildBeta/VtexBuildBeta.ts',
       VtexBuildRelease: './tasks/deprecated/VtexBuildRelease/VtexBuildRelease.ts',
+      labels: './tasks/git/pullRequest/labels/labels.ts',
       mergeIntoBranch:
         './tasks/git/pullRequest/mergeIntoBranch/mergeIntoBranch.ts',
       prRelease: './tasks/git/pullRequest/release/release.ts',

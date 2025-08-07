@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
@@ -64,6 +64,16 @@
           "light": "images/logo-128x128.png",
           "dark": "images/logo-128x128.png"
         }
+      }
+    },
+    {
+      "id": "custom-build-git-pullRequest-labels-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "tasks/git/pullRequest/labels"
       }
     },
     {

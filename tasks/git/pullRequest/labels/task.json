@@ -1,0 +1,46 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+  "id": "74d8d681-3633-42b4-a487-9f040e836874",
+  "name": "GitPullRequestLabels",
+  "friendlyName": "Git Pull Request Labels",
+  "description": "Automatically suggest and manage labels for pull requests using projex",
+  "helpMarkDown": "This task uses projex to suggest labels for the current pull request and automatically applies them using Azure DevOps API. It also removes labels that are no longer relevant.",
+  "category": "Utility",
+  "author": "MaikRestrepo",
+  "version": {
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 1
+  },
+  "inputs": [
+    {
+      "name": "removeOutdatedLabels",
+      "type": "boolean",
+      "label": "Remove Outdated Labels",
+      "helpMarkDown": "Remove labels from the pull request that are not in the suggested labels list",
+      "defaultValue": "true",
+      "required": false
+    },
+    {
+      "name": "dryRun",
+      "type": "boolean",
+      "label": "Dry Run",
+      "helpMarkDown": "Only show what labels would be added/removed without actually making changes",
+      "defaultValue": "false",
+      "required": false
+    },
+    {
+      "name": "customLabels",
+      "type": "string",
+      "label": "Custom Labels",
+      "helpMarkDown": "Additional comma-separated labels to add beyond the suggested ones",
+      "defaultValue": "",
+      "required": false
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "dist/labels.js"
+    }
+  }
+}
