@@ -1,0 +1,61 @@
+name: Publish Azure DevOps VTEX Extension
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install projex
+        run: npm install -g projex
+
+      - name: Update version with projex
+        run: projex git release stable --yes --no-deploy --no-push --no-check-release --no-tag
+
+      - name: Compile extension
+        run: npm run build
+
+      - name: Install VSCE
+        run: npm install -g @vscode/vsce
+
+      - name: Package extension
+        run: vsce package
+
+      - name: Publish extension
+        run: vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+
+      - name: Set git user from last commit
+        run: |
+          git config --global user.name "$(git log -1 --pretty=format:'%an')"
+          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
+
+      - name: Reset changes
+        run: git reset --hard HEAD
+
+      - name: Release stable and push
+        run: projex git release stable --yes
