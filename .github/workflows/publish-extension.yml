@@ -38,14 +38,11 @@ jobs:
       - name: Compile extension
         run: npm run build
 
-      - name: Install VSCE
-        run: npm install -g @vscode/vsce
+      - name: Package Azure DevOps extension
+        run: npm run package:extension
 
-      - name: Package extension
-        run: vsce package
-
-      - name: Publish extension
-        run: vsce publish --pat ${{ secrets.VSCE_TOKEN }}
+      - name: Publish Azure DevOps Extension
+        run: tfx extension publish --root . --manifest-globs vss-extension.json --token $(VSCE_TOKEN)
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 
