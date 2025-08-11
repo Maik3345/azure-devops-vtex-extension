@@ -41,6 +41,9 @@ jobs:
       - name: Package Azure DevOps extension
         run: npm run package:extension
 
+      - name: Install tfx-cli
+        run: npm install -g tfx-cli
+
       - name: Publish Azure DevOps Extension
         run: tfx extension publish --root . --manifest-globs vss-extension.json --token ${{ secrets.VSCE_TOKEN }}
         env:
