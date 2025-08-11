@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "amd",
+    "moduleResolution": "node",
+    "strict": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": false,
+    "jsx": "react",
+    "lib": ["dom", "es2015"]
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
