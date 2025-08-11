@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.15.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.14.0...v1.15.0) - (2025-08-11)
+
+### Features
+
+* add installation step for tfx-cli in publish workflow ([e71c355f](https://github.com/Maik3345/azure-devops-vtex-extension/commit/e71c355f66985c0764312007ba9b9269b6d06825))
+* update extension packaging and publishing process in workflow ([e58e924d](https://github.com/Maik3345/azure-devops-vtex-extension/commit/e58e924d92869b459a1a3a2cb997218da286f563))
+* add support for vs code engine version in package.json ([bf06931f](https://github.com/Maik3345/azure-devops-vtex-extension/commit/bf06931f9a7faa34f1f5e9c215c536d4cec713eb))
+* add github action ([#14](https://github.com/Maik3345/azure-devops-vtex-extension/pull/14)) ([b1538cbb](https://github.com/Maik3345/azure-devops-vtex-extension/commit/b1538cbb3bd9c4288e095e4f68e58f6ab1898819))
+* **extension**: enhance work item extension and add ai assistant instructions ([#13](https://github.com/Maik3345/azure-devops-vtex-extension/pull/13)) ([49fc977e](https://github.com/Maik3345/azure-devops-vtex-extension/commit/49fc977e4ac2cc6b0b4a193d7ca9772ed569d703))
+* add changeorigintosourcebranch task for pipeline and pull request ([0c14750b](https://github.com/Maik3345/azure-devops-vtex-extension/commit/0c14750bca38e92d0a500e93a6850289afebde4a))
+
+### Bug Fixes
+
+* update token reference in publish step to use secrets ([437ba40d](https://github.com/Maik3345/azure-devops-vtex-extension/commit/437ba40de55d4c82c83d56a1c286a0a8b2aba0c3))
+
+### Documentation
+
+* add yaml pipeline templates for beta generation, publication, and deployment processes ([3de6f9e3](https://github.com/Maik3345/azure-devops-vtex-extension/commit/3de6f9e38b770a625788e8ff0821e2d93d020878))
+
+
 ## [1.14.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.13.0...v1.14.0) - (2024-12-04)
 
 ### Features
