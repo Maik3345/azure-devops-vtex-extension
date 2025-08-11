@@ -42,7 +42,7 @@ jobs:
         run: npm run package:extension
 
       - name: Publish Azure DevOps Extension
-        run: tfx extension publish --root . --manifest-globs vss-extension.json --token $(VSCE_TOKEN)
+        run: tfx extension publish --root . --manifest-globs vss-extension.json --token ${{ secrets.VSCE_TOKEN }}
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 
