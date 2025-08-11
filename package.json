@@ -50,5 +50,8 @@
     "releaseFiles": [
       "./vss-extension.json"
     ]
+  },
+  "engines": {
+    "vscode": ">=1.50.0"
   }
 }

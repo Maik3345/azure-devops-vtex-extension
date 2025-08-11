@@ -24,7 +24,14 @@ The extension is designed for VTEX IO development teams who need streamlined CI/
 - **DevOps Engineers**: Professionals implementing CI/CD automation for VTEX projects  
 - **Project Managers**: Teams using Azure DevOps for VTEX project management and tracking
 
+<<<<<<< Updated upstream
 ## ✨ Key Features
+=======
+1. **[Beta Generation (1.beta.yml)](./docs/azure-devops/1.beta.yml)** - First step in the CI/CD process
+   - Creates a beta version of your VTEX IO app for testing
+   - Runs when a pull request is created
+   - Publishes app with beta tag and creates a release tag
+>>>>>>> Stashed changes
 
 ### Work Item Management
 - **Automated Branch Name Generation**: Creates standardized branch names from work item titles and sprint information
