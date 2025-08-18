@@ -13,49 +13,46 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: 🛎️ Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: 🟢 Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
 
-      - name: Install pnpm
+      - name: 📦 Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: 📥 Install dependencies
         run: pnpm install
 
-      - name: Install projex
+      - name: 🛠️ Install projex CLI
         run: npm install -g projex
 
-      - name: Update version with projex
+      - name: 🔖 Update version with projex
         run: projex git release stable --yes --no-deploy --no-push --no-check-release --no-tag
 
-      - name: Compile extension
+      - name: 🏗️ Build extension
         run: npm run build
 
-      - name: Package Azure DevOps extension
+      - name: 📦 Package Azure DevOps extension
         run: npm run package:extension
 
-      - name: Install tfx-cli
+      - name: 🛠️ Install tfx-cli
         run: npm install -g tfx-cli
 
-      - name: Publish Azure DevOps Extension
+      - name: 🚀 Publish Azure DevOps Extension
         run: tfx extension publish --root . --manifest-globs vss-extension.json --token ${{ secrets.VSCE_TOKEN }}
         env:
           VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
 
-      - name: Set git user from last commit
-        run: |
-          git config --global user.name "$(git log -1 --pretty=format:'%an')"
-          git config --global user.email "$(git log -1 --pretty=format:'%ae')"
-
-      - name: Reset changes
+      - name: 🧹 Reset changes
         run: git reset --hard HEAD
 
-      - name: Release stable and push
-        run: projex git release stable --yes
+      - name: 🚀 Projex Release
+        uses: Maik3345/projex-github-actions/.github/actions/projex-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
