@@ -6,7 +6,7 @@ Automatizar la generación del contenido de Pull Request (PR) usando GitHub Copi
 ## Instrucción para Copilot
 
 1. **Lee el archivo de template de Pull Request**
-   - Ubicación típica: `.github/pull_request_template.md` o similar.
+   - Ubicación típica: `.azuredevops/pull_request_template/PULL_REQUEST_TEMPLATE.md` o similar.
    - Extrae las secciones y los comentarios guía del template.
 
 2. **Obtén el historial de cambios de la rama actual**
@@ -34,22 +34,3 @@ Automatizar la generación del contenido de Pull Request (PR) usando GitHub Copi
      - **Título sugerido para el PR** siguiendo el estándar de Conventional Commits
      - **Contenido del template rellenado** en markdown, siguiendo la estructura del template
    - No incluir formato adicional fuera del markdown del template.
-
-## Ejemplo de flujo automatizado
-
-1. Detectar el template de PR.
-2. Leer las especificaciones de Conventional Commits desde `./conventional-commit.instructions.md`.
-3. Ejecutar `git diff origin/master...HEAD` para obtener los cambios.
-4. Analizar los mensajes de commit recientes con `git log`.
-5. Generar el título del PR siguiendo el estándar de Conventional Commits.
-6. Generar el contenido de cada sección del template usando la información anterior.
-7. Crear un archivo `.md` con el título sugerido y el contenido completo del template.
-8. Presentar el resultado listo para usar en el Pull Request.
-
-## Ejemplo de prompt para Copilot
-
-"Lee el archivo de template de Pull Request y las especificaciones de Conventional Commits (./conventional-commit.instructions.md). Usando el historial de cambios de la rama actual (git diff y git log), genera un archivo .md que contenga: 1) el título sugerido para el PR siguiendo el estándar de Conventional Commits, y 2) el contenido completo del template rellenado en markdown. El resultado debe estar listo para usar directamente en el Pull Request."
-
----
-
-Este archivo sirve como guía para personalizar Copilot y automatizar la generación de Pull Requests informativos y consistentes.
