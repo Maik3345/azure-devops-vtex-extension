@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "vtex-io-ci-cd",
   "publisher": "MaikRestrepo",
-  "version": "1.15.0",
+  "version": "1.16.0",
   "name": "VTEX IO CI/CD Utilities",
   "description": "A collection of utilities for VTEX IO CI/CD",
   "public": true,
