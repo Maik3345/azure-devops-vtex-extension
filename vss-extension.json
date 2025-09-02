@@ -41,6 +41,10 @@
     {
       "path": "dist",
       "addressable": true
+    },
+    {
+      "path": "images",
+      "addressable": true
     }
   ],
   "contributions": [
