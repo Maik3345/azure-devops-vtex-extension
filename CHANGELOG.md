@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.17.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.16.0...v1.17.0) - (2025-09-02)
+
+### Features
+
+* refactor and clean up message handling in vtex tasks ([#16](https://github.com/Maik3345/azure-devops-vtex-extension/pull/16)) ([224ef140](https://github.com/Maik3345/azure-devops-vtex-extension/commit/224ef14083f1548859f3693e2c8775bca8df56a4))
+
+
 ## [1.16.0](https://github.com/Maik3345/azure-devops-vtex-extension/compare/v1.15.0...v1.16.0) - (2025-08-18)
 
 ### Features
