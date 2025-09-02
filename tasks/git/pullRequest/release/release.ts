@@ -5,12 +5,13 @@ import {
   configurePullRequestAndGit,
   createRelease,
   getReleaseVersion,
-  releaseAppSuccessMessage,
-  startReleaseMessage,
+  makeResetHard,
 } from '../../../shared'
 
 async function run() {
   try {
+    await makeResetHard()
+
     // ******* get connection *******
     const azureConnection = await GitPulRequestConnection()
     // ******* get connection *******
@@ -21,24 +22,12 @@ async function run() {
 
     // ******* Release *******
     // 1. get the release version from the title of the pull request
-    const { app_name, old_version, new_version } = await getReleaseVersion(
-      true,
-      azureConnection
-    )
-    // 2. show pipeline start release process
-    await startReleaseMessage(azureConnection, old_version, new_version)
+    await getReleaseVersion(true)
     // ******* Configuration *******
 
-    // 3. Create the release and push the changes to git
-    await createRelease(true, azureConnection)
+    // 2. Create the release and push the changes to git
+    await createRelease(true)
 
-    // 4. Show pipeline success message
-    await releaseAppSuccessMessage(
-      azureConnection,
-      old_version,
-      new_version,
-      app_name
-    )
     // ******* Release *******
   } catch (err: any) {
     tl.setResult(tl.TaskResult.Failed, err.message)

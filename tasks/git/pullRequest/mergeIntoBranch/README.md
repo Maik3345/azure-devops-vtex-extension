@@ -17,7 +17,7 @@ This task creates a pull request to merge changes into a specified branch and au
 Merge changes into the default branch `develop`:
 
 ```yaml
-- task: GitPullRequestMergeIntoBranch@0
+- task: GitPullRequestMergeIntoBranch@1
   displayName: 'Git Pull Request Merge Into Branch'
   inputs:
     branch: 'develop'
@@ -26,7 +26,7 @@ Merge changes into the default branch `develop`:
 Merge changes into a custom branch:
 
 ```yaml
-- task: GitPullRequestMergeIntoBranch@0
+- task: GitPullRequestMergeIntoBranch@1
   displayName: 'Git Pull Request Merge Into Branch'
   inputs:
     branch: 'custom-branch'

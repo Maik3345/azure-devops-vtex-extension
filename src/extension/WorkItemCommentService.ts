@@ -14,9 +14,6 @@ interface IWorkItemFormService {
   refresh: () => Promise<void>
 }
 
-/**
- * Servicio simplificado para añadir comentarios con información de rama
- */
 export class WorkItemCommentService {
   private workClient?: WorkItemTrackingRestClient
   private clientForm?: IWorkItemFormService
@@ -51,13 +48,7 @@ export class WorkItemCommentService {
    * @returns Texto del comentario formateado en HTML
    */
   private createBranchComment(projectName: string, branchName: string): string {
-    const comment = [
-      `📈 Project: ${projectName}`,
-      '',
-      `🌴 Rama recomendada: <strong>${branchName}</strong>`,
-    ]
-
-    return comment.map((line) => line || '<br>').join('<br>')
+    return `🌴 Recommended branch: <strong>${branchName}</strong>`
   }
   /**
    * Extrae información de la iteración y genera el nombre de la rama
@@ -361,15 +352,15 @@ export class WorkItemCommentService {
       )
       console.log('Rama generada:', branchName)
 
+      // Mostrar prompt para que el usuario copie manualmente la rama
+      prompt('Generated branch name. Copy it manually:', branchName)
+
       // Crear el comentario con la información de la rama
       const defaultComment = this.createBranchComment(projectName, branchName)
 
       // Añadir el comentario directamente sin solicitar confirmación
       try {
-        console.log(
-          'Añadiendo comentario al elemento de trabajo:',
-          workItemId
-        )
+        console.log('Añadiendo comentario al elemento de trabajo:', workItemId)
 
         const patchDocument = [
           {

@@ -1,18 +1,9 @@
 import { AzureConnectionType } from '../../../models'
 import { makeReleaseWithoutPush, makeResetHard } from '../../git'
-import {
-  publishAppSuccessMessage,
-  publishWithDeployAppSuccessMessage,
-  startDeployMessage,
-  startPublishMessage,
-  vtexPublishFailureMessage,
-} from '../../messages'
+import { publishAppSuccessMessage } from '../../messages'
 import { runCommand } from '../../runCommand'
 
-const makePublish = async (
-  azureConnection: AzureConnectionType,
-  publishCommand: string
-) => {
+const makePublish = async (publishCommand: string) => {
   return await runCommand(
     publishCommand,
     '.',
@@ -20,15 +11,11 @@ const makePublish = async (
     false,
     0,
     false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
+    true
   )
 }
 
-const makeDeploy = async (
-  azureConnection: AzureConnectionType,
-  deployCommand: string
-) => {
+const makeDeploy = async (deployCommand: string) => {
   return await runCommand(
     deployCommand,
     '.',
@@ -36,8 +23,7 @@ const makeDeploy = async (
     false,
     0,
     false,
-    true,
-    () => vtexPublishFailureMessage(azureConnection)
+    true
   )
 }
 
@@ -48,43 +34,26 @@ export const vtexPullRequestPublish = async (
   app_name: string,
   publishCommand: string
 ) => {
-  // 1. show pipeline start build process
-  await startPublishMessage(azureConnection, old_version, new_version)
-  // 2. update changelog file with the release type, not push changes to git, only overwrite the file
-  await makeReleaseWithoutPush('', azureConnection)
-  // 3. publish using vtex
-  await makePublish(azureConnection, publishCommand)
-  // 4. print success message
+  // 1. update changelog file with the release type, not push changes to git, only overwrite the file
+  await makeReleaseWithoutPush('')
+  // 2. publish using vtex
+  await makePublish(publishCommand)
+  // 3. print success message
   await publishAppSuccessMessage(
     azureConnection,
     old_version,
     new_version,
     app_name
   )
-  // 5. reset --hard
-  await makeResetHard(azureConnection)
+  // 4. reset --hard
+  await makeResetHard()
 }
 
-export const vtexPullRequestDeploy = async (
-  azureConnection: AzureConnectionType,
-  old_version: string,
-  new_version: string,
-  app_name: string,
-  deployCommand: string
-) => {
-  // 1. print warning message
-  await startDeployMessage(azureConnection, old_version, new_version)
-  // 2. update changelog file with the release type, not push changes to git, only overwrite the file
-  await makeReleaseWithoutPush('', azureConnection)
-  // 3 deploy using vtex
-  await makeDeploy(azureConnection, deployCommand)
-  // 4. print success message
-  await publishWithDeployAppSuccessMessage(
-    azureConnection,
-    old_version,
-    new_version,
-    app_name
-  )
-  // 5. reset --hard
-  await makeResetHard(azureConnection)
+export const vtexPullRequestDeploy = async (deployCommand: string) => {
+  // 1. update changelog file with the release type, not push changes to git, only overwrite the file
+  await makeReleaseWithoutPush('')
+  // 2. deploy using vtex
+  await makeDeploy(deployCommand)
+  // 3. reset --hard
+  await makeResetHard()
 }

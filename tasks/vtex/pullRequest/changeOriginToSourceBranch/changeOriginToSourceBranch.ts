@@ -12,7 +12,7 @@ async function run() {
       pullRequest: { sourceRefName },
     } = azureConnection
     // 1. change current source origin to sourceBranchName
-    await changeOriginToSourceBranch(sourceRefName, azureConnection)
+    await changeOriginToSourceBranch(sourceRefName)
     // 2. Show pipeline success message
     tl.setResult(tl.TaskResult.Succeeded, `change origin successfully`)
   } catch (err: any) {
