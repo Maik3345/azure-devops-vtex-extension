@@ -12,10 +12,7 @@ import { runCommand } from './runCommand'
  * is one of the keys of the `ReleaseType` object.
  * @returns an object of type `ReleaseOutputType`, which contains the following properties:
  */
-export const getReleaseVersion = async (
-  beta: boolean,
-  azureConnection?: AzureConnectionType
-) => {
+export const getReleaseVersion = async (beta: boolean) => {
   const str = await runCommand(
     `projex git release ${beta ? '' : 'stable'} --get-version`,
     '.',
@@ -27,7 +24,7 @@ export const getReleaseVersion = async (
   console.log(str)
 
   if (!str || str === '') {
-    return errorOnGetTheReleaseVersionMessage(azureConnection)
+    return errorOnGetTheReleaseVersionMessage()
   }
 
   let oldVersionMatch = str.match(/oldVersion: '([^']*)'/)
@@ -62,7 +59,7 @@ export const getReleaseVersion = async (
     !values.app_name ||
     !values.push
   ) {
-    return errorOnGetTheReleaseVersionMessage(azureConnection)
+    return errorOnGetTheReleaseVersionMessage()
   }
 
   // Imprimir el objeto resultante

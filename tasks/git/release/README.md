@@ -10,13 +10,17 @@ To determine the type of release `projex` use the list of commits without releas
 
 ## Parameters
 
-The task does not require any input parameters.
+## Parameters
+
+| Name                | Type    | Label                                                                 | Description                                                                                           | Default Value | Required |
+| ------------------- | ------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------- | -------- |
+| beta      | boolean | Pass this flag to make a beta release                            | true          | false    |
 
 ## Example
 
 Beta release with default branch `develop`:
 
 ```yaml
-- task: GitRelease@0
+- task: GitRelease@1
   displayName: 'Git Release'
 ```

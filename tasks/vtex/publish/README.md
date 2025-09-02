@@ -19,7 +19,7 @@ This task is used in a standard pipeline execution to create a stable version of
 Beta publish:
 
 ```yaml
-- task: VtexPublish@0
+- task: VtexPublish@1
   displayName: 'VTEX Publish'
   inputs:
     publishCommand: "projex vtex run 'npm run publish'"

@@ -1,25 +1,19 @@
 import { AzureConnectionType } from '../models'
-import { vtexPublishFailureMessage } from './messages'
 import { runCommand } from './runCommand'
 
 /**
- * This function sets the user name and email for Git globally using the provided author name and
- * email.
- * @param {AzureConnectionType} azureConnection - AzureConnectionType - a type representing the
- * connection details to an Azure service, such as credentials or endpoint information.
- * @param {string} authorName - The `authorName` parameter is a string that represents the name of the
- * user that will be associated with the Git commits.
- * @param {string} authorEmail - The `authorEmail` parameter is the email address that will be
- * associated with the Git user when setting up the global Git configuration. This email address is
- * typically used for identification and communication purposes when making commits to a Git
- * repository.
- * @returns The `setEmailAndUserGit` function is returning the result of running a command to set the
- * global user name and email in Git configuration.
+ * Sets the global Git user name and email configuration.
+ *
+ * Executes the necessary Git commands to configure the global user name and email
+ * using the provided `authorName` and `authorEmail` values.
+ *
+ * @param authorName - The name to set as the Git user name.
+ * @param authorEmail - The email address to set as the Git user email.
+ * @returns A promise that resolves when the Git configuration commands have completed.
  */
 export const setEmailAndUserGit = async (
   authorName: string,
-  authorEmail: string,
-  azureConnection?: AzureConnectionType
+  authorEmail: string
 ) => {
   return runCommand(
     `git config --global user.name "${authorName}" && git config --global user.email "${authorEmail}"`,
@@ -28,26 +22,25 @@ export const setEmailAndUserGit = async (
     false,
     0,
     false,
-    true,
-    azureConnection
-      ? () => vtexPublishFailureMessage(azureConnection)
-      : () => {}
+    true
   )
 }
 
 /**
- * The function changes the current branch to the specified source branch by fetching the latest
- * changes from the origin and checking out the source branch.
- * @param {string} sourceRefName - The `sourceRefName` parameter is a string that represents the
- * reference name of the source branch. It should be in the format `refs/heads/<branch-name>`, where
- * `<branch-name>` is the name of the branch you want to change to.
- * @returns Nothing is being returned. The function has a return type of `void`, which means it does
- * not return any value.
+ * Changes the current Git working directory to the specified source branch.
+ *
+ * This function performs the following steps:
+ * 1. Extracts the branch name from the given `sourceRefName` (removing the 'refs/heads/' prefix).
+ * 2. Fetches the latest changes from the remote `origin`.
+ * 3. Checks out the extracted source branch.
+ * 4. Pulls the latest changes for the source branch from `origin`.
+ * 5. Converts the repository to a complete clone if it was a shallow clone.
+ * 6. Lists all commits in the current branch in a one-line format.
+ *
+ * @param sourceRefName - The full ref name of the source branch (e.g., 'refs/heads/feature/my-branch').
+ * @returns A promise that resolves with the result of the executed Git commands.
  */
-export const changeOriginToSourceBranch = async (
-  sourceRefName: string,
-  azureConnection?: AzureConnectionType
-) => {
+export const changeOriginToSourceBranch = async (sourceRefName: string) => {
   const sourceBranchName = sourceRefName.replace('refs/heads/', '')
 
   return await runCommand(
@@ -57,17 +50,21 @@ export const changeOriginToSourceBranch = async (
     false,
     0,
     false,
-    true,
-    azureConnection
-      ? () => vtexPublishFailureMessage(azureConnection)
-      : () => {}
+    true
   )
 }
 
-export const makeReleaseWithoutPush = async (
-  tagName: string,
-  azureConnection?: AzureConnectionType
-) => {
+/**
+ * Generates a release change in the `manifest.json` file without pushing changes to Git.
+ *
+ * This function runs the `projex git release` command with options to skip deployment,
+ * pushing, release checks, and tagging. It is useful for preparing a release locally
+ * without affecting the remote repository.
+ *
+ * @param tagName - The name of the release tag to generate.
+ * @returns A promise that resolves with the result of the release command execution.
+ */
+export const makeReleaseWithoutPush = async (tagName: string) => {
   return await runCommand(
     `projex git release ${tagName} --yes --no-deploy --no-push --no-check-release --no-tag`,
     '.',
@@ -75,14 +72,11 @@ export const makeReleaseWithoutPush = async (
     false,
     0,
     false,
-    true,
-    azureConnection
-      ? () => vtexPublishFailureMessage(azureConnection)
-      : () => {}
+    true
   )
 }
 
-export const makeResetHard = async (azureConnection?: AzureConnectionType) => {
+export const makeResetHard = async () => {
   return await runCommand(
     `projex bash run "git reset --hard"`,
     '.',
@@ -90,10 +84,7 @@ export const makeResetHard = async (azureConnection?: AzureConnectionType) => {
     false,
     0,
     false,
-    true,
-    azureConnection
-      ? () => vtexPublishFailureMessage(azureConnection)
-      : () => {}
+    true
   )
 }
 
@@ -104,7 +95,7 @@ export const configurePullRequestAndGit = async (
   const { sourceRefName, createdBy } = pullRequest
   const { displayName, uniqueName } = createdBy ?? {}
   // 1. set the email and user in git
-  await setEmailAndUserGit(displayName, uniqueName, azureConnection)
+  await setEmailAndUserGit(displayName, uniqueName)
   // 2. change current source origin to sourceBranchName
-  await changeOriginToSourceBranch(sourceRefName, azureConnection)
+  await changeOriginToSourceBranch(sourceRefName)
 }

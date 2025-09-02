@@ -17,10 +17,7 @@ async function run() {
 
     // ******* Configuration *******
     // 1. get the release version from the title of the pull request
-    const { app_name, old_version, new_version } = await getReleaseVersion(
-      true,
-      azureConnection
-    )
+    const { app_name, old_version, new_version } = await getReleaseVersion(true)
     // ******* Configuration *******
 
     // ******* Publish *******

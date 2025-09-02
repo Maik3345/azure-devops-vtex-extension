@@ -1,9 +1,5 @@
 import * as tl from 'azure-pipelines-task-lib'
 import { AzureConnectionType } from '../models'
-import {
-  pullRequestCreationErrorMessage,
-  pullRequestCreationSuccessMessage,
-} from '../utils'
 import { asyncTimeout } from '../utils/asyncTmeOut'
 import { completePullRequestService } from './completePullRequest'
 
@@ -31,13 +27,6 @@ export const createPullRequestService = async (
     )
 
     if (!pullRequest) {
-      pullRequestCreationErrorMessage(
-        azureConnection,
-        sourceRefName,
-        targetRef,
-        title,
-        createdBy
-      )
       tl.setResult(tl.TaskResult.Failed, 'Error creating pull request.')
       throw new Error('Error creating pull request')
     }
@@ -47,26 +36,9 @@ export const createPullRequestService = async (
 
     await completePullRequestService(azureConnection, pullRequest)
 
-    await pullRequestCreationSuccessMessage(
-      azureConnection,
-      pullRequest.repository.webUrl,
-      sourceRefName,
-      targetRef,
-      title,
-      createdBy.displayName,
-      pullRequest.pullRequestId
-    )
-
     return pullRequest
   } catch (error) {
     console.error(error)
-    await pullRequestCreationErrorMessage(
-      azureConnection,
-      sourceRefName,
-      targetRef,
-      title,
-      createdBy
-    )
     tl.setResult(tl.TaskResult.Failed, 'Error creating pull request.')
     throw new Error('Error creating pull request')
   }

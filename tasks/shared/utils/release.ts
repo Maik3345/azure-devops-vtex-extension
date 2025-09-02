@@ -1,21 +1,13 @@
-import { AzureConnectionType } from '../models'
-import { vtexPublishFailureMessage } from './messages'
 import { runCommand } from './runCommand'
 
 /**
- * The `makeRelease` function runs a command to create a release in Azure, with specified arguments,
- * and handles the success and failure cases.
- * @param {AzureConnectionType} azureConnection - The `azureConnection` parameter is of type
- * `AzureConnectionType`. It is likely an object that contains information needed to establish a
- * connection to an Azure service, such as credentials or connection settings.
- * @param {string} args - The `args` parameter is a string that represents additional arguments to be
- * passed to the `projex git release` command. These arguments can be used to customize the behavior of
- * the release process.
+ * Generates a release change in the `manifest.json` file for the specified tag name
+ * without pushing changes to git, deploying, or performing release checks.
+ *
+ * @param tagName - The name of the release tag to generate.
+ * @returns A promise that resolves when the release process is complete.
  */
-const makeRelease = async (
-  tagName: string,
-  azureConnection?: AzureConnectionType
-) => {
+const makeRelease = async (tagName: string) => {
   await runCommand(
     `projex git release ${tagName} --yes --no-deploy --no-check-release`,
     '.',
@@ -23,35 +15,20 @@ const makeRelease = async (
     false,
     0,
     false,
-    true,
-    azureConnection
-      ? () => vtexPublishFailureMessage(azureConnection)
-      : () => {}
+    true
   )
 }
 
 /**
- * The function `createRelease` generates a release and pushes changes to git, updating the
- * manifest.json file and changelog based on the specified beta flag and Azure connection.
- * @param {boolean} beta - The `beta` parameter is a boolean value that indicates whether the release
- * being created is a beta release or not. If `beta` is `true`, then the release will be a beta
- * release; otherwise, it will be a stable release.
- * @param {AzureConnectionType} [azureConnection] - The `azureConnection` parameter is an optional
- * parameter of type `AzureConnectionType`. It is used to establish a connection to Azure services if
- * needed for the release process. If provided, it will be used in the `makeRelease` function to
- * interact with Azure services during the release creation.
- * @returns The `createRelease` function is returning the result of calling the `makeRelease` function
- * with the `args` and `azureConnection` parameters. The `makeRelease` function generates a release and
- * pushes changes to git, updating the `manifest.json` file and changelog file with the last commits.
- * The result of this operation is being returned by the `createRelease` function.
+ * Creates a new release by generating a tag and updating relevant files.
+ *
+ * @param beta - Indicates whether the release is a beta version. If `true`, the release will not be tagged as 'stable'.
+ * @returns A promise that resolves when the release process is complete.
  */
-export const createRelease = async (
-  beta: boolean,
-  azureConnection?: AzureConnectionType
-) => {
+export const createRelease = async (beta: boolean) => {
   // TagName to use in the release
   const tagName = beta ? '' : 'stable'
 
   // Generate the release and push the changes to git, this execution change the manifest.json file and update the changelog file with the last commits
-  return makeRelease(tagName, azureConnection)
+  return makeRelease(tagName)
 }

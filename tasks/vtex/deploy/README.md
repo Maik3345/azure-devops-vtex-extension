@@ -19,7 +19,7 @@ You can pass the flag `beta` to generate a beta version of the app, if this flag
 Normal deploy:
 
 ```yaml
-- task: VtexDeploy@0
+- task: VtexDeploy@1
   displayName: 'VTEX Deploy'
   inputs:
     deployCommand: "projex vtex run 'npm run deploy'"

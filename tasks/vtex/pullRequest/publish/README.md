@@ -17,7 +17,7 @@ This task is used in a pull request execution to create a version of the app. It
 Normal publish:
 
 ```yaml
-- task: VtexPullRequestPublish@0
+- task: VtexPullRequestPublish@1
   displayName: 'VTEX Pull Request Publish'
   inputs:
     publishCommand: "projex vtex run 'npm run publish'"

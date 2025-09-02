@@ -17,7 +17,7 @@ This task is used in a pull request execution to create a version of the app. It
 Deploy:
 
 ```yaml
-- task: VtexPullRequestDeploy@0
+- task: VtexPullRequestDeploy@1
   displayName: 'VTEX Pull Request Deploy'
   inputs:
     deployCommand: "projex vtex run 'npm run deploy'"
